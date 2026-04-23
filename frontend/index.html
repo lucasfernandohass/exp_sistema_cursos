@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Aprenda+ | Plataforma de Cursos Online</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Prevenir flash de tema incorreto -->
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <div class="app">
+        <!-- Desktop Navbar -->
+        <nav class="navbar desktop-nav">
+            <div class="container nav-container">
+                <div class="nav-left">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M22 10V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">Aprenda+</span>
+                    </div>
+                    <div class="nav-links">
+                        <a href="#">Cursos</a>
+                        <a href="#">Sobre nós</a>
+                        <a href="#">Entre em contato</a>
+                    </div>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-login">Login</button>
+                    <button class="btn-primary">Cadastrar</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Navbar -->
+        <nav class="navbar mobile-nav">
+            <div class="mobile-nav-container">
+                <button class="menu-btn" id="menuToggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 10V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Aprenda+</span>
+                </div>
+                <button class="mobile-login-btn">Login</button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 10V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Aprenda+</span>
+                </div>
+                <button class="close-menu" id="closeMenu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-menu-links">
+                <a href="#">Cursos</a>
+                <a href="#">Sobre nós</a>
+                <a href="#">Entre em contato</a>
+                <button class="btn-primary" style="width: 100%; margin-top: 1rem;">Cadastrar</button>
+            </div>
+        </div>
+        <div class="menu-overlay" id="menuOverlay"></div>
+
+        <!-- Hero Section Desktop -->
+        <section class="hero desktop-hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1>Aprenda novas habilidades online</h1>
+                    <p class="hero-description">Milhares de cursos em diversas áreas para você se desenvolver profissionalmente</p>
+                    <button class="btn-primary btn-large"><b>Explorar Cursos</b></button>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-card-inner">
+                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 10V14" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <h2 class="hero-title">Aprenda+</h2>
+                        <p class="hero-subtitle">Sua plataforma de educação online</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Section Mobile -->
+        <section class="hero mobile-hero">
+            <div class="mobile-hero-container">
+                <div class="mobile-hero-text">
+                    <h1>Aprenda novas habilidades</h1>
+                    <p>Milhares de cursos para você se desenvolver</p>
+                </div>
+                <div class="mobile-hero-card">
+                    <div class="mobile-hero-card-inner">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 10V14" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <h2>Aprenda+</h2>
+                        <p>Sua plataforma de educação online</p>
+                    </div>
+                </div>
+                <button class="btn-primary btn-large mobile-explore-btn">Explorar Cursos</button>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section class="courses">
+            <div class="container">
+                <h2 class="section-title">Cursos em Destaque</h2>
+                <div class="courses-grid" id="coursesGrid">
+                    <!-- -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Promotional Banner -->
+        <section class="promo-banner">
+            <div class="container promo-container">
+                <h2 class="desktop-promo-title">Oferta Especial: 50% OFF em Todos os Cursos</h2>
+                <h2 class="mobile-promo-title">Oferta Especial: 50% OFF</h2>
+                <p class="desktop-promo-text">Aproveite nossa promoção de lançamento e comece a aprender hoje mesmo!</p>
+                <p class="mobile-promo-text">Aproveite nossa promoção de lançamento!</p>
+                <button class="btn-light btn-large"><b>Aproveitar Oferta</b></button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container footer-container">
+                <p>© 2026 Aprenda+ - Todos os direitos reservados</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- js -->
+    <script src="src/js/script.js"></script>
+
+</body>
+</html>
