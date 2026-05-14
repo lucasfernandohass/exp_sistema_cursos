@@ -142,7 +142,7 @@ function initButtons() {
     if (btn) {
       e.preventDefault();
       const text = btn.innerText || btn.textContent;
-      alert(`🚀 Funcionalidade "${text}" - Em desenvolvimento!`);
+      alert(`Funcionalidade "${text}" - Em desenvolvimento!`);
     }
   });
 }

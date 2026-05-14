@@ -1,0 +1,125 @@
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ================================
+# RAIZ DO MONOREPO
+# ================================
+.env
+.env.*
+!.env.example
+*.log
+
+# ================================
+# BACKEND — Spring Boot / Maven
+# ================================
+
+# Build
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+backend/.idea/
+backend/*.iml
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/.factorypath
+
+# Spring Boot
+backend/src/main/resources/application-prod.properties
+backend/src/main/resources/application-local.properties
+
+# Segredos e configurações sensíveis
+backend/src/main/resources/application-secrets.properties
+backend/*.p12
+backend/*.jks
+backend/*.pem
+
+# Logs
+backend/logs/
+backend/*.log
+
+# ================================
+# FRONTEND — React / Node
+# ================================
+
+# Dependências
+frontend/node_modules/
+
+# Build
+frontend/dist/
+frontend/build/
+frontend/.vite/
+
+# Cache
+frontend/.eslintcache
+frontend/.stylelintcache
+
+# Ambiente
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# IDE
+frontend/.idea/
+frontend/.vscode/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# ================================
+# IDEs E EDITORES (geral)
+# ================================
+.idea/
+.vscode/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# ================================
+# DOCKER
+# ================================
+.docker/
+docker-compose.override.yml
+
+# ================================
+# SISTEMAS OPERACIONAIS
+# ================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
