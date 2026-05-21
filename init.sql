@@ -7,7 +7,7 @@ USE curso_aprenda;
 CREATE TABLE IF NOT EXISTS administrador (
   id           INT          NOT NULL AUTO_INCREMENT,
   nivel_acesso INT          NOT NULL DEFAULT 1,
-  email        VARCHAR(40)  NOT NULL UNIQUE,
+  email        VARCHAR(254)  NOT NULL UNIQUE,
   senha_hash   VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 );
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS administrador (
 CREATE TABLE IF NOT EXISTS professor (
   id              INT          NOT NULL AUTO_INCREMENT,
   cpf             VARCHAR(16)  NOT NULL UNIQUE,
-  email           VARCHAR(40)  NOT NULL UNIQUE,
+  email           VARCHAR(254)  NOT NULL UNIQUE,
   senha_hash      VARCHAR(255) NOT NULL,
   nome            VARCHAR(100) NOT NULL,
   telefone        VARCHAR(20),
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS professor (
 CREATE TABLE IF NOT EXISTS aluno (
   id              INT          NOT NULL AUTO_INCREMENT,
   cpf             VARCHAR(16)  NOT NULL UNIQUE,
-  email           VARCHAR(40)  NOT NULL UNIQUE,
+  email           VARCHAR(254)  NOT NULL UNIQUE,
   senha_hash      VARCHAR(255) NOT NULL,
   nome            VARCHAR(100) NOT NULL,
   ra              VARCHAR(20)  NOT NULL UNIQUE,
