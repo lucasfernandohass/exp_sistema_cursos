@@ -1,15 +1,16 @@
 package com.aprenda.cursos_aprenda.exception;
 
-import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
- 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+
+import jakarta.persistence.EntityNotFoundException;
  
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -31,12 +32,6 @@ public class GlobalExceptionHandler {
             .body(erro(404, ex.getMessage(), null));
     }
  
-    // Regras de negócio (email duplicado, já matriculado, etc.)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest()
-            .body(erro(400, ex.getMessage(), null));
-    }
  
     // Erros inesperados
     @ExceptionHandler(Exception.class)
@@ -55,10 +50,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleAuth(IllegalArgumentException ex) {
-        if (ex.getMessage().contains("senha inválidos"))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(erro(401, ex.getMessage(), null));
-        return ResponseEntity.badRequest().body(erro(400, ex.getMessage(), null));
+    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
+        boolean isAuthError = ex.getMessage() != null && 
+                            ex.getMessage().contains("senha inválidos");
+
+        HttpStatus status = isAuthError ? HttpStatus.UNAUTHORIZED : HttpStatus.BAD_REQUEST;
+        int code = isAuthError ? 401 : 400;
+
+        return ResponseEntity.status(status).body(erro(code, ex.getMessage(), null));
     }
+
 }
