@@ -48,5 +48,11 @@ public class VideoAula {
     private Curso curso;
 
     @OneToMany(mappedBy = "videoAula", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Atividade> atividades = new ArrayList<>();
+
+    @OneToMany(mappedBy = "videoAula", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Duvida> duvidas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "videoAula", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProgressoAula> progressos = new ArrayList<>();
 }

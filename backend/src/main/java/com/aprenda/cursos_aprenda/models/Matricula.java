@@ -7,6 +7,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -41,13 +43,23 @@ public class Matricula {
     @Column(name = "media_final", precision = 4, scale = 2)
     private BigDecimal mediaFinal;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "modalidade_pagamento", nullable = false)
+    private ModalidadePagamento modalidadePagamento = ModalidadePagamento.AVISTA;
+
+    @Column(name = "numero_parcelas", nullable = false)
+    private Integer numeroParcelas = 1;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status_pagamento", nullable = false)
-    private Boolean statusPagamento = false;
+    private StatusPagamento statusPagamento = StatusPagamento.PENDENTE;
 
     @Column(name = "data_matricula", nullable = false)
     private LocalDateTime dataMatricula = LocalDateTime.now();
 
-    // Chave composta embutida
+    public enum ModalidadePagamento { AVISTA, PARCELADO }
+    public enum StatusPagamento     { PENDENTE, PAGO, CANCELADO }
+
     @Embeddable
     @Getter
     @Setter
