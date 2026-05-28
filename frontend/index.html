@@ -3,8 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>aprenda-plus</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>Aprenda+</title>
+    <style>
+      /*responsivo para mobile */
+      :root { --base-font-size: 16px; }
+      html, body, #root { height: 100%; margin: 0; padding: 0; }
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; font-size: var(--base-font-size); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #111827; }
+      #root { min-height: 100vh; display: flex; flex-direction: column; }
+      img, svg, video { max-width: 100%; height: auto; }
+      /* Ajustes para telas pequenas */
+      @media (max-width: 480px) {
+        :root { --base-font-size: 15px; }
+      }
+      @media (max-width: 360px) {
+        :root { --base-font-size: 14px; }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

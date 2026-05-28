@@ -15,6 +15,9 @@ export default function Register() {
   const [telefone, setTelefone] = useState('')
   const [dataNascimento, setDataNascimento] = useState('')
   const [errors, setErrors] = useState({})
+  const [touched, setTouched] = useState({})
+  const [showSenha, setShowSenha] = useState(false)
+  const [showConfirmSenha, setShowConfirmSenha] = useState(false)
 
   function validateEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -76,12 +79,91 @@ export default function Register() {
     return `(${s.slice(0,2)}) ${s.slice(2,7)}-${s.slice(7)}`
   }
 
+  function cleanNameValue(value) {
+    return value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')
+  }
+
+  function setFieldError(field, error) {
+    setErrors((prev) => {
+      const next = { ...prev }
+      if (error) next[field] = error
+      else delete next[field]
+      return next
+    })
+  }
+
+  function validateField(field, value) {
+    const text = String(value ?? '').trim()
+    let error = ''
+
+    if (field === 'nome') {
+      if (!text) {
+        error = 'Nome obrigatório.'
+      } else {
+        const validName = /^[A-Za-zÀ-ÿ]+(?: [A-Za-zÀ-ÿ]+)+$/
+        const parts = text.split(/\s+/).filter(Boolean)
+        if (!validName.test(text) || parts.length < 2) {
+          error = 'Informe nome e sobrenome usando apenas letras.'
+        } else if (parts.some((part) => part.length < 2)) {
+          error = 'Cada parte do nome deve ter ao menos 2 letras.'
+        }
+      }
+    }
+
+    if (field === 'email') {
+      if (!text) error = 'Email obrigatório.'
+      else if (!validateEmail(text)) error = 'Email inválido.'
+    }
+
+    if (field === 'senha') {
+      if (!value) error = 'Senha obrigatória.'
+      else if (value.length < 8) error = 'Senha precisa ter pelo menos 8 caracteres.'
+    }
+
+    if (field === 'confirm') {
+      if (!value) error = 'Confirmação de senha obrigatória.'
+      else if (value !== senhaState) error = 'As senhas não coincidem.'
+    }
+
+    if (field === 'cpf') {
+      if (!text) error = 'CPF obrigatório.'
+      else if (!validateCPF(text)) error = 'CPF inválido.'
+    }
+
+    if (field === 'telefone') {
+      if (!text) error = 'Telefone obrigatório.'
+      else if (!validatePhone(text)) error = 'Telefone inválido. Informe 10 ou 11 dígitos.'
+    }
+
+    if (field === 'dataNascimento') {
+      if (!text) error = 'Data de nascimento obrigatória.'
+    }
+
+    setFieldError(field, error)
+    return error
+  }
+
+  function handleBlur(field) {
+    setTouched((prev) => ({ ...prev, [field]: true }))
+    if (field === 'nome') validateField(field, nome)
+    if (field === 'email') validateField(field, emailState)
+    if (field === 'senha') validateField(field, senhaState)
+    if (field === 'confirm') validateField(field, confirmState)
+    if (field === 'cpf') validateField(field, cpf)
+    if (field === 'telefone') validateField(field, telefone)
+    if (field === 'dataNascimento') validateField(field, dataNascimento)
+  }
+
   function handleCpfChange(e) {
-    setCpf(formatCPF(e.target.value))
+    const formatted = formatCPF(e.target.value)
+    setCpf(formatted)
+    if (touched.cpf) validateField('cpf', formatted)
   }
 
   function handleTelefoneChange(e) {
-    setTelefone(formatPhone(e.target.value))
+    const formatted = formatPhone(e.target.value)
+    setTelefone(formatted)
+    if (touched.telefone) validateField('telefone', formatted)
   }
 
   async function handleRegister(e) {
@@ -115,6 +197,15 @@ export default function Register() {
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors)
+      setTouched({
+        nome: true,
+        email: true,
+        senha: true,
+        confirm: true,
+        cpf: true,
+        telefone: true,
+        dataNascimento: true,
+      })
       return
     }
 
@@ -150,6 +241,36 @@ export default function Register() {
       <div className="auth-box">
 
         <Link to="/" className="auth-logo">
+          <span className="auth-logo-icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22 10L12 15L2 10L12 5L22 10Z"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M22 10V14"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
           Aprenda+
         </Link>
 
@@ -157,25 +278,118 @@ export default function Register() {
 
           <h2>Criar conta</h2>
 
-          <input name="nome" type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
+          <input
+            name="nome"
+            type="text"
+            placeholder="Nome e sobrenome"
+            value={nome}
+            onChange={(e) => {
+              const nextValue = cleanNameValue(e.target.value)
+              setNome(nextValue)
+              if (touched.nome) validateField('nome', nextValue)
+            }}
+            onBlur={() => handleBlur('nome')}
+            className={errors.nome ? 'input-error' : ''}
+          />
           {errors.nome && <div className="field-error">{errors.nome}</div>}
 
-          <input name="email" type="email" placeholder="Email" value={emailState} onChange={e => setEmailState(e.target.value)} />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={emailState}
+            onChange={(e) => {
+              setEmailState(e.target.value)
+              if (touched.email) validateField('email', e.target.value)
+            }}
+            onBlur={() => handleBlur('email')}
+            className={errors.email ? 'input-error' : ''}
+          />
           {errors.email && <div className="field-error">{errors.email}</div>}
 
-          <input name="senha" type="password" placeholder="Senha (mín. 8 caracteres)" value={senhaState} onChange={e => setSenhaState(e.target.value)} />
+          <div className="input-with-icon">
+            <input
+              name="senha"
+              type={showSenha ? 'text' : 'password'}
+              placeholder="Senha (mín. 8 caracteres)"
+              value={senhaState}
+              onChange={(e) => {
+                setSenhaState(e.target.value)
+                if (touched.senha) validateField('senha', e.target.value)
+                if (touched.confirm) validateField('confirm', confirmState)
+              }}
+              onBlur={() => handleBlur('senha')}
+              className={errors.senha ? 'input-error' : ''}
+            />
+            <button type="button" className="input-icon-btn" onClick={() => setShowSenha(s => !s)} aria-label={showSenha ? 'Ocultar senha' : 'Mostrar senha'}>
+              {showSenha ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3l18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10.58 10.58a3 3 0 0 0 4.24 4.24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              )}
+            </button>
+          </div>
           {errors.senha && <div className="field-error">{errors.senha}</div>}
 
-          <input name="confirm" type="password" placeholder="Confirmar senha" value={confirmState} onChange={e => setConfirmState(e.target.value)} />
+          <div className="input-with-icon">
+            <input
+              name="confirm"
+              type={showConfirmSenha ? 'text' : 'password'}
+              placeholder="Confirmar senha"
+              value={confirmState}
+              onChange={(e) => {
+                setConfirmState(e.target.value)
+                if (touched.confirm) validateField('confirm', e.target.value)
+              }}
+              onBlur={() => handleBlur('confirm')}
+              className={errors.confirm ? 'input-error' : ''}
+            />
+            <button type="button" className="input-icon-btn" onClick={() => setShowConfirmSenha(s => !s)} aria-label={showConfirmSenha ? 'Ocultar confirmação' : 'Mostrar confirmação'}>
+              {showConfirmSenha ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3l18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10.58 10.58a3 3 0 0 0 4.24 4.24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              )}
+            </button>
+          </div>
           {errors.confirm && <div className="field-error">{errors.confirm}</div>}
 
-          <input name="cpf" type="text" inputMode="numeric" placeholder="CPF" value={cpf} onChange={handleCpfChange} />
+          <input
+            name="cpf"
+            type="text"
+            inputMode="numeric"
+            placeholder="CPF"
+            value={cpf}
+            onChange={handleCpfChange}
+            onBlur={() => handleBlur('cpf')}
+            className={errors.cpf ? 'input-error' : ''}
+          />
           {errors.cpf && <div className="field-error">{errors.cpf}</div>}
 
-          <input name="telefone" type="tel" inputMode="tel" placeholder="Telefone" value={telefone} onChange={handleTelefoneChange} />
+          <input
+            name="telefone"
+            type="tel"
+            inputMode="tel"
+            placeholder="Telefone"
+            value={telefone}
+            onChange={handleTelefoneChange}
+            onBlur={() => handleBlur('telefone')}
+            className={errors.telefone ? 'input-error' : ''}
+          />
           {errors.telefone && <div className="field-error">{errors.telefone}</div>}
 
-          <input name="dataNascimento" type="date" placeholder="Data de nascimento" value={dataNascimento} onChange={e => setDataNascimento(e.target.value)} />
+          <input
+            name="dataNascimento"
+            type="date"
+            placeholder="Data de nascimento"
+            value={dataNascimento}
+            onChange={(e) => {
+              setDataNascimento(e.target.value)
+              if (touched.dataNascimento) validateField('dataNascimento', e.target.value)
+            }}
+            onBlur={() => handleBlur('dataNascimento')}
+            className={errors.dataNascimento ? 'input-error' : ''}
+          />
           {errors.dataNascimento && <div className="field-error">{errors.dataNascimento}</div>}
 
           <button className="btn-primary auth-btn" disabled={loading}>

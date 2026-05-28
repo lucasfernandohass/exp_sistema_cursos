@@ -29,7 +29,7 @@
   gap: 0.5rem;
 
   text-decoration: none;
-  color: inherit;
+  color: var(--brand-blue);
 }
 
 .logo-icon {
@@ -39,6 +39,7 @@
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
+  color: var(--brand-blue);
 }
 
 .nav-links {
@@ -61,6 +62,191 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+/* Hamburger (mobile) with background */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--muted-foreground);
+  border-radius: 6px;
+}
+
+.hamburger svg { display: block; }
+
+.hamburger-close { font-size: 1.1rem; }
+
+/* Mobile menu styles (off-canvas) */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--background);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.12);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 280ms ease;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu-links,
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0;
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  min-height: 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.close-menu {
+  background: transparent;
+  border: none;
+  color: var(--muted-foreground);
+  padding: 0.5rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-menu:hover {
+  color: var(--brand-blue);
+}
+
+.mobile-menu-links a {
+  display: block;
+  text-decoration: none;
+  color: var(--foreground);
+  font-weight: 600;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.mobile-menu-links a:hover {
+  background: var(--accent);
+  color: var(--brand-blue);
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile navbar sizing and button styles */
+.mobile-nav .nav-container {
+  padding: 0.55rem 1rem;
+  min-height: 52px;
+  align-items: center;
+}
+
+/* Preserve desktop navbar logo size and enlarge only the mobile top bar logo */
+.desktop-nav .logo-icon svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+@media (max-width: 768px) {
+  .mobile-nav .logo-icon svg {
+    display: block;
+    width: 80px !important;
+    height: 80px !important;
+    max-width: none !important;
+  }
+}
+
+/* Mobile menu header logo should be smaller and more compact */
+.mobile-menu .logo .logo-icon svg {
+  width: 36px !important;
+  height: 36px !important;
+  max-width: none !important;
+}
+
+/* Preserve hamburger icon default size */
+.hamburger svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Close button icon inside mobile menu */
+.close-menu svg {
+  width: 20px;
+  height: 20px;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+}
+
+/* Dark mode hamburger background */
+.hamburger { background: transparent; }
+.dark .hamburger { background: rgba(255,255,255,0.06); color: var(--foreground); }
+.hamburger:hover { background: rgba(0,0,0,0.04); }
+.dark .hamburger:hover { background: rgba(255,255,255,0.08); }
+
+.mobile-login-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted-foreground);
+  padding: 0.4rem 0.6rem;
+  margin-left: 0.4rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mobile-register-btn {
+  background: var(--brand-blue);
+  color: white;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  margin-left: 0.4rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Hide mobile nav on desktop, show hamburger only on small screens */
+@media (max-width: 768px) {
+  .desktop-nav { display: none; }
+  .mobile-nav { display: block; }
+  .hamburger { display: inline-flex; }
+}
+
+@media (min-width: 769px) {
+  .mobile-nav { display: none; }
 }
 
 .btn-login {

@@ -37,10 +37,21 @@ body {
 ========================= */
 
 .dark .navbar {
-  background:
-    rgba(15,23,42,0.95);
+  background: #0f172a;
 
   backdrop-filter: blur(10px);
+}
+
+.dark .mobile-menu,
+.dark .mobile-menu-header,
+.dark .navbar.mobile-nav {
+  background-color: #111827 !important;
+}
+
+.dark .logo,
+.dark .logo-icon,
+.dark .logo-text {
+  color: var(--foreground);
 }
 
 /* =========================

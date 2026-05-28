@@ -1,12 +1,15 @@
-# Frontend V2
-Nova versão do frontend do projeto
+# Frontend
+
+- Necessário Node Instalado.
 
 # Como Executar 
 
 Utilize os seguintes comandos no terminal.
 
-npm install
+``cd frontend``
+
+``npm install``
 (instalar dependencias)
 
-npm run dev
+``npm run dev``
 (rodar localmente) 

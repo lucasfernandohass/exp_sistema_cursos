@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/cursos").permitAll()
                 .requestMatchers(HttpMethod.GET, "/cursos/{id}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/cursos/pesquisar").permitAll()
+                .requestMatchers(HttpMethod.POST, "/alunos").permitAll()
  
                 // ── Apenas ADMINISTRADOR ────────────────────────────────
                 .requestMatchers(HttpMethod.POST,   "/cursos").hasRole("ADMINISTRADOR")
