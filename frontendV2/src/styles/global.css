@@ -1,0 +1,44 @@
+:root {
+  --font-size: 16px;
+
+  --background: #ffffff;
+  --foreground: #111827;
+
+  --card: #ffffff;
+
+  --muted-foreground: #717182;
+
+  --border: rgba(0,0,0,0.18);
+
+  --brand-blue: #2563eb;
+  --brand-blue-dark: #1d4ed8;
+
+  --radius: 0.625rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+
+  background: var(--background);
+  color: var(--foreground);
+
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+button {
+  font-family: inherit;
+}
