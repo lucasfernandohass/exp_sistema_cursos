@@ -1,6 +1,48 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import ConfirmModal from "./ConfirmModal"
 
 export default function Navbar() {
+  const navigate = useNavigate()
+
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user"))
+    } catch {
+      return null
+    }
+  })
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  useEffect(() => {
+    const onStorage = () => {
+      try {
+        setUser(JSON.parse(localStorage.getItem("user")))
+      } catch {
+        setUser(null)
+      }
+    }
+
+    window.addEventListener("storage", onStorage)
+    return () => window.removeEventListener("storage", onStorage)
+  }, [])
+
+  function handleLogout() {
+    // abrir modal de confirmação
+    setShowConfirm(true)
+  }
+
+  function cancelLogout() {
+    setShowConfirm(false)
+  }
+
+  function confirmLogout() {
+    setShowConfirm(false)
+    localStorage.removeItem("user")
+    setUser(null)
+    navigate("/login")
+  }
+
   return (
     <>
       {/* Desktop Navbar */}
@@ -54,17 +96,35 @@ export default function Navbar() {
 
           <div className="nav-actions">
 
-            <Link to="/login">
-              <button className="btn-login">
-                Login
-              </button>
-            </Link>
+            {user ? (
+              <>
+                <Link to="/dashboard">
+                  <button className="btn-login">{user.nome || 'Dashboard'}</button>
+                </Link>
 
-            <Link to="/register">
-              <button className="btn-primary">
-                Cadastrar
-              </button>
-            </Link>
+                <button className="btn-logout" onClick={handleLogout}>
+                  Sair
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <button className="btn-login">Login</button>
+                </Link>
+
+                <Link to="/register">
+                  <button className="btn-primary">Cadastrar</button>
+                </Link>
+              </>
+            )}
+
+            <ConfirmModal
+              visible={showConfirm}
+              title="Confirmar logout"
+              message="Deseja realmente sair da sua conta?"
+              onConfirm={confirmLogout}
+              onCancel={cancelLogout}
+            />
 
           </div>
 

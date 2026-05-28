@@ -1,29 +1,35 @@
 import { useNavigate, Link } from "react-router-dom"
+import { login } from "../api"
 
 export default function Login() {
 
   const navigate = useNavigate()
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault()
 
     const email = e.target[0].value
     const password = e.target[1].value
 
-    // pega usuário salvo no register
-    const user = JSON.parse(localStorage.getItem("user"))
+    try {
+      const res = await login(email, password)
 
-    // validação simples
-    if (!user || user.email !== email || user.password !== password) {
-      alert("Email ou senha inválidos")
-      return
+      // salva token e dados do usuário
+      const user = {
+        token: res.token,
+        tipo: res.tipo,
+        id: res.id,
+        nome: res.nome,
+        email: res.email,
+      }
+
+      localStorage.setItem("user", JSON.stringify(user))
+
+      // redireciona
+      navigate("/dashboard")
+    } catch (err) {
+      alert("Falha no login: " + err.message)
     }
-
-    // marca como logado
-    localStorage.setItem("logged", "true")
-
-    // redireciona
-    navigate("/dashboard")
   }
 
   return (
