@@ -163,9 +163,3 @@ CREATE TABLE IF NOT EXISTS certificado (
   FOREIGN KEY (aluno_id) REFERENCES aluno(id)  ON DELETE CASCADE,
   FOREIGN KEY (curso_id) REFERENCES curso(id)  ON DELETE CASCADE
 );
- 
--- ================================
--- DADOS INICIAIS
--- ================================
-INSERT IGNORE INTO administrador (nivel_acesso, email, senha_hash)
-  VALUES (1, 'admin@cursoonline.com', '$2y$10$e0NRu9s1X5Z8j1k6b9v7Oe5X3a8f9g2h4j6k8l0m2n4p6q8r0s2'); -- senha: admin123
