@@ -1,9 +1,13 @@
 # Backend
+
 ## Para preparar o BD:
-- Necessário Docker e Maven instalados
-- Run na raiz: ``docker compose up -d``
+
+- Necessário Docker
+- Run na raiz:
+``docker compose up -d``
 
 ## Iniciar API: 
-- run ``CursosAprendaApplication.java`` (Necessário BD on)
-ou
+
+- Necessário Maven
+- Run na raiz: 
 ``mvn spring-boot:run``
