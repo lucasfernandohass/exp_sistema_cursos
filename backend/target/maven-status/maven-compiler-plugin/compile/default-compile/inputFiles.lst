@@ -1,4 +1,5 @@
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\config\SecurityConfig.java
+C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\controllers\AdministradorController.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\controllers\AlunoController.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\controllers\AuthController.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\controllers\CertificadoController.java
@@ -58,6 +59,7 @@ C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\ja
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\repositories\VideoAulaRepository.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\security\JwtFilter.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\security\JwtUtil.java
+C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\services\AdministradorService.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\services\AlunoService.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\services\AuthService.java
 C:\xampp\htdocs\Experiëncia Profissional\exp_sistema_cursos\backend\src\main\java\com\aprenda\cursos_aprenda\services\CertificadoService.java
