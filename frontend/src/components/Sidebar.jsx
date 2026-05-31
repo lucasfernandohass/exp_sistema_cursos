@@ -1,26 +1,25 @@
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
+import { useState } from "react"
+
+import ConfirmModal from "./ConfirmModal"
+import { useAuth } from "../context/AuthContext"
 
 export default function Sidebar() {
-
   const location = useLocation()
-  const navigate = useNavigate()
+  const { signOut, user } = useAuth()
 
-  function handleLogout() {
+  const [showConfirm, setShowConfirm] = useState(false)
 
-    // remove login salvo
-    localStorage.removeItem("token")
-
-    // volta para login
-    navigate("/")
+  function isActive(path) {
+    return location.pathname === path
   }
 
   return (
     <aside className="sidebar">
-
       <div className="sidebar-top">
 
+        {/* LOGO */}
         <Link to="/dashboard" className="sidebar-logo">
-
           <svg
             width="36"
             height="36"
@@ -34,7 +33,6 @@ export default function Sidebar() {
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-
             <path
               d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12"
               stroke="currentColor"
@@ -42,7 +40,6 @@ export default function Sidebar() {
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-
             <path
               d="M22 10V14"
               stroke="currentColor"
@@ -51,50 +48,53 @@ export default function Sidebar() {
               strokeLinejoin="round"
             />
           </svg>
-
           <h2>Aprenda+</h2>
-
         </Link>
 
-        <nav className="sidebar-links">
+        {/* SAUDAÇÃO */}
+        {user && (
+          <p className="sidebar-greeting">
+            Olá, {user.nome?.split(" ")[0]}!
+          </p>
+        )}
 
+        {/* LINKS */}
+        <nav className="sidebar-links">
           <Link
             to="/dashboard"
-            className={
-              location.pathname === "/dashboard"
-                ? "active"
-                : ""
-            }
+            className={isActive("/dashboard") ? "active" : ""}
           >
-            Home
+            🏠 Home
           </Link>
 
           <Link
             to="/matriculados"
-            className={
-              location.pathname === "/matriculados"
-                ? "active"
-                : ""
-            }
+            className={isActive("/matriculados") ? "active" : ""}
           >
-            Cursos Matriculados
+            📚 Meus Cursos
           </Link>
-
         </nav>
 
+        {/* BOTÃO SAIR */}
         <div className="sidebar-bottom">
-
           <button
             className="sidebar-logout"
-            onClick={handleLogout}
+            onClick={() => setShowConfirm(true)}
           >
             Sair
           </button>
-
         </div>
 
       </div>
 
+      {/* MODAL LOGOUT */}
+      <ConfirmModal
+        visible={showConfirm}
+        title="Confirmar logout"
+        message="Deseja realmente sair da sua conta?"
+        onConfirm={() => { setShowConfirm(false); signOut() }}
+        onCancel={() => setShowConfirm(false)}
+      />
     </aside>
   )
 }

@@ -167,3 +167,14 @@
     margin-top: 15px;
   }
 }
+/* =========================
+   SAUDAÇÃO
+========================= */
+
+.sidebar-greeting {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  padding: 0 4px;
+  margin-top: -24px;
+  margin-bottom: 16px;
+}

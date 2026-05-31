@@ -1,42 +1,54 @@
 import { useNavigate, Link } from "react-router-dom"
+import { useState } from "react"
+
+import { useAuth } from "../context/AuthContext"
 import { login } from "../api"
 
 export default function Login() {
-
   const navigate = useNavigate()
+  const { signIn } = useAuth()
+
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+  const [showSenha, setShowSenha] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
   async function handleLogin(e) {
     e.preventDefault()
+    setError("")
 
-    const email = e.target[0].value
-    const password = e.target[1].value
+    if (!email.trim() || !senha) {
+      setError("Preencha e-mail e senha.")
+      return
+    }
 
     try {
-      const res = await login(email, password)
+      setLoading(true)
+      const res = await login(email.trim(), senha)
 
-      // salva token e dados do usuário
-      const user = {
+      // salva no contexto global (e no localStorage via AuthContext)
+      signIn({
         token: res.token,
         tipo: res.tipo,
         id: res.id,
         nome: res.nome,
         email: res.email,
-      }
+      })
 
-      localStorage.setItem("user", JSON.stringify(user))
-
-      // redireciona
       navigate("/dashboard")
     } catch (err) {
-      alert("Falha no login: " + err.message)
+      setError(err.message || "Falha no login. Verifique suas credenciais.")
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className="auth-container">
-
       <div className="auth-box">
 
+        {/* LOGO */}
         <Link to="/" className="auth-logo">
           <span className="auth-logo-icon">
             <svg
@@ -71,15 +83,65 @@ export default function Login() {
           Aprenda+
         </Link>
 
+        {/* FORM */}
         <form className="auth-form" onSubmit={handleLogin}>
 
           <h2>Entrar</h2>
 
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Senha" />
+          {/* ERRO GLOBAL */}
+          {error && (
+            <div className="auth-error">
+              {error}
+            </div>
+          )}
 
-          <button className="btn-primary auth-btn">
-            Entrar
+          {/* EMAIL */}
+          <input
+            type="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setError("") }}
+            autoComplete="email"
+            disabled={loading}
+          />
+
+          {/* SENHA */}
+          <div className="input-with-icon">
+            <input
+              type={showSenha ? "text" : "password"}
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => { setSenha(e.target.value); setError("") }}
+              autoComplete="current-password"
+              disabled={loading}
+            />
+            <button
+              type="button"
+              className="input-icon-btn"
+              onClick={() => setShowSenha((v) => !v)}
+              aria-label={showSenha ? "Ocultar senha" : "Mostrar senha"}
+            >
+              {showSenha ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 3l18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M10.58 10.58a3 3 0 0 0 4.24 4.24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </button>
+          </div>
+
+          {/* SUBMIT */}
+          <button
+            className="btn-primary auth-btn"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Entrando..." : "Entrar"}
           </button>
 
           <p className="auth-switch">
@@ -92,7 +154,6 @@ export default function Login() {
         </form>
 
       </div>
-
     </div>
   )
 }
