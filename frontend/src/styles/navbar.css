@@ -1,11 +1,12 @@
+/* =========================
+   BASE
+========================= */
+
 .navbar {
   border-bottom: 1px solid var(--border);
-
   background: var(--background);
-
   position: sticky;
   top: 0;
-
   z-index: 100;
 }
 
@@ -13,7 +14,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 1rem 0;
 }
 
@@ -23,18 +23,20 @@
   gap: 2rem;
 }
 
+/* =========================
+   LOGO
+========================= */
+
 .logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-
   text-decoration: none;
   color: var(--brand-blue);
+  flex-shrink: 0;
 }
 
-.logo-icon {
-  color: var(--brand-blue);
-}
+.logo-icon { color: var(--brand-blue); }
 
 .logo-text {
   font-size: 1.5rem;
@@ -42,21 +44,48 @@
   color: var(--brand-blue);
 }
 
+/* desktop logo size */
+.desktop-nav .logo-icon svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+/* mobile logo size (corrigido) */
+.mobile-logo-icon svg {
+  display: block;
+  width: 22px !important;
+  height: 22px !important;
+  max-width: none !important;
+}
+
+.mobile-logo-text {
+  font-size: 1.1rem !important;
+}
+
+/* =========================
+   LINKS DESKTOP
+========================= */
+
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.75rem;
+  align-items: center;
 }
 
 .nav-links a {
   text-decoration: none;
   color: var(--muted-foreground);
-
-  transition: 0.2s;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.nav-links a:hover {
-  color: var(--brand-blue);
-}
+.nav-links a:hover { color: var(--brand-blue); }
+
+/* =========================
+   AÇÕES
+========================= */
 
 .nav-actions {
   display: flex;
@@ -64,7 +93,138 @@
   gap: 1rem;
 }
 
-/* Hamburger (mobile) with background */
+/* =========================
+   PILL DE USUÁRIO (desktop + mobile)
+========================= */
+
+.user-menu {
+  position: relative;
+}
+
+.user-pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px 6px 9px;
+  cursor: pointer;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.user-pill-btn:hover {
+  border-color: var(--brand-blue);
+  background: rgba(37,99,235,0.05);
+}
+
+.user-pill-btn > svg:first-child {
+  color: var(--brand-blue);
+  flex-shrink: 0;
+}
+
+.user-pill-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-pill-chevron {
+  color: var(--muted-foreground);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.user-pill-chevron.open { transform: rotate(180deg); }
+
+/* backdrop invisível para fechar ao clicar fora */
+.user-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+}
+
+/* DROPDOWN */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 210px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+  z-index: 200;
+  padding: 8px;
+  animation: dropdownIn 0.15s ease;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.user-dropdown-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--foreground);
+  padding: 6px 10px 2px;
+}
+
+.user-dropdown-email {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  padding: 0 10px 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 4px 0;
+}
+
+.user-dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--foreground);
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.user-dropdown-item:hover {
+  background: rgba(37,99,235,0.08);
+  color: var(--brand-blue);
+}
+
+.user-dropdown-logout { color: #ef4444; }
+
+.user-dropdown-logout:hover {
+  background: rgba(239,68,68,0.08);
+  color: #ef4444;
+}
+
+/* =========================
+   HAMBURGER
+========================= */
+
 .hamburger {
   display: none;
   background: transparent;
@@ -75,11 +235,17 @@
   border-radius: 6px;
 }
 
-.hamburger svg { display: block; }
-
+.hamburger svg { display: block; width: 22px; height: 22px; }
 .hamburger-close { font-size: 1.1rem; }
 
-/* Mobile menu styles (off-canvas) */
+.hamburger:hover { background: rgba(0,0,0,0.04); }
+.dark .hamburger { background: rgba(255,255,255,0.06); color: var(--foreground); }
+.dark .hamburger:hover { background: rgba(255,255,255,0.08); }
+
+/* =========================
+   MOBILE MENU OFF-CANVAS
+========================= */
+
 .mobile-menu {
   position: fixed;
   top: 0;
@@ -87,7 +253,7 @@
   width: 280px;
   height: 100%;
   background: var(--background);
-  box-shadow: 2px 0 12px rgba(0,0,0,0.12);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -95,16 +261,11 @@
   transition: transform 280ms ease;
 }
 
-.mobile-menu.open {
-  transform: translateX(0);
-}
+.mobile-menu.open { transform: translateX(0); }
 
-.mobile-menu-links,
-.mobile-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem 0;
+/* fundo sólido no dark mode */
+.dark .mobile-menu {
+  background: #111827;
 }
 
 .mobile-menu-header {
@@ -115,6 +276,21 @@
   padding: 1rem;
   min-height: 64px;
   border-bottom: 1px solid var(--border);
+  background: inherit; /* herda do .mobile-menu */
+}
+
+.mobile-menu-links,
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.mobile-menu .logo .logo-icon svg {
+  width: 28px !important;
+  height: 28px !important;
+  max-width: none !important;
 }
 
 .close-menu {
@@ -128,9 +304,8 @@
   justify-content: center;
 }
 
-.close-menu:hover {
-  color: var(--brand-blue);
-}
+.close-menu svg { width: 20px; height: 20px; }
+.close-menu:hover { color: var(--brand-blue); }
 
 .mobile-menu-links a {
   display: block;
@@ -143,16 +318,15 @@
 }
 
 .mobile-menu-links a:hover {
-  background: var(--accent);
+  background: rgba(37,99,235,0.08);
   color: var(--brand-blue);
 }
 
+/* OVERLAY */
 .menu-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: rgba(0,0,0,0.45);
   z-index: 999;
   opacity: 0;
@@ -165,66 +339,33 @@
   pointer-events: auto;
 }
 
-/* Mobile navbar sizing and button styles */
+/* =========================
+   MOBILE NAVBAR CONTAINER
+========================= */
+
 .mobile-nav .nav-container {
   padding: 0.55rem 1rem;
   min-height: 52px;
   align-items: center;
 }
 
-/* Preserve desktop navbar logo size and enlarge only the mobile top bar logo */
-.desktop-nav .logo-icon svg {
-  display: block;
-  width: 32px;
-  height: 32px;
+.dark .mobile-nav {
+  background: #0f172a;
 }
 
-@media (max-width: 768px) {
-  .mobile-nav .logo-icon svg {
-    display: block;
-    width: 80px !important;
-    height: 80px !important;
-    max-width: none !important;
-  }
-}
-
-/* Mobile menu header logo should be smaller and more compact */
-.mobile-menu .logo .logo-icon svg {
-  width: 36px !important;
-  height: 36px !important;
-  max-width: none !important;
-}
-
-/* Preserve hamburger icon default size */
-.hamburger svg {
-  width: 22px;
-  height: 22px;
-}
-
-/* Close button icon inside mobile menu */
-.close-menu svg {
-  width: 20px;
-  height: 20px;
-}
-
-.logo-text {
-  font-size: 1.5rem;
-}
-
-/* Dark mode hamburger background */
-.hamburger { background: transparent; }
-.dark .hamburger { background: rgba(255,255,255,0.06); color: var(--foreground); }
-.hamburger:hover { background: rgba(0,0,0,0.04); }
-.dark .hamburger:hover { background: rgba(255,255,255,0.08); }
+/* =========================
+   MOBILE LOGIN/REGISTER (não logado)
+========================= */
 
 .mobile-login-btn {
   background: transparent;
   border: none;
   color: var(--muted-foreground);
   padding: 0.4rem 0.6rem;
-  margin-left: 0.4rem;
   font-weight: 600;
   cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
 }
 
 .mobile-register-btn {
@@ -232,56 +373,54 @@
   color: white;
   border: none;
   padding: 0.45rem 0.9rem;
-  margin-left: 0.4rem;
   border-radius: 0.5rem;
   font-weight: 600;
   cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
 }
 
-/* Hide mobile nav on desktop, show hamburger only on small screens */
+/* =========================
+   VISIBILITY POR BREAKPOINT
+========================= */
+
 @media (max-width: 768px) {
   .desktop-nav { display: none; }
-  .mobile-nav { display: block; }
-  .hamburger { display: inline-flex; }
+  .mobile-nav  { display: block; }
+  .hamburger   { display: inline-flex; }
 }
 
 @media (min-width: 769px) {
   .mobile-nav { display: none; }
 }
 
+/* =========================
+   BOTÕES DESKTOP
+========================= */
+
 .btn-login {
   background: transparent;
   border: none;
-
   color: var(--muted-foreground);
-
   cursor: pointer;
   font-size: 1rem;
+  font-family: inherit;
 }
 
-.btn-login:hover {
-  color: var(--brand-blue);
-}
+.btn-login:hover { color: var(--brand-blue); }
 
 .btn-primary {
   background: var(--brand-blue);
-
   color: white;
-
   border: none;
-
   padding: 0.7rem 1.5rem;
-
   border-radius: var(--radius);
-
   cursor: pointer;
-
   transition: 0.2s;
+  font-family: inherit;
 }
 
-.btn-primary:hover {
-  background: var(--brand-blue-dark);
-}
+.btn-primary:hover { background: var(--brand-blue-dark); }
 
 .btn-logout {
   background: transparent;
@@ -290,9 +429,17 @@
   padding: 0.45rem 0.9rem;
   border-radius: 0.375rem;
   cursor: pointer;
+  font-family: inherit;
 }
 
 .btn-logout:hover {
   color: var(--brand-blue);
   border-color: rgba(37,99,235,0.3);
+}
+
+/* dark logo */
+.dark .logo,
+.dark .logo-icon,
+.dark .logo-text {
+  color: var(--foreground);
 }
