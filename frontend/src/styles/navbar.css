@@ -443,3 +443,16 @@
 .dark .logo-text {
   color: var(--foreground);
 }
+
+/* badge Admin dentro do pill */
+.user-pill-admin-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  color: white;
+  padding: 1px 7px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}

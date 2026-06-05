@@ -7,6 +7,8 @@ public record CursoRequestDTO(
     @NotBlank(message = "Nome é obrigatório")
     String nome,
  
+    String descricao,
+
     String ementa,
  
     Integer cargaHoraria,
@@ -15,6 +17,9 @@ public record CursoRequestDTO(
     @DecimalMin(value = "0.0", message = "Preço não pode ser negativo")
     BigDecimal preco,
  
+    @NotBlank(message = "URL do banner é obrigatória")
+    String urlBanner,
+
     @NotNull(message = "Professor é obrigatório")
     Integer professorId
 ) {}

@@ -37,6 +37,9 @@ public class Curso {
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @Column(length = 500)
+    private String descricao;
+
     @Column(length = 1000)
     private String ementa;
 
@@ -54,6 +57,9 @@ public class Curso {
 
     @Column(name = "nota_avaliacao", precision = 4, scale = 2)
     private BigDecimal notaAvaliacao;
+
+    @Column(name = "url_banner", nullable = false, length = 255)    
+    private String urlBanner;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "professor_id")

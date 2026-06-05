@@ -300,9 +300,9 @@ export default function Course() {
             <p>{course.ementa}</p>
 
             <div className="course-header-meta">
-              <span>{course.professor?.nome}</span>
-              <span>{course.numeroAulas} aulas</span>
-              <span>{course.cargaHoraria}h</span>
+              <span>👨‍🏫 {course.professor?.nome}</span>
+              <span>📚 {course.numeroAulas} aulas</span>
+              <span>⏱ {course.cargaHoraria}h</span>
               {course.notaAvaliacao > 0 && (
                 <span>⭐ {course.notaAvaliacao?.toFixed(1)}</span>
               )}
@@ -388,7 +388,7 @@ export default function Course() {
                             {d.resposta ? (
                               <div className="duvida-resposta">
                                 <span className="duvida-professor">
-                                   {d.nomeProfessor}
+                                  👨‍🏫 {d.nomeProfessor}
                                 </span>
                                 <p>{d.resposta}</p>
                               </div>
@@ -413,7 +413,7 @@ export default function Course() {
         {/* CERTIFICADO */}
         {courseDone && !certificate && (
           <div className="certificate-banner">
-            <span>Você concluiu todas as aulas!</span>
+            <span>🎓 Você concluiu todas as aulas!</span>
             <button
               className="btn-primary"
               onClick={() => setCertModal(true)}
@@ -485,7 +485,7 @@ export default function Course() {
 
           {matricula.mediaFinal != null && (
             <p className="progress-label">
-              Média: <strong>{matricula.mediaFinal.toFixed(1)}</strong>
+              📊 Média: <strong>{matricula.mediaFinal.toFixed(1)}</strong>
             </p>
           )}
         </div>

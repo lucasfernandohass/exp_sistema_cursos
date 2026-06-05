@@ -6,10 +6,13 @@ import java.math.BigDecimal;
 public record CursoCardDTO(
     Integer id,
     String nome,
+    String descricao,
     String nomeProfessor,
     Integer numeroAulas,
     Integer cargaHoraria,
     BigDecimal preco,
-    BigDecimal notaAvaliacao
+    BigDecimal notaAvaliacao,
+    String urlBanner
+    
 ) {}
  

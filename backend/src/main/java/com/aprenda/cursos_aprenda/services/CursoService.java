@@ -103,11 +103,13 @@ public class CursoService {
         return new CursoCardDTO(
             curso.getId(),
             curso.getNome(),
+            curso.getDescricao(),
             curso.getProfessor() != null ? curso.getProfessor().getNome() : null,
             curso.getNumeroAulas(),
             curso.getCargaHoraria(),
             curso.getPreco(),
-            curso.getNotaAvaliacao()
+            curso.getNotaAvaliacao(),
+            curso.getUrlBanner()
         );
     }
  
@@ -115,11 +117,13 @@ public class CursoService {
         return new CursoDetalheDTO(
             curso.getId(),
             curso.getNome(),
+            curso.getDescricao(),
             curso.getEmenta(),
             curso.getCargaHoraria(),
             curso.getNumeroAulas(),
             curso.getPreco(),
             curso.getNotaAvaliacao(),
+            curso.getUrlBanner(),
             toProfessorDTO(curso.getProfessor()),
             curso.getVideoAulas().stream()
                 .map(video -> toVideoAulaResponseDTO(video, alunoId))

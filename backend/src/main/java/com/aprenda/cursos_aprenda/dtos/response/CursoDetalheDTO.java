@@ -7,11 +7,13 @@ import java.util.List;
 public record CursoDetalheDTO(
     Integer id,
     String nome,
+    String descricao,
     String ementa,
     Integer cargaHoraria,
     Integer numeroAulas,
     BigDecimal preco,
     BigDecimal notaAvaliacao,
+    String urlBanner,
     ProfessorResponseDTO professor,
     List<VideoAulaResponseDTO> videoAulas
 ) {}

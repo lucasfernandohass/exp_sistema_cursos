@@ -1,13 +1,15 @@
 import { Routes, Route } from "react-router-dom"
 
 import PrivateRoute from "./routes/PrivateRoutes"
+import AdminRoute from "./routes/AdminRoute"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Dashboard from "./pages/Dashboard"
 import EnrolledCourses from "./pages/EnrolledCourses"
-import Course from "./pages/Courses"
+import Course from "./pages/Course"
+import AdminCourses from "./pages/AdminCourses"
 
 export default function App() {
   return (
@@ -49,6 +51,19 @@ export default function App() {
           <PrivateRoute>
             <Course />
           </PrivateRoute>
+        }
+      />
+
+      {/* =========================
+          ROTAS ADMINISTRADOR
+      ========================= */}
+
+      <Route
+        path="/admin/cursos"
+        element={
+          <AdminRoute>
+            <AdminCourses />
+          </AdminRoute>
         }
       />
 

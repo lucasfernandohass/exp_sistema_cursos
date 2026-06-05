@@ -36,7 +36,12 @@ export default function Login() {
         email: res.email,
       })
 
-      navigate("/dashboard")
+      // redireciona conforme o tipo do usuário
+      if (res.tipo === "ADMINISTRADOR") {
+        navigate("/admin/cursos")
+      } else {
+        navigate("/dashboard")
+      }
     } catch (err) {
       setError(err.message || "Falha no login. Verifique suas credenciais.")
     } finally {

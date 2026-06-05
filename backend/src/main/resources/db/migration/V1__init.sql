@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS aluno (
 CREATE TABLE IF NOT EXISTS curso (
   id             INT           NOT NULL AUTO_INCREMENT,
   nome           VARCHAR(100)  NOT NULL,
+  descricao      VARCHAR(500),
   ementa         VARCHAR(1000),
   carga_horaria  INT,
   numero_aulas   INT,
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS curso (
   media          DECIMAL(4,2),
   nota_avaliacao DECIMAL(4,2),
   professor_id   INT,
+  url_banner      VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (professor_id) REFERENCES professor(id) ON DELETE SET NULL,
   FULLTEXT INDEX idx_curso_busca (nome, ementa)
