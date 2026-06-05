@@ -7,10 +7,12 @@ public record CursoCardDTO(
     Integer id,
     String nome,
     String descricao,
+    String ementa,
     String nomeProfessor,
     Integer numeroAulas,
     Integer cargaHoraria,
     BigDecimal preco,
+    BigDecimal media,
     BigDecimal notaAvaliacao,
     String urlBanner
     

@@ -67,6 +67,29 @@
 }
 
 /* =========================
+   FEEDBACK
+========================= */
+
+.admin-feedback {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.admin-feedback--success {
+  background: rgba(22, 163, 74, 0.12);
+  border-color: rgba(22, 163, 74, 0.35);
+  color: #166534;
+}
+
+.dark .admin-feedback--success {
+  color: #bbf7d0;
+}
+
+/* =========================
    TOOLBAR
 ========================= */
 

@@ -65,10 +65,18 @@ public class CursoService {
     public CursoDetalheDTO atualizar(Integer id, CursoRequestDTO dto) {
         Curso curso = findCursoEntityById(id);
         curso.setNome(dto.nome());
+        curso.setDescricao(dto.descricao());
         curso.setEmenta(dto.ementa());
         curso.setCargaHoraria(dto.cargaHoraria());
+        curso.setNumeroAulas(dto.numeroAulas());
         curso.setPreco(dto.preco());
-        curso.setProfessor(findProfessorById(dto.professorId()));
+        curso.setMedia(dto.media());
+        curso.setUrlBanner(dto.urlBanner());
+        if (dto.professorId() != null) {
+            curso.setProfessor(findProfessorById(dto.professorId()));
+        } else {
+            curso.setProfessor(null);
+        }
         Curso atualizado = cursoRepository.save(curso);
         return toDetalheDTO(atualizado, buscarAlunoIdLogado());
     }
@@ -92,10 +100,16 @@ public class CursoService {
     private Curso toEntity(CursoRequestDTO dto) {
         Curso curso = new Curso();
         curso.setNome(dto.nome());
+        curso.setDescricao(dto.descricao());
         curso.setEmenta(dto.ementa());
         curso.setCargaHoraria(dto.cargaHoraria());
+        curso.setNumeroAulas(dto.numeroAulas());
         curso.setPreco(dto.preco());
-        curso.setProfessor(findProfessorById(dto.professorId()));
+        curso.setMedia(dto.media());
+        curso.setUrlBanner(dto.urlBanner());
+        if (dto.professorId() != null) {
+            curso.setProfessor(findProfessorById(dto.professorId()));
+        }
         return curso;
     }
  
@@ -104,10 +118,12 @@ public class CursoService {
             curso.getId(),
             curso.getNome(),
             curso.getDescricao(),
+            curso.getEmenta(),
             curso.getProfessor() != null ? curso.getProfessor().getNome() : null,
             curso.getNumeroAulas(),
             curso.getCargaHoraria(),
             curso.getPreco(),
+            curso.getMedia(),
             curso.getNotaAvaliacao(),
             curso.getUrlBanner()
         );
@@ -122,6 +138,7 @@ public class CursoService {
             curso.getCargaHoraria(),
             curso.getNumeroAulas(),
             curso.getPreco(),
+            curso.getMedia(),
             curso.getNotaAvaliacao(),
             curso.getUrlBanner(),
             toProfessorDTO(curso.getProfessor()),

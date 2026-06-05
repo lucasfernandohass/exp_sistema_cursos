@@ -40,7 +40,7 @@ public class Curso {
     @Column(length = 500)
     private String descricao;
 
-    @Column(length = 1000)
+    @Column(length = 5000)
     private String ementa;
 
     @Column(name = "carga_horaria")

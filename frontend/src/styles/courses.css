@@ -121,12 +121,22 @@
    CONTEÚDO DO CARD
 ========================= */
 
+.course-description {
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
 .course-content {
   padding: 1.25rem;
 
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.6rem;
+}
+
+.course-card-btn {
+  margin-top: 0.25rem;
 }
 
 .course-title {

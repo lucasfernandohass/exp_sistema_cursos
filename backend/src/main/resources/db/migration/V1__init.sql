@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS curso (
   id             INT           NOT NULL AUTO_INCREMENT,
   nome           VARCHAR(100)  NOT NULL,
   descricao      VARCHAR(500),
-  ementa         VARCHAR(1000),
+  ementa         VARCHAR(5000),
   carga_horaria  INT,
   numero_aulas   INT,
   preco          DECIMAL(10,2),

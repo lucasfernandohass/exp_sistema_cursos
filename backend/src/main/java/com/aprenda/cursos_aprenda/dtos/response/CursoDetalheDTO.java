@@ -12,6 +12,7 @@ public record CursoDetalheDTO(
     Integer cargaHoraria,
     Integer numeroAulas,
     BigDecimal preco,
+    BigDecimal media,
     BigDecimal notaAvaliacao,
     String urlBanner,
     ProfessorResponseDTO professor,

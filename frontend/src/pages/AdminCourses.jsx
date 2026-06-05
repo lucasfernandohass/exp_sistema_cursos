@@ -10,9 +10,14 @@ import apiFetch from "../api"
 
 const EMPTY_FORM = {
   nome: "",
+  descricao: "",
   ementa: "",
   cargaHoraria: "",
+  numeroAulas: "",
   preco: "",
+  media: "",
+  urlBanner: "",
+  professorId: "",
 }
 
 /* =========================
@@ -24,6 +29,7 @@ export default function AdminCourses() {
   const navigate = useNavigate()
 
   const [courses, setCourses] = useState([])
+  const [professors, setProfessors] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -32,6 +38,7 @@ export default function AdminCourses() {
   const [formData, setFormData] = useState(EMPTY_FORM)
   const [formErrors, setFormErrors] = useState({})
   const [saving, setSaving] = useState(false)
+  const [feedback, setFeedback] = useState({ type: "", message: "" })
 
   // modal de confirmação de exclusão
   const [deleteModal, setDeleteModal] = useState({ open: false, course: null })
@@ -69,6 +76,26 @@ export default function AdminCourses() {
     fetchCourses()
   }, [fetchCourses])
 
+  useEffect(() => {
+    if (!feedback.message) return
+
+    const timer = setTimeout(() => setFeedback({ type: "", message: "" }), 3000)
+    return () => clearTimeout(timer)
+  }, [feedback.message])
+
+  useEffect(() => {
+    async function loadProfessors() {
+      try {
+        const data = await apiFetch("/professores")
+        setProfessors(data)
+      } catch (err) {
+        console.error("Erro ao carregar professores:", err)
+      }
+    }
+
+    loadProfessors()
+  }, [])
+
   /* =========================
      PESQUISA LOCAL
   ========================= */
@@ -82,7 +109,7 @@ export default function AdminCourses() {
   ========================= */
 
   function openCreate() {
-    setFormData(EMPTY_FORM)
+    setFormData({ ...EMPTY_FORM })
     setFormErrors({})
     setFormModal({ open: true, mode: "create", course: null })
   }
@@ -90,9 +117,14 @@ export default function AdminCourses() {
   function openEdit(course) {
     setFormData({
       nome: course.nome ?? "",
+      descricao: course.descricao ?? "",
       ementa: course.ementa ?? "",
       cargaHoraria: course.cargaHoraria ?? "",
+      numeroAulas: course.numeroAulas ?? "",
       preco: course.preco ?? "",
+      media: course.media ?? course.notaAvaliacao ?? "",
+      urlBanner: course.urlBanner ?? "",
+      professorId: course.professor?.id ?? professors[0]?.id ?? "",
     })
     setFormErrors({})
     setFormModal({ open: true, mode: "edit", course })
@@ -110,12 +142,24 @@ export default function AdminCourses() {
 
   function validate() {
     const errs = {}
+
     if (!formData.nome.trim()) errs.nome = "Nome obrigatório."
+    if (!formData.descricao.trim()) errs.descricao = "Descrição obrigatória."
     if (!formData.ementa.trim()) errs.ementa = "Ementa obrigatória."
     if (!formData.cargaHoraria || isNaN(Number(formData.cargaHoraria)) || Number(formData.cargaHoraria) <= 0)
       errs.cargaHoraria = "Carga horária inválida."
-    if (!formData.preco || isNaN(Number(formData.preco)) || Number(formData.preco) < 0)
+    if (!formData.numeroAulas || isNaN(Number(formData.numeroAulas)) || Number(formData.numeroAulas) <= 0)
+      errs.numeroAulas = "Número de aulas inválido."
+    if (formData.preco === "" || isNaN(Number(formData.preco)) || Number(formData.preco) < 0)
       errs.preco = "Preço inválido."
+    if (formData.media === "" || isNaN(Number(formData.media)) || Number(formData.media) < 0 || Number(formData.media) > 10)
+      errs.media = "Média inválida. Informe um valor entre 0 e 10."
+    if (!formData.urlBanner.trim()) {
+      errs.urlBanner = "URL do banner obrigatória."
+    } else if (!/^https?:\/\//i.test(formData.urlBanner.trim())) {
+      errs.urlBanner = "Informe uma URL válida (http:// ou https://)."
+    }
+
     return errs
   }
 
@@ -126,9 +170,14 @@ export default function AdminCourses() {
 
     const payload = {
       nome: formData.nome.trim(),
+      descricao: formData.descricao.trim(),
       ementa: formData.ementa.trim(),
       cargaHoraria: Number(formData.cargaHoraria),
+      numeroAulas: Number(formData.numeroAulas),
       preco: Number(formData.preco),
+      media: Number(formData.media),
+      urlBanner: formData.urlBanner.trim(),
+      professorId: formData.professorId ? Number(formData.professorId) : null,
     }
 
     try {
@@ -140,6 +189,7 @@ export default function AdminCourses() {
           body: JSON.stringify(payload),
         })
         setCourses((prev) => [...prev, created])
+        setFeedback({ type: "success", message: "Curso criado com sucesso!" })
       } else {
         const updated = await apiFetch(`/cursos/${formModal.course.id}`, {
           method: "PUT",
@@ -149,6 +199,7 @@ export default function AdminCourses() {
         setCourses((prev) =>
           prev.map((c) => (c.id === updated.id ? { ...c, ...updated } : c))
         )
+        setFeedback({ type: "success", message: "Curso editado com sucesso!" })
       }
       closeForm()
     } catch (err) {
@@ -241,6 +292,12 @@ export default function AdminCourses() {
 
       <main className="admin-main">
 
+        {feedback.message && (
+          <div className={`admin-feedback admin-feedback--${feedback.type}`} role="status" aria-live="polite">
+            {feedback.message}
+          </div>
+        )}
+
         {/* TOOLBAR */}
         <div className="admin-toolbar">
           <div className="admin-toolbar-left">
@@ -256,7 +313,7 @@ export default function AdminCourses() {
               onChange={(e) => setSearch(e.target.value)}
             />
             <button className="btn-primary" onClick={openCreate}>
-              + Novo Curso
+              <b>Novo Curso</b>
             </button>
           </div>
         </div>
@@ -276,7 +333,7 @@ export default function AdminCourses() {
                   <th>Aulas</th>
                   <th>Carga</th>
                   <th>Preço</th>
-                  <th>Avaliação</th>
+                  <th>Média</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -289,9 +346,12 @@ export default function AdminCourses() {
                     <td>{course.cargaHoraria}h</td>
                     <td>{formatPrice(course.preco)}</td>
                     <td>
-                      {course.notaAvaliacao > 0
-                        ? <span className="admin-rating">⭐ {course.notaAvaliacao?.toFixed(1)}</span>
-                        : <span className="admin-empty-cell">—</span>}
+                      {(() => {
+                        const media = course.media ?? course.notaAvaliacao
+                        return media && Number(media) > 0
+                          ? <span className="admin-rating">{Number(media).toFixed(1)}</span>
+                          : <span className="admin-empty-cell">—</span>
+                      })()}
                     </td>
                     <td>
                       <div className="admin-actions">
@@ -300,14 +360,14 @@ export default function AdminCourses() {
                           onClick={() => openEdit(course)}
                           title="Editar"
                         >
-                          ✏️ Editar
+                          Editar
                         </button>
                         <button
                           className="admin-btn-delete"
                           onClick={() => openDelete(course)}
                           title="Excluir"
                         >
-                          🗑 Excluir
+                          Excluir
                         </button>
                       </div>
                     </td>
@@ -357,13 +417,26 @@ export default function AdminCourses() {
               </div>
 
               <div className="modal-field">
+                <label>Descrição</label>
+                <textarea
+                  name="descricao"
+                  placeholder="Descreva o curso..."
+                  value={formData.descricao}
+                  onChange={handleChange}
+                  rows={2}
+                  className={formErrors.descricao ? "input-error" : ""}
+                />
+                {formErrors.descricao && <span className="field-error">{formErrors.descricao}</span>}
+              </div>
+
+              <div className="modal-field">
                 <label>Ementa</label>
                 <textarea
                   name="ementa"
                   placeholder="Descreva o conteúdo e objetivos do curso..."
                   value={formData.ementa}
                   onChange={handleChange}
-                  rows={4}
+                  rows={3}
                   className={formErrors.ementa ? "input-error" : ""}
                 />
                 {formErrors.ementa && <span className="field-error">{formErrors.ementa}</span>}
@@ -385,6 +458,20 @@ export default function AdminCourses() {
                 </div>
 
                 <div className="modal-field">
+                  <label>Num. Aulas</label>
+                  <input
+                    name="numeroAulas"
+                    type="number"
+                    min="1"
+                    placeholder="Ex: 20"
+                    value={formData.numeroAulas}
+                    onChange={handleChange}
+                    className={formErrors.numeroAulas ? "input-error" : ""}
+                  />
+                  {formErrors.numeroAulas && <span className="field-error">{formErrors.numeroAulas}</span>}
+                </div>
+
+                <div className="modal-field">
                   <label>Preço (R$)</label>
                   <input
                     name="preco"
@@ -398,7 +485,41 @@ export default function AdminCourses() {
                   />
                   {formErrors.preco && <span className="field-error">{formErrors.preco}</span>}
                 </div>
+
+                <div className="modal-field">
+                  <label>Média do Curso</label>
+                  <input
+                    name="media"
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    placeholder="Ex: 8.5"
+                    value={formData.media}
+                    onChange={handleChange}
+                    className={formErrors.media ? "input-error" : ""}
+                  />
+                  {formErrors.media && <span className="field-error">{formErrors.media}</span>}
+                </div>
               </div>
+
+              {formModal.mode === "edit" && (
+                <div className="modal-field">
+                  <label>Professor responsável</label>
+                  <select
+                    name="professorId"
+                    value={formData.professorId ?? ""}
+                    onChange={handleChange}
+                  >
+                    <option value="">Sem professor</option>
+                    {professors.map((prof) => (
+                      <option key={prof.id} value={prof.id}>
+                        {prof.nome}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div className="modal-field">
                 <label>URL do Banner do Curso</label>
@@ -498,7 +619,7 @@ function AdminHeader({ user }) {
   return (
     <header className="admin-header">
       <div className="admin-header-left">
-        <div className="admin-logo" onClick={() => navigate("/admin/cursos")} style={{ cursor: "pointer" }}>
+        <div className="admin-logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
             <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
