@@ -2,7 +2,9 @@ import { useEffect, useState } from "react"
 
 export default function ThemeToggle() {
 
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("theme") === "dark"
+  )
 
   /* =========================
      CARREGAR TEMA
@@ -10,18 +12,10 @@ export default function ThemeToggle() {
 
   useEffect(() => {
 
-    const savedTheme =
-      localStorage.getItem("theme")
+    document.documentElement
+      .classList.toggle("dark", darkMode)
 
-    if (savedTheme === "dark") {
-
-      document.documentElement
-        .classList.add("dark")
-
-      setDarkMode(true)
-    }
-
-  }, [])
+  }, [darkMode])
 
   /* =========================
      TOGGLE THEME
@@ -29,13 +23,8 @@ export default function ThemeToggle() {
 
   function toggleTheme() {
 
-    const html =
-      document.documentElement
-
-    html.classList.toggle("dark")
-
     const isDark =
-      html.classList.contains("dark")
+      !darkMode
 
     setDarkMode(isDark)
 

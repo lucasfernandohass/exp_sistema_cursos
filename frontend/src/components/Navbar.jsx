@@ -163,24 +163,15 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <div className="nav-actions">
-            {user ? (
-              <UserPill {...pillProps} />
-            ) : (
-              <>
-                <Link to="/login" onClick={() => setMobileOpen(false)}>
-                  <button className="mobile-login-btn">Login</button>
-                </Link>
-                <Link to="/register" onClick={() => setMobileOpen(false)}>
-                  <button className="mobile-register-btn">Cadastrar</button>
-                </Link>
-              </>
-            )}
-          </div>
-
         </div>
 
-        <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+        <MobileMenu
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          user={user}
+          isAdmin={isAdmin}
+          onLogout={() => setShowConfirm(true)}
+        />
       </nav>
 
       {/* MODAL LOGOUT */}

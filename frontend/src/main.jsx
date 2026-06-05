@@ -18,6 +18,11 @@ import "./styles/darkmode.css"
 import "./styles/responsive.css"
 import "./styles/admin.css"
 
+document.documentElement.classList.toggle(
+  "dark",
+  localStorage.getItem("theme") === "dark"
+)
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>

@@ -6,7 +6,7 @@
       #eef2ff 100%
     );
 
-  padding: 5rem 0;
+  padding: calc(5rem + 72px) 0 5rem;
 }
 
 .hero-container {

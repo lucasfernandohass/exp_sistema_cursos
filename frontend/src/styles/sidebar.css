@@ -178,3 +178,76 @@
   margin-top: -24px;
   margin-bottom: 16px;
 }
+
+/* =========================
+   SOLID SIDEBAR + USER CARD
+========================= */
+
+.sidebar {
+  justify-content: space-between;
+  background: var(--sidebar-background);
+  background-color: var(--sidebar-background);
+}
+
+.dark .sidebar {
+  background: var(--sidebar-background);
+  background-color: var(--sidebar-background);
+  background-image: none;
+  box-shadow: 8px 0 28px rgba(0,0,0,0.22);
+}
+
+.sidebar-logo {
+  margin-bottom: 24px;
+}
+
+.sidebar-user-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--background);
+}
+
+.sidebar-user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: white;
+  background: var(--brand-blue);
+  font-weight: 800;
+}
+
+.sidebar-user-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sidebar-user-info strong,
+.sidebar-user-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-user-info strong {
+  color: var(--foreground);
+  font-size: 0.9rem;
+}
+
+.sidebar-user-info span {
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+}
+
+.sidebar-bottom {
+  margin-top: 24px;
+}

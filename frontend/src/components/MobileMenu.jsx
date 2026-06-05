@@ -1,56 +1,56 @@
 import { Link } from "react-router-dom"
 import { useEffect, useRef } from "react"
 
-export default function MobileMenu({ open, onClose }) {
+export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
   const menuRef = useRef(null)
+
+  function handleLogout() {
+    onClose()
+    onLogout()
+  }
 
   useEffect(() => {
     const menu = menuRef.current
     if (!open || !menu) return
 
-    // bloquear scroll
     const prevOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    document.body.style.overflow = "hidden"
 
-    // focus trap simples
     const focusable = menu.querySelectorAll('a, button, input, [tabindex]:not([tabindex="-1"])')
     const first = focusable[0]
     const last = focusable[focusable.length - 1]
     if (first) first.focus()
 
     function onKey(e) {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose()
-      } else if (e.key === 'Tab') {
+      } else if (e.key === "Tab") {
         if (focusable.length === 0) {
           e.preventDefault()
           return
         }
-        if (e.shiftKey) {
-          if (document.activeElement === first) {
-            e.preventDefault()
-            last.focus()
-          }
-        } else {
-          if (document.activeElement === last) {
-            e.preventDefault()
-            first.focus()
-          }
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
         }
       }
     }
 
-    document.addEventListener('keydown', onKey)
+    document.addEventListener("keydown", onKey)
 
     return () => {
       document.body.style.overflow = prevOverflow
-      document.removeEventListener('keydown', onKey)
+      document.removeEventListener("keydown", onKey)
     }
   }, [open, onClose])
 
   return (
     <>
-      <div ref={menuRef} className={`mobile-menu ${open ? 'open' : ''}`} aria-hidden={!open}>
+      <div ref={menuRef} className={`mobile-menu ${open ? "open" : ""}`} aria-hidden={!open}>
         <div className="mobile-menu-header">
           <div className="logo">
             <div className="logo-icon">
@@ -71,14 +71,57 @@ export default function MobileMenu({ open, onClose }) {
           </button>
         </div>
 
-        <div className="mobile-menu-links">
-          <Link to="#courses" onClick={onClose}>Cursos</Link>
-          <Link to="#about" onClick={onClose}>Sobre nós</Link>
-          <Link to="#contact" onClick={onClose}>Entre em contato</Link>
-        </div>
+        {user ? (
+          <div className="mobile-user-panel">
+            <div className="mobile-user-avatar" aria-hidden="true">
+              {user.nome?.charAt(0)?.toUpperCase() || "A"}
+            </div>
+            <div className="mobile-user-info">
+              <strong>{user.nome}</strong>
+              <span>{user.email}</span>
+              {isAdmin && <em>Administrador</em>}
+            </div>
+          </div>
+        ) : (
+          <div className="mobile-auth-actions">
+            <Link to="/login" className="mobile-auth-link" onClick={onClose}>
+              Login
+            </Link>
+            <Link to="/register" className="mobile-auth-primary" onClick={onClose}>
+              Cadastrar
+            </Link>
+          </div>
+        )}
+
+        <nav className="mobile-menu-links">
+          {user ? (
+            isAdmin ? (
+              <Link to="/admin/cursos" onClick={onClose}>Painel Admin</Link>
+            ) : (
+              <>
+                <Link to="/dashboard" onClick={onClose}>Dashboard</Link>
+                <Link to="/matriculados" onClick={onClose}>Meus Cursos</Link>
+              </>
+            )
+          ) : (
+            <>
+              <a href="/#courses" onClick={onClose}>Cursos</a>
+              <a href="/#about" onClick={onClose}>Sobre nós</a>
+              <a href="/#contact" onClick={onClose}>Entre em contato</a>
+            </>
+          )}
+        </nav>
+
+        {user && (
+          <div className="mobile-menu-footer">
+            <button className="mobile-logout-btn" onClick={handleLogout}>
+              Sair da conta
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className={`menu-overlay ${open ? 'active' : ''}`} onClick={onClose} />
+      <div className={`menu-overlay ${open ? "active" : ""}`} onClick={onClose} />
     </>
   )
 }

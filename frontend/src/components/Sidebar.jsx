@@ -17,8 +17,6 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-top">
-
-        {/* LOGO */}
         <Link to="/dashboard" className="sidebar-logo">
           <svg
             width="36"
@@ -51,43 +49,44 @@ export default function Sidebar() {
           <h2>Aprenda+</h2>
         </Link>
 
-        {/* SAUDAÇÃO */}
         {user && (
-          <p className="sidebar-greeting">
-            Olá, {user.nome?.split(" ")[0]}!
-          </p>
+          <div className="sidebar-user-card">
+            <div className="sidebar-user-avatar" aria-hidden="true">
+              {user.nome?.charAt(0)?.toUpperCase() || "A"}
+            </div>
+            <div className="sidebar-user-info">
+              <strong>Olá, {user.nome?.split(" ")[0]}!</strong>
+              <span>{user.email}</span>
+            </div>
+          </div>
         )}
 
-        {/* LINKS */}
         <nav className="sidebar-links">
           <Link
             to="/dashboard"
             className={isActive("/dashboard") ? "active" : ""}
           >
-            🏠 Home
+            Home
           </Link>
 
           <Link
             to="/matriculados"
             className={isActive("/matriculados") ? "active" : ""}
           >
-            📚 Meus Cursos
+            Meus Cursos
           </Link>
         </nav>
-
-        {/* BOTÃO SAIR */}
-        <div className="sidebar-bottom">
-          <button
-            className="sidebar-logout"
-            onClick={() => setShowConfirm(true)}
-          >
-            Sair
-          </button>
-        </div>
-
       </div>
 
-      {/* MODAL LOGOUT */}
+      <div className="sidebar-bottom">
+        <button
+          className="sidebar-logout"
+          onClick={() => setShowConfirm(true)}
+        >
+          Sair da conta
+        </button>
+      </div>
+
       <ConfirmModal
         visible={showConfirm}
         title="Confirmar logout"
