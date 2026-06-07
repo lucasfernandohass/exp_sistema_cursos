@@ -52,7 +52,7 @@ export default function AdminCourses() {
   ========================= */
 
   useEffect(() => {
-    if (!isAdmin) navigate("/dashboard", { replace: true })
+    if (!isAdmin) navigate("/painel-aluno", { replace: true })
   }, [isAdmin, navigate])
 
   /* =========================

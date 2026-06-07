@@ -40,7 +40,7 @@ export default function Login() {
       if (res.tipo === "ADMINISTRADOR") {
         navigate("/admin/cursos")
       } else {
-        navigate("/dashboard")
+        navigate("/")
       }
     } catch (err) {
       setError(err.message || "Falha no login. Verifique suas credenciais.")
@@ -151,7 +151,7 @@ export default function Login() {
 
           <p className="auth-switch">
             Não tem conta?{" "}
-            <Link to="/register">
+            <Link to="/registrar">
               <span>Criar conta</span>
             </Link>
           </p>

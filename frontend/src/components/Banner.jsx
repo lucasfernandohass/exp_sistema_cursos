@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Banner() {
   return (
     <section className="promo-banner">
@@ -5,7 +7,7 @@ export default function Banner() {
       <div className="container promo-container">
 
         <h2 className="promo-title">
-          Oferta Especial: 50% OFF em Todos os Cursos
+          Oferta Especial: 100% OFF em Todos os Cursos
         </h2>
 
         <p className="promo-text">
@@ -13,9 +15,10 @@ export default function Banner() {
           e comece hoje mesmo!
         </p>
 
-        <button className="btn-light">
+        
+        <Link to="/cursos" className="btn-light" style={{ textDecoration: 'none' }}>
           Aproveitar Oferta
-        </button>
+        </Link>
 
       </div>
 

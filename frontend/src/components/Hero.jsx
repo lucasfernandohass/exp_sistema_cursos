@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function Hero() {
   return (
     <section className="hero">
@@ -14,11 +16,11 @@ export default function Hero() {
           <p className="hero-description">
             Milhares de cursos em diversas áreas para você se desenvolver profissionalmente
           </p>
-
-          <button className="btn-primary hero-btn">
-            Explorar Cursos
-          </button>
-
+          <Link to="/cursos">
+            <button className="btn-primary hero-btn">
+              Explorar Cursos
+            </button>
+          </Link>
         </div>
 
         {/* CAIXA DESTAQUE */}

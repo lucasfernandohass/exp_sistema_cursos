@@ -6,8 +6,8 @@ import AdminRoute from "./routes/AdminRoute"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import CoursesPage from "./pages/Courses"
 import Dashboard from "./pages/Dashboard"
-import EnrolledCourses from "./pages/EnrolledCourses"
 import Course from "./pages/Course"
 import AdminCourses from "./pages/AdminCourses"
 
@@ -21,14 +21,15 @@ export default function App() {
 
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/registrar" element={<Register />} />
+      <Route path="/cursos" element={<CoursesPage />} />
 
       {/* =========================
           ROTAS PROTEGIDAS (ALUNO)
       ========================= */}
 
       <Route
-        path="/dashboard"
+        path="/painel-aluno"
         element={
           <PrivateRoute>
             <Dashboard />
@@ -37,16 +38,7 @@ export default function App() {
       />
 
       <Route
-        path="/matriculados"
-        element={
-          <PrivateRoute>
-            <EnrolledCourses />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/course/:id"
+        path="/curso/:id"
         element={
           <PrivateRoute>
             <Course />

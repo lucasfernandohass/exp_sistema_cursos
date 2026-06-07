@@ -128,7 +128,7 @@ export default function Courses() {
                   <button
                     type="button"
                     className="btn-outline course-card-btn"
-                    onClick={() => navigate(`/course/${course.id}`)}
+                    onClick={() => navigate(`/curso/${course.id}`)}
                   >
                     Ver Curso
                   </button>

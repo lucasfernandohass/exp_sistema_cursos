@@ -5,51 +5,33 @@ import Sidebar from "../components/Sidebar"
 import ConfirmModal from "../components/ConfirmModal"
 
 import { useAuth } from "../context/AuthContext"
-import { listarCursos, matricular, listarMatriculas } from "../api"
+import { listarMatriculas, cancelarMatricula } from "../api"
 
 export default function Dashboard() {
   const navigate = useNavigate()
   const { user, token } = useAuth()
 
-  const [courses, setCourses] = useState([])
-  const [enrollments, setEnrollments] = useState([]) // MatriculaResponseDTO[]
+  const [matriculas, setMatriculas] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // modal de matrícula
   const [confirmModal, setConfirmModal] = useState({
     visible: false,
-    courseId: null,
-    courseName: "",
+    cursoId: null,
+    nomeCurso: "",
   })
-
-  // modal de pagamento
-  const [paymentModal, setPaymentModal] = useState({
-    visible: false,
-    courseId: null,
-    courseName: "",
-    modalidade: "AVISTA",
-    parcelas: 1,
-  })
-
-  const [enrolling, setEnrolling] = useState(false)
+  const [canceling, setCanceling] = useState(false)
 
   /* =========================
-     CARREGAR DADOS
+     CARREGAR MATRÍCULAS
   ========================= */
 
-  const fetchData = useCallback(async () => {
+  const fetchMatriculas = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
-
-      const [cursosData, matriculasData] = await Promise.all([
-        listarCursos(),
-        listarMatriculas(user.id, token),
-      ])
-
-      setCourses(cursosData)
-      setEnrollments(matriculasData)
+      const data = await listarMatriculas(user.id, token)
+      setMatriculas(data)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -58,86 +40,60 @@ export default function Dashboard() {
   }, [user.id, token])
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    fetchMatriculas()
+  }, [fetchMatriculas])
+
+  /* =========================
+     CANCELAR MATRÍCULA
+  ========================= */
+
+  function handleCancelClick(matricula) {
+    setConfirmModal({
+      visible: true,
+      cursoId: matricula.cursoId,
+      nomeCurso: matricula.nomeCurso,
+    })
+  }
+
+  async function handleConfirmCancel() {
+    const { cursoId } = confirmModal
+    setConfirmModal((prev) => ({ ...prev, visible: false }))
+    try {
+      setCanceling(true)
+      await cancelarMatricula(user.id, cursoId, token)
+      setMatriculas((prev) => prev.filter((m) => m.cursoId !== cursoId))
+    } catch (err) {
+      alert("Erro ao cancelar matrícula: " + err.message)
+    } finally {
+      setCanceling(false)
+    }
+  }
 
   /* =========================
      HELPERS
   ========================= */
 
-  function isEnrolled(cursoId) {
-    return enrollments.some((m) => m.cursoId === cursoId)
+  function progressPercent(m) {
+    if (!m.totalAulas) return 0
+    return Math.round((m.aulasConcluidas / m.totalAulas) * 100)
   }
 
-  function getMatricula(cursoId) {
-    return enrollments.find((m) => m.cursoId === cursoId)
-  }
-
-  function formatPrice(preco) {
-    return preco?.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }) ?? "Grátis"
-  }
-
-  function progressPercent(matricula) {
-    if (!matricula || !matricula.totalAulas) return 0
-    return Math.round((matricula.aulasConcluidas / matricula.totalAulas) * 100)
-  }
-
-  /* =========================
-     FLUXO DE MATRÍCULA
-  ========================= */
-
-  // 1. clique em "Matricular" → abre confirm
-  function handleEnrollClick(course) {
-    setConfirmModal({
-      visible: true,
-      courseId: course.id,
-      courseName: course.nome,
+  function formatDate(iso) {
+    if (!iso) return ""
+    return new Date(iso).toLocaleDateString("pt-BR", {
+      day: "2-digit", month: "short", year: "numeric",
     })
   }
 
-  // 2. confirm → abre modal de pagamento
-  function handleConfirmEnroll() {
-    setConfirmModal((prev) => ({ ...prev, visible: false }))
-    setPaymentModal({
-      visible: true,
-      courseId: confirmModal.courseId,
-      courseName: confirmModal.courseName,
-      modalidade: "AVISTA",
-      parcelas: 1,
-    })
-  }
-
-  // 3. confirma pagamento → chama API
-  async function handleConfirmPayment() {
-    const { courseId, modalidade, parcelas } = paymentModal
-
-    const dados = {
-      cursoId: courseId,
-      modalidadePagamento: modalidade,
-      numeroParcelas: modalidade === "PARCELADO" ? parcelas : 1,
-    }
-
-    try {
-      setEnrolling(true)
-      await matricular(user.id, dados, token)
-
-      // recarrega matrículas
-      const updated = await listarMatriculas(user.id, token)
-      setEnrollments(updated)
-
-      setPaymentModal((prev) => ({ ...prev, visible: false }))
-    } catch (err) {
-      alert("Erro ao matricular: " + err.message)
-    } finally {
-      setEnrolling(false)
-    }
+  function greeting() {
+    const h = new Date().getHours()
+    if (h < 12) return "Bom dia"
+    if (h < 18) return "Boa tarde"
+    return "Boa noite"
   }
 
   /* =========================
-     LOADING / ERRO
+     LOADING
   ========================= */
 
   if (loading) {
@@ -146,15 +102,18 @@ export default function Dashboard() {
         <Sidebar />
         <main className="dashboard-main">
           <div className="dashboard-header">
-            <p className="dashboard-subtitle">Carregando cursos...</p>
+            <div className="skeleton" style={{ height: 36, width: 280, borderRadius: 10, marginBottom: 8 }} />
+            <div className="skeleton" style={{ height: 20, width: 200, borderRadius: 8 }} />
           </div>
           <div className="dashboard-content">
             {[1, 2, 3].map((i) => (
               <div key={i} className="card">
-                <div className="skeleton skeleton-image" style={{ height: 180, borderRadius: 12 }} />
-                <div className="skeleton skeleton-title" style={{ height: 16, width: "70%", margin: "8px 0" }} />
-                <div className="skeleton skeleton-text" style={{ height: 14, width: "90%" }} />
-                <div className="skeleton skeleton-btn" style={{ height: 40, marginTop: 16 }} />
+                <div className="skeleton" style={{ height: 140, borderRadius: 12 }} />
+                <div className="card-content">
+                  <div className="skeleton skeleton-title" />
+                  <div className="skeleton skeleton-text" />
+                  <div className="skeleton skeleton-btn" style={{ marginTop: 12 }} />
+                </div>
               </div>
             ))}
           </div>
@@ -163,6 +122,10 @@ export default function Dashboard() {
     )
   }
 
+  /* =========================
+     ERRO
+  ========================= */
+
   if (error) {
     return (
       <div className="dashboard-layout">
@@ -170,9 +133,7 @@ export default function Dashboard() {
         <main className="dashboard-main">
           <div className="courses-error">
             <p>⚠️ {error}</p>
-            <button className="btn-primary" onClick={fetchData}>
-              Tentar novamente
-            </button>
+            <button className="btn-primary" onClick={fetchMatriculas}>Tentar novamente</button>
           </div>
         </main>
       </div>
@@ -185,240 +146,147 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-layout">
-
-      {/* SIDEBAR */}
       <Sidebar />
 
-      {/* MAIN */}
       <main className="dashboard-main">
 
         {/* HEADER */}
         <div className="dashboard-header">
-          <div className="dashboard-logo">
-            <svg
-              width="70"
-              height="70"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M22 10L12 15L2 10L12 5L22 10Z"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M22 10V14"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h1>Aprenda+</h1>
-          </div>
-
+          <h1 className="dashboard-greeting">
+            {greeting()}, {user.nome?.split(" ")[0]}! 👋
+          </h1>
           <p className="dashboard-subtitle">
-            Olá, {user.nome?.split(" ")[0]}! Explore os cursos disponíveis.
+            {matriculas.length > 0
+              ? `Você tem ${matriculas.length} curso${matriculas.length > 1 ? "s" : ""} em andamento.`
+              : "Explore o catálogo e comece a aprender."}
           </p>
         </div>
 
-        {/* GRID DE CURSOS */}
-        <div className="dashboard-content">
-          {courses.map((course) => {
-            const enrolled = isEnrolled(course.id)
-            const matricula = getMatricula(course.id)
-            const progress = progressPercent(matricula)
+        {/* VAZIO */}
+        {matriculas.length === 0 ? (
+          <div className="dashboard-empty">
+            <div className="dashboard-empty-icon">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M22 10V14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
+            </div>
+            <h2>Nenhum curso matriculado</h2>
+            <p>Explore nosso catálogo e comece a aprender hoje mesmo!</p>
+            <button className="btn-primary" onClick={() => navigate("/courses")}>
+              Ver Catálogo
+            </button>
+          </div>
+        ) : (
 
-            return (
-              <div key={course.id} className="card">
+          /* GRID DE MATRÍCULAS */
+          <div className="dashboard-content">
+            {matriculas.map((m) => {
+              const progress = progressPercent(m)
 
-                {/* PLACEHOLDER IMAGEM */}
-                <div className="course-image-placeholder" style={{ height: 160, borderRadius: 12 }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                    <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
+              return (
+                <div key={m.cursoId} className="card">
 
-                {/* CONTEÚDO */}
-                <div className="card-content">
-                  <h3>{course.nome}</h3>
-
-                  <p className="course-meta">
-                    👨‍🏫 {course.nomeProfessor}
-                  </p>
-
-                  <p className="course-meta">
-                    📚 {course.numeroAulas} aulas · ⏱ {course.cargaHoraria}h
-                  </p>
-
-                  <p className="course-price">
-                    {formatPrice(course.preco)}
-                  </p>
-
-                  {/* STATUS + PROGRESSO */}
-                  {enrolled ? (
-                    <>
-                      <p className="enroll-status enroll-status--ok">
-                        ✔ Matriculado
-                      </p>
-
-                      <div className="dashboard-progress-bar">
-                        <div
-                          className="dashboard-progress-fill"
-                          style={{ width: `${progress}%` }}
-                        />
-                      </div>
-
-                      <p className="course-meta" style={{ fontSize: "0.8rem" }}>
-                        {matricula.aulasConcluidas}/{matricula.totalAulas} aulas concluídas
-                      </p>
-
-                      {matricula.statusPagamento && (
-                        <p className={`payment-status payment-status--${matricula.statusPagamento.toLowerCase()}`}>
-                          💳 {matricula.statusPagamento}
-                        </p>
-                      )}
-                    </>
+                  {/* BANNER */}
+                  {m.urlBanner ? (
+                    <img
+                      src={m.urlBanner}
+                      alt={m.nomeCurso}
+                      className="course-image"
+                      style={{ borderRadius: "12px 12px 0 0" }}
+                    />
                   ) : (
-                    <p className="enroll-status enroll-status--none">
-                      Não matriculado
-                    </p>
+                    <div className="course-image-placeholder" style={{ height: 130, borderRadius: "12px 12px 0 0" }}>
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                        <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
                   )}
-                </div>
 
-                {/* AÇÕES */}
-                <div className="card-actions">
-                  {enrolled ? (
+                  <div className="card-content">
+
+                    {/* NOME + PROFESSOR */}
+                    <h3>{m.nomeCurso}</h3>
+                    <p className="course-meta">👨‍🏫 {m.nomeProfessor}</p>
+
+                    {/* PROGRESSO */}
+                    <div className="enrolled-progress-header">
+                      <span className="course-meta">Progresso</span>
+                      <span className="enrolled-progress-pct">{progress}%</span>
+                    </div>
+                    <div className="dashboard-progress-bar">
+                      <div className="dashboard-progress-fill" style={{ width: `${progress}%` }} />
+                    </div>
+                    <p className="course-meta" style={{ fontSize: "0.8rem" }}>
+                      {m.aulasConcluidas} de {m.totalAulas} aulas concluídas
+                    </p>
+
+                    {/* MÉDIA */}
+                    {m.mediaFinal != null && (
+                      <p className="enrolled-media">
+                        📊 Média: <strong>{m.mediaFinal.toFixed(1)}</strong>
+                      </p>
+                    )}
+
+                    {/* PAGAMENTO */}
+                    <div className="enrolled-payment-row">
+                      <span className={`payment-status payment-status--${m.statusPagamento?.toLowerCase()}`}>
+                        💳 {m.statusPagamento}
+                      </span>
+                      <span className="course-meta" style={{ fontSize: "0.78rem" }}>
+                        {m.modalidadePagamento === "PARCELADO"
+                          ? `${m.numeroParcelas}x parcelado`
+                          : "À vista"}
+                      </span>
+                    </div>
+
+                    {/* DATA */}
+                    <p className="course-meta" style={{ fontSize: "0.78rem" }}>
+                      📅 Matriculado em {formatDate(m.dataMatricula)}
+                    </p>
+
+                    {/* CERTIFICADO */}
+                    {m.certificadoDisponivel && (
+                      <p className="enrolled-certificate">🎓 Certificado disponível!</p>
+                    )}
+
+                  </div>
+
+                  {/* AÇÕES */}
+                  <div className="enrolled-actions">
                     <button
                       className="btn-primary"
-                      onClick={() => navigate(`/course/${course.id}`)}
+                      onClick={() => navigate(`/curso/${m.cursoId}`)}
                     >
                       Assistir aulas
                     </button>
-                  ) : (
                     <button
-                      className="btn-outline"
-                      onClick={() => handleEnrollClick(course)}
+                      className="btn-outline enrolled-remove-btn"
+                      onClick={() => handleCancelClick(m)}
+                      disabled={canceling}
                     >
-                      Matricular
+                      Cancelar
                     </button>
-                  )}
-                </div>
+                  </div>
 
-              </div>
-            )
-          })}
-        </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
 
       </main>
 
-      {/* MODAL CONFIRMAR MATRÍCULA */}
+      {/* MODAL CANCELAMENTO */}
       <ConfirmModal
         visible={confirmModal.visible}
-        title="Confirmar matrícula"
-        message={`Deseja se matricular em "${confirmModal.courseName}"?`}
-        onConfirm={handleConfirmEnroll}
+        title="Cancelar matrícula"
+        message={`Deseja cancelar sua matrícula em "${confirmModal.nomeCurso}"? Esta ação não pode ser desfeita.`}
+        onConfirm={handleConfirmCancel}
         onCancel={() => setConfirmModal((prev) => ({ ...prev, visible: false }))}
       />
-
-      {/* MODAL DE PAGAMENTO */}
-      {paymentModal.visible && (
-        <div className="confirm-modal-overlay">
-          <div className="confirm-modal payment-modal">
-            <h3 className="confirm-title">Forma de Pagamento</h3>
-            <p className="confirm-message">
-              {paymentModal.courseName}
-            </p>
-
-            <div className="payment-options">
-              <label className={`payment-option ${paymentModal.modalidade === "AVISTA" ? "selected" : ""}`}>
-                <input
-                  type="radio"
-                  name="modalidade"
-                  value="AVISTA"
-                  checked={paymentModal.modalidade === "AVISTA"}
-                  onChange={() =>
-                    setPaymentModal((prev) => ({
-                      ...prev,
-                      modalidade: "AVISTA",
-                      parcelas: 1,
-                    }))
-                  }
-                />
-                À vista
-              </label>
-
-              <label className={`payment-option ${paymentModal.modalidade === "PARCELADO" ? "selected" : ""}`}>
-                <input
-                  type="radio"
-                  name="modalidade"
-                  value="PARCELADO"
-                  checked={paymentModal.modalidade === "PARCELADO"}
-                  onChange={() =>
-                    setPaymentModal((prev) => ({
-                      ...prev,
-                      modalidade: "PARCELADO",
-                      parcelas: 2,
-                    }))
-                  }
-                />
-                Parcelado
-              </label>
-            </div>
-
-            {paymentModal.modalidade === "PARCELADO" && (
-              <div className="payment-parcelas">
-                <label htmlFor="parcelas">Número de parcelas</label>
-                <select
-                  id="parcelas"
-                  value={paymentModal.parcelas}
-                  onChange={(e) =>
-                    setPaymentModal((prev) => ({
-                      ...prev,
-                      parcelas: Number(e.target.value),
-                    }))
-                  }
-                >
-                  {[2, 3, 4, 5, 6, 8, 10, 12].map((n) => (
-                    <option key={n} value={n}>{n}x</option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            <div className="confirm-actions">
-              <button
-                className="btn-secondary"
-                onClick={() =>
-                  setPaymentModal((prev) => ({ ...prev, visible: false }))
-                }
-                disabled={enrolling}
-              >
-                Cancelar
-              </button>
-              <button
-                className="btn-primary"
-                onClick={handleConfirmPayment}
-                disabled={enrolling}
-              >
-                {enrolling ? "Matriculando..." : "Confirmar"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
     </div>
   )
 }

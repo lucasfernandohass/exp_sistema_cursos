@@ -44,11 +44,8 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
               </Link>
             ) : (
               <>
-                <Link to="/dashboard" className="user-dropdown-item" onClick={onClose}>
-                  🏠 Dashboard
-                </Link>
-                <Link to="/matriculados" className="user-dropdown-item" onClick={onClose}>
-                  📚 Meus Cursos
+                <Link to="/painel-aluno" className="user-dropdown-item" onClick={onClose}>
+                  <b>Painel Aluno</b>
                 </Link>
               </>
             )}
@@ -107,9 +104,9 @@ export default function Navbar() {
             {/* links só aparecem fora do painel admin */}
             {!isAdmin && (
               <nav className="nav-links">
-                <a href="#courses">Cursos</a>
-                <a href="#about">Sobre nós</a>
-                <a href="#contact">Entre em contato</a>
+                <Link to="/cursos">Cursos</Link>
+                <Link to="/sobre">Sobre nós</Link>
+                <Link to="/contato">Entre em contato</Link>
               </nav>
             )}
           </div>
@@ -120,7 +117,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/login"><button className="btn-login">Login</button></Link>
-                <Link to="/register"><button className="btn-primary">Cadastrar</button></Link>
+                <Link to="/registrar"><button className="btn-primary">Cadastrar</button></Link>
               </>
             )}
           </div>

@@ -87,7 +87,7 @@ export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
             <Link to="/login" className="mobile-auth-link" onClick={onClose}>
               Login
             </Link>
-            <Link to="/register" className="mobile-auth-primary" onClick={onClose}>
+            <Link to="/registrar" className="mobile-auth-primary" onClick={onClose}>
               Cadastrar
             </Link>
           </div>
@@ -99,15 +99,14 @@ export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
               <Link to="/admin/cursos" onClick={onClose}>Painel Admin</Link>
             ) : (
               <>
-                <Link to="/dashboard" onClick={onClose}>Dashboard</Link>
-                <Link to="/matriculados" onClick={onClose}>Meus Cursos</Link>
+                <Link to="/painel-aluno" onClick={onClose}>Painel Aluno</Link>
               </>
             )
           ) : (
             <>
-              <a href="/#courses" onClick={onClose}>Cursos</a>
-              <a href="/#about" onClick={onClose}>Sobre nós</a>
-              <a href="/#contact" onClick={onClose}>Entre em contato</a>
+              <a href="/#cursos" onClick={onClose}>Cursos</a>
+              <a href="/#sobre" onClick={onClose}>Sobre nós</a>
+              <a href="/#contato" onClick={onClose}>Entre em contato</a>
             </>
           )}
         </nav>

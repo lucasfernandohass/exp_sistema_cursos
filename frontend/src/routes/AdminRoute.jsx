@@ -5,7 +5,7 @@ export default function AdminRoute({ children }) {
   const { isAuthenticated, isAdmin } = useAuth()
 
   if (!isAuthenticated) return <Navigate to="/login" replace />
-  if (!isAdmin) return <Navigate to="/dashboard" replace />
+  if (!isAdmin) return <Navigate to="/painel-aluno" replace />
 
   return children
 }

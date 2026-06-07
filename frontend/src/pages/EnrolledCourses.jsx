@@ -223,7 +223,7 @@ export default function EnrolledCourses() {
                     <h3>{matricula.nomeCurso}</h3>
 
                     <p className="course-meta">
-                      👨‍🏫 {matricula.nomeProfessor}
+                      {matricula.nomeProfessor}
                     </p>
 
                     {/* PROGRESSO */}
@@ -246,14 +246,14 @@ export default function EnrolledCourses() {
                     {/* MÉDIA */}
                     {matricula.mediaFinal != null && (
                       <p className="enrolled-media">
-                        📊 Média: <strong>{matricula.mediaFinal.toFixed(1)}</strong>
+                        Média: <strong>{matricula.mediaFinal.toFixed(1)}</strong>
                       </p>
                     )}
 
                     {/* PAGAMENTO */}
                     <div className="enrolled-payment-row">
                       <span className={`payment-status payment-status--${matricula.statusPagamento?.toLowerCase()}`}>
-                        💳 {matricula.statusPagamento}
+                        {matricula.statusPagamento}
                       </span>
                       <span className="course-meta" style={{ fontSize: "0.78rem" }}>
                         {matricula.modalidadePagamento === "PARCELADO"
@@ -264,7 +264,7 @@ export default function EnrolledCourses() {
 
                     {/* DATA */}
                     <p className="course-meta" style={{ fontSize: "0.78rem" }}>
-                      📅 Matriculado em {formatDate(matricula.dataMatricula)}
+                      Matriculado em {formatDate(matricula.dataMatricula)}
                     </p>
 
                     {/* CERTIFICADO */}
@@ -280,7 +280,7 @@ export default function EnrolledCourses() {
                   <div className="enrolled-actions">
                     <button
                       className="btn-primary"
-                      onClick={() => navigate(`/course/${matricula.cursoId}`)}
+                      onClick={() => navigate(`/curso/${matricula.cursoId}`)}
                     >
                       Assistir aulas
                     </button>
