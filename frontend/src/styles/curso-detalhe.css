@@ -1,0 +1,339 @@
+/* =========================
+   PÁGINA DETALHE DO CURSO
+========================= */
+
+.curso-detalhe-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+}
+
+/* =========================
+   BANNER
+========================= */
+
+.curso-detalhe-banner-wrap {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.curso-detalhe-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.curso-detalhe-banner-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.25);
+}
+
+/* overlay gradiente para legibilidade do título */
+.curso-detalhe-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.62) 100%
+  );
+}
+
+/* CONTEÚDO SOBRE O BANNER */
+.curso-detalhe-banner-content {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  padding-bottom: 2.5rem;
+  padding-top: 1rem;
+  color: white;
+}
+
+.curso-detalhe-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  padding: 3px 12px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.curso-detalhe-nome {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  max-width: 720px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+.curso-detalhe-descricao-banner {
+  font-size: 1.05rem;
+  opacity: 0.88;
+  margin-top: 10px;
+  max-width: 620px;
+  line-height: 1.6;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+}
+
+/* skeleton do banner */
+.curso-banner-skeleton {
+  width: 100%;
+  height: 420px;
+}
+
+/* =========================
+   BODY (grid main + aside)
+========================= */
+
+.curso-detalhe-body {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2.5rem;
+  align-items: flex-start;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+}
+
+/* =========================
+   SEÇÕES
+========================= */
+
+.curso-detalhe-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.curso-detalhe-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+}
+
+.curso-detalhe-section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.curso-detalhe-aulas-count {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.curso-detalhe-ementa {
+  color: var(--muted-foreground);
+  line-height: 1.75;
+  font-size: 0.97rem;
+  white-space: pre-line;
+}
+
+/* =========================
+   LISTA DE AULAS
+========================= */
+
+.curso-detalhe-aulas {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.curso-detalhe-aula-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.curso-detalhe-aula-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.curso-detalhe-aula-item:first-child {
+  padding-top: 0;
+}
+
+.curso-detalhe-aula-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(37,99,235,0.1);
+  color: var(--brand-blue);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.curso-detalhe-aula-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.curso-detalhe-aula-titulo {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--foreground);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.curso-detalhe-aula-dur {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* =========================
+   CARD LATERAL
+========================= */
+
+.curso-detalhe-aside {
+  position: sticky;
+  top: 80px;
+}
+
+.curso-detalhe-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.curso-detalhe-preco {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--brand-blue);
+  line-height: 1;
+}
+
+/* STATS */
+.curso-detalhe-stats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.curso-detalhe-stats li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--foreground);
+}
+
+.curso-stat-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* CTA */
+.curso-detalhe-cta {
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+}
+
+.curso-detalhe-login-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  margin-top: -0.5rem;
+}
+
+.curso-detalhe-login-link {
+  color: var(--brand-blue);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.curso-detalhe-login-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1024px) {
+  .curso-detalhe-body {
+    grid-template-columns: 1fr;
+  }
+
+  .curso-detalhe-aside {
+    position: static;
+  }
+
+  /* aside vem antes do conteúdo em mobile */
+  .curso-detalhe-aside {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .curso-detalhe-banner-wrap {
+    height: 280px;
+  }
+
+  .curso-detalhe-nome {
+    font-size: 1.8rem;
+  }
+
+  .curso-detalhe-descricao-banner {
+    display: none;
+  }
+
+  .curso-detalhe-body {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    gap: 1.5rem;
+  }
+
+  .curso-detalhe-section {
+    padding: 1.25rem 1rem;
+  }
+}

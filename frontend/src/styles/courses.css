@@ -121,22 +121,12 @@
    CONTEÚDO DO CARD
 ========================= */
 
-.course-description {
-  color: var(--muted-foreground);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
 .course-content {
   padding: 1.25rem;
 
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-}
-
-.course-card-btn {
-  margin-top: 0.25rem;
+  gap: 0.4rem;
 }
 
 .course-title {
@@ -308,4 +298,162 @@
   .courses-search {
     flex-direction: column;
   }
+}
+
+/* =========================
+   HERO DA PÁGINA /cursos
+========================= */
+
+.cursos-page-hero {
+  background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);
+  padding: 3.5rem 0 2.5rem;
+  text-align: center;
+}
+
+.dark .cursos-page-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+}
+
+.cursos-page-hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cursos-page-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: var(--foreground);
+  line-height: 1.15;
+}
+
+.cursos-page-sub {
+  font-size: 1.05rem;
+  color: var(--muted-foreground);
+}
+
+/* =========================
+   META ROW (página completa)
+========================= */
+
+.course-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* =========================
+   FOOTER DO CARD
+========================= */
+
+.course-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.course-card-btn {
+  width: auto;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+/* =========================
+   BARRA DE PESQUISA
+   (reutiliza classes cursos-*)
+========================= */
+
+.cursos-search-wrap {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.cursos-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 0 18px;
+  height: 50px;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.08);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cursos-search-box:focus-within {
+  border-color: var(--brand-blue);
+  box-shadow: 0 4px 20px rgba(37,99,235,0.16);
+}
+
+.cursos-search-icon {
+  color: var(--muted-foreground);
+  flex-shrink: 0;
+}
+
+.cursos-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.cursos-search-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.cursos-search-clear {
+  background: transparent;
+  border: none;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 50%;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.cursos-search-clear:hover {
+  color: var(--foreground);
+  background: rgba(0,0,0,0.05);
+}
+
+.dark .cursos-search-clear:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.cursos-search-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(37,99,235,0.2);
+  border-top-color: var(--brand-blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.cursos-contagem {
+  font-size: 0.88rem;
+  color: var(--muted-foreground);
+  margin-top: 10px;
+}
+
+/* responsivo hero */
+@media (max-width: 640px) {
+  .cursos-page-title { font-size: 2rem; }
+  .cursos-page-hero  { padding: 2.5rem 0 2rem; }
 }

@@ -190,7 +190,7 @@ export default function EnrolledCourses() {
             <button
               className="btn-primary"
               style={{ marginTop: "20px" }}
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/painel-aluno")}
             >
               Ver cursos disponíveis
             </button>
@@ -270,7 +270,7 @@ export default function EnrolledCourses() {
                     {/* CERTIFICADO */}
                     {matricula.certificadoDisponivel && (
                       <p className="enrolled-certificate">
-                        🎓 Certificado disponível!
+                        Certificado disponível!
                       </p>
                     )}
 

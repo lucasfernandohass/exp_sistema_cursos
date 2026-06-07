@@ -1,35 +1,30 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export default function Hero() {
+  const navigate = useNavigate()
+
   return (
     <section className="hero">
-
       <div className="container hero-container">
 
         {/* LADO ESQUERDO */}
         <div className="hero-content">
-
-          <h1>
-            Aprenda novas habilidades online
-          </h1>
-
+          <h1>Aprenda novas habilidades online</h1>
           <p className="hero-description">
             Milhares de cursos em diversas áreas para você se desenvolver profissionalmente
           </p>
-          <Link to="/cursos">
-            <button className="btn-primary hero-btn">
-              Explorar Cursos
-            </button>
-          </Link>
+          <button
+            className="btn-primary hero-btn"
+            onClick={() => navigate("/cursos")}
+          >
+            Explorar Cursos
+          </button>
         </div>
 
         {/* CAIXA DESTAQUE */}
         <div className="hero-card">
-
           <div className="hero-card-inner">
-
             <div className="hero-icon">
-
               <svg
                 width="120"
                 height="90"
@@ -58,23 +53,13 @@ export default function Hero() {
                   strokeLinejoin="round"
                 />
               </svg>
-
             </div>
-
-            <h2 className="hero-title">
-              Aprenda+
-            </h2>
-
-            <p className="hero-subtitle">
-              Sua plataforma de educação online
-            </p>
-
+            <h2 className="hero-title">Aprenda+</h2>
+            <p className="hero-subtitle">Sua plataforma de educação online</p>
           </div>
-
         </div>
 
       </div>
-
     </section>
   )
 }

@@ -8,7 +8,6 @@ import { useAuth } from "../context/AuthContext"
 
 /* =========================
    PILL DE USUÁRIO
-   Reutilizado no desktop e mobile
 ========================= */
 
 function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
@@ -45,7 +44,7 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
             ) : (
               <>
                 <Link to="/painel-aluno" className="user-dropdown-item" onClick={onClose}>
-                  <b>Painel Aluno</b>
+                  Meus Cursos
                 </Link>
               </>
             )}
@@ -101,12 +100,11 @@ export default function Navbar() {
               <span className="logo-text">Aprenda+</span>
             </Link>
 
-            {/* links só aparecem fora do painel admin */}
             {!isAdmin && (
               <nav className="nav-links">
                 <Link to="/cursos">Cursos</Link>
-                <Link to="/sobre">Sobre nós</Link>
-                <Link to="/contato">Entre em contato</Link>
+                <a href="#about">Sobre nós</a>
+                <a href="#contact">Entre em contato</a>
               </nav>
             )}
           </div>
@@ -160,15 +158,24 @@ export default function Navbar() {
             </Link>
           </div>
 
+          <div className="nav-actions">
+            {user ? (
+              <UserPill {...pillProps} />
+            ) : (
+              <>
+                <Link to="/login" onClick={() => setMobileOpen(false)}>
+                  <button className="mobile-login-btn">Login</button>
+                </Link>
+                <Link to="/registrar" onClick={() => setMobileOpen(false)}>
+                  <button className="mobile-register-btn">Cadastrar</button>
+                </Link>
+              </>
+            )}
+          </div>
+
         </div>
 
-        <MobileMenu
-          open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
-          user={user}
-          isAdmin={isAdmin}
-          onLogout={() => setShowConfirm(true)}
-        />
+        <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
       </nav>
 
       {/* MODAL LOGOUT */}

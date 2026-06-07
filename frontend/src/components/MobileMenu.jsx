@@ -1,13 +1,8 @@
 import { Link } from "react-router-dom"
 import { useEffect, useRef } from "react"
 
-export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
+export default function MobileMenu({ open, onClose }) {
   const menuRef = useRef(null)
-
-  function handleLogout() {
-    onClose()
-    onLogout()
-  }
 
   useEffect(() => {
     const menu = menuRef.current
@@ -16,7 +11,7 @@ export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
 
-    const focusable = menu.querySelectorAll('a, button, input, [tabindex]:not([tabindex="-1"])')
+    const focusable = menu.querySelectorAll("a, button, input, [tabindex]:not([tabindex=\"-1\"])")
     const first = focusable[0]
     const last = focusable[focusable.length - 1]
     if (first) first.focus()
@@ -25,23 +20,16 @@ export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
       if (e.key === "Escape") {
         onClose()
       } else if (e.key === "Tab") {
-        if (focusable.length === 0) {
-          e.preventDefault()
-          return
-        }
-
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault()
-          last.focus()
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault()
-          first.focus()
+        if (focusable.length === 0) { e.preventDefault(); return }
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus() }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus() }
         }
       }
     }
 
     document.addEventListener("keydown", onKey)
-
     return () => {
       document.body.style.overflow = prevOverflow
       document.removeEventListener("keydown", onKey)
@@ -54,7 +42,7 @@ export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
         <div className="mobile-menu-header">
           <div className="logo">
             <div className="logo-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M22 10V14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -64,60 +52,18 @@ export default function MobileMenu({ open, onClose, user, isAdmin, onLogout }) {
           </div>
 
           <button className="close-menu" onClick={onClose} aria-label="Fechar menu">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
         </div>
 
-        {user ? (
-          <div className="mobile-user-panel">
-            <div className="mobile-user-avatar" aria-hidden="true">
-              {user.nome?.charAt(0)?.toUpperCase() || "A"}
-            </div>
-            <div className="mobile-user-info">
-              <strong>{user.nome}</strong>
-              <span>{user.email}</span>
-              {isAdmin && <em>Administrador</em>}
-            </div>
-          </div>
-        ) : (
-          <div className="mobile-auth-actions">
-            <Link to="/login" className="mobile-auth-link" onClick={onClose}>
-              Login
-            </Link>
-            <Link to="/registrar" className="mobile-auth-primary" onClick={onClose}>
-              Cadastrar
-            </Link>
-          </div>
-        )}
-
-        <nav className="mobile-menu-links">
-          {user ? (
-            isAdmin ? (
-              <Link to="/admin/cursos" onClick={onClose}>Painel Admin</Link>
-            ) : (
-              <>
-                <Link to="/painel-aluno" onClick={onClose}>Painel Aluno</Link>
-              </>
-            )
-          ) : (
-            <>
-              <a href="/#cursos" onClick={onClose}>Cursos</a>
-              <a href="/#sobre" onClick={onClose}>Sobre nós</a>
-              <a href="/#contato" onClick={onClose}>Entre em contato</a>
-            </>
-          )}
-        </nav>
-
-        {user && (
-          <div className="mobile-menu-footer">
-            <button className="mobile-logout-btn" onClick={handleLogout}>
-              Sair da conta
-            </button>
-          </div>
-        )}
+        <div className="mobile-menu-links">
+          <Link to="/cursos" onClick={onClose}>Cursos</Link>
+          <a href="#about" onClick={onClose}>Sobre nós</a>
+          <a href="#contact" onClick={onClose}>Entre em contato</a>
+        </div>
       </div>
 
       <div className={`menu-overlay ${open ? "active" : ""}`} onClick={onClose} />

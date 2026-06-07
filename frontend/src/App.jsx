@@ -5,10 +5,11 @@ import AdminRoute from "./routes/AdminRoute"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
-import Register from "./pages/Register"
-import CoursesPage from "./pages/Courses"
-import Dashboard from "./pages/Dashboard"
-import Course from "./pages/Course"
+import Register from "./pages/Registrar"
+import CursosPage from "./pages/Cursos"
+import CursoDetalhe from "./pages/Curso"
+import Dashboard from "./pages/Painel-aluno"
+import Course from "./pages/Curso"
 import AdminCourses from "./pages/AdminCourses"
 
 export default function App() {
@@ -19,10 +20,11 @@ export default function App() {
           ROTAS PÚBLICAS
       ========================= */}
 
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/registrar" element={<Register />} />
-      <Route path="/cursos" element={<CoursesPage />} />
+      <Route path="/"          element={<Home />} />
+      <Route path="/login"     element={<Login />} />
+      <Route path="/registrar"  element={<Register />} />
+      <Route path="/cursos"    element={<CursosPage />} />
+      <Route path="/curso/:id" element={<CursoDetalhe />} />
 
       {/* =========================
           ROTAS PROTEGIDAS (ALUNO)
@@ -38,7 +40,7 @@ export default function App() {
       />
 
       <Route
-        path="/curso/:id"
+        path="/aula/:id"
         element={
           <PrivateRoute>
             <Course />
