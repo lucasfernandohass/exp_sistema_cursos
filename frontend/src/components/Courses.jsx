@@ -244,13 +244,13 @@ export default function Courses({ comBusca = false, titulo = "Cursos em Destaque
                   {comBusca && (
                     <div className="course-meta-row">
                       {curso.nomeProfessor && (
-                        <span className="course-meta">👨‍🏫 {curso.nomeProfessor}</span>
+                        <span className="course-meta">{curso.nomeProfessor}</span>
                       )}
                       {curso.numeroAulas > 0 && (
-                        <span className="course-meta">📚 {curso.numeroAulas} aulas</span>
+                        <span className="course-meta">{curso.numeroAulas} aulas</span>
                       )}
                       {curso.cargaHoraria > 0 && (
-                        <span className="course-meta">⏱ {curso.cargaHoraria}h</span>
+                        <span className="course-meta">{curso.cargaHoraria}h</span>
                       )}
                     </div>
                   )}

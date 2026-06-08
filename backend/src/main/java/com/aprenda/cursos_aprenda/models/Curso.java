@@ -58,6 +58,9 @@ public class Curso {
     @Column(name = "nota_avaliacao", precision = 4, scale = 2)
     private BigDecimal notaAvaliacao;
 
+    @Column(name = "numero_avaliacoes")
+    private Integer numeroAvaliacoes;
+
     @Column(name = "url_banner", nullable = false, length = 255)    
     private String urlBanner;
 

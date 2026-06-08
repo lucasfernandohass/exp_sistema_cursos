@@ -44,6 +44,9 @@ public class Matricula {
     @Column(name = "media_final", precision = 4, scale = 2)
     private BigDecimal mediaFinal;
 
+    @Column(name = "avaliacao")
+    private Integer avaliacao; // nota 1-5 dada pelo aluno
+
     @Enumerated(EnumType.STRING)
     @Column(name = "modalidade_pagamento", nullable = false)
     private ModalidadePagamento modalidadePagamento = ModalidadePagamento.AVISTA;

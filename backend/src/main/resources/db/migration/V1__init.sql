@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS curso (
   preco          DECIMAL(10,2),
   media          DECIMAL(4,2),
   nota_avaliacao DECIMAL(4,2),
+  numero_avaliacoes INT,
   professor_id   INT,
   url_banner      VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
@@ -105,6 +106,7 @@ CREATE TABLE IF NOT EXISTS resposta_atividade (
 CREATE TABLE IF NOT EXISTS matricula (
   aluno_id             INT            NOT NULL,
   curso_id             INT            NOT NULL,
+  avaliacao           INT            CHECK (avaliacao >= 1 AND avaliacao <= 5),
   media_final          DECIMAL(4,2),
   modalidade_pagamento ENUM('AVISTA','PARCELADO') NOT NULL DEFAULT 'AVISTA',
   numero_parcelas      INT            NOT NULL DEFAULT 1,

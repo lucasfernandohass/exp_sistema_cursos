@@ -14,6 +14,7 @@ public record CursoCardDTO(
     BigDecimal preco,
     BigDecimal media,
     BigDecimal notaAvaliacao,
+    Integer numeroAvaliacoes,
     String urlBanner
     
 ) {}

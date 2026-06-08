@@ -1,14 +1,17 @@
 package com.aprenda.cursos_aprenda.controllers;
 
 import com.aprenda.cursos_aprenda.dtos.request.CursoRequestDTO;
+import com.aprenda.cursos_aprenda.dtos.response.AvaliacaoResponseDTO;
 import com.aprenda.cursos_aprenda.dtos.response.CursoCardDTO;
 import com.aprenda.cursos_aprenda.dtos.response.CursoDetalheDTO;
 import com.aprenda.cursos_aprenda.services.CursoService;
+import com.aprenda.cursos_aprenda.dtos.request.AvaliacaoRequestDTO;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
  
 import java.util.List;
@@ -49,5 +52,13 @@ public class CursoController {
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         cursoService.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/avaliar")
+    @PreAuthorize("hasRole('ALUNO')")
+    public ResponseEntity<AvaliacaoResponseDTO> avaliar(
+        @PathVariable Integer id,
+        @RequestBody @Valid AvaliacaoRequestDTO dto) {
+        return ResponseEntity.ok(cursoService.avaliar(id, dto));
     }
 }

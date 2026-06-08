@@ -13,6 +13,7 @@ import com.aprenda.cursos_aprenda.models.Matricula.MatriculaId;
 public interface MatriculaRepository extends JpaRepository<Matricula, MatriculaId> {
     List<Matricula> findByAlunoId(Integer alunoId);
     List<Matricula> findByCursoId(Integer cursoId);
-    Optional<Matricula> findByAlunoIdAndCursoId(Integer alunoId, Integer cursoId);
     boolean existsByAlunoIdAndCursoId(Integer alunoId, Integer cursoId);
+    boolean existsByAlunoIdAndCursoIdAndAvaliacaoNotNull(Integer alunoId, Integer cursoId);
+    Optional<Matricula> findByAlunoIdAndCursoId(Integer alunoId, Integer cursoId);
 }

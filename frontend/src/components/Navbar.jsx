@@ -39,12 +39,12 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
 
             {isAdmin ? (
               <Link to="/admin/cursos" className="user-dropdown-item" onClick={onClose}>
-                ⚙️ Painel Admin
+                Painel Admin
               </Link>
             ) : (
               <>
-                <Link to="/painel-aluno" className="user-dropdown-item" onClick={onClose}>
-                  Meus Cursos
+                <Link to="/dashboard" className="user-dropdown-item" onClick={onClose}>
+                  🏠 Meus Cursos
                 </Link>
               </>
             )}
@@ -100,13 +100,11 @@ export default function Navbar() {
               <span className="logo-text">Aprenda+</span>
             </Link>
 
-            {!isAdmin && (
-              <nav className="nav-links">
-                <Link to="/cursos">Cursos</Link>
-                <a href="#about">Sobre nós</a>
-                <a href="#contact">Entre em contato</a>
-              </nav>
-            )}
+            <nav className="nav-links">
+              <Link to="/cursos">Cursos</Link>
+              <a href="#about">Sobre nós</a>
+              <a href="#contact">Entre em contato</a>
+            </nav>
           </div>
 
           <div className="nav-actions">
@@ -115,7 +113,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/login"><button className="btn-login">Login</button></Link>
-                <Link to="/registrar"><button className="btn-primary">Cadastrar</button></Link>
+                <Link to="/register"><button className="btn-primary">Cadastrar</button></Link>
               </>
             )}
           </div>
@@ -166,7 +164,7 @@ export default function Navbar() {
                 <Link to="/login" onClick={() => setMobileOpen(false)}>
                   <button className="mobile-login-btn">Login</button>
                 </Link>
-                <Link to="/registrar" onClick={() => setMobileOpen(false)}>
+                <Link to="/register" onClick={() => setMobileOpen(false)}>
                   <button className="mobile-register-btn">Cadastrar</button>
                 </Link>
               </>

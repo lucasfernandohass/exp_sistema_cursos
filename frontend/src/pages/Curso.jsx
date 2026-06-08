@@ -211,14 +211,14 @@ export default function Curso() {
             <ul className="curso-detalhe-stats">
               {curso.cargaHoraria > 0 && (
                 <li>
-                  <span className="curso-stat-icon">⏱</span>
-                  <span>{curso.cargaHoraria}h de conteúdo</span>
+                  <span className="curso-stat-icon"></span>
+                  <span>- {curso.cargaHoraria}h de conteúdo</span>
                 </li>
               )}
               {curso.numeroAulas > 0 && (
                 <li>
-                  <span className="curso-stat-icon">📚</span>
-                  <span>{curso.numeroAulas} aula{curso.numeroAulas !== 1 ? "s" : ""}</span>
+                  <span className="curso-stat-icon"></span>
+                  <span>- {curso.numeroAulas} aula{curso.numeroAulas !== 1 ? "s" : ""}</span>
                 </li>
               )}
               {curso.notaAvaliacao > 0 && (
@@ -228,12 +228,12 @@ export default function Curso() {
                 </li>
               )}
               <li>
-                <span className="curso-stat-icon">🎓</span>
-                <span>Certificado de conclusão</span>
+                <span className="curso-stat-icon"></span>
+                <span>- Certificado de conclusão</span>
               </li>
               <li>
-                <span className="curso-stat-icon">📱</span>
-                <span>Acesso em qualquer dispositivo</span>
+                <span className="curso-stat-icon"></span>
+                <span>- Acesso em qualquer dispositivo</span>
               </li>
             </ul>
 

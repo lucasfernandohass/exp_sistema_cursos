@@ -14,6 +14,7 @@ public record CursoDetalheDTO(
     BigDecimal preco,
     BigDecimal media,
     BigDecimal notaAvaliacao,
+    Integer numeroAvaliacoes,
     String urlBanner,
     ProfessorResponseDTO professor,
     List<VideoAulaResponseDTO> videoAulas
