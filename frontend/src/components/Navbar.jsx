@@ -39,12 +39,12 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
 
             {isAdmin ? (
               <Link to="/admin/cursos" className="user-dropdown-item" onClick={onClose}>
-                ⚙️ Painel Admin
+                Painel Admin
               </Link>
             ) : (
               <>
-                <Link to="/dashboard" className="user-dropdown-item" onClick={onClose}>
-                  🏠 Meus Cursos
+                <Link to="/painel-aluno" className="user-dropdown-item" onClick={onClose}>
+                  Meus Cursos
                 </Link>
               </>
             )}
@@ -113,7 +113,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/login"><button className="btn-login">Login</button></Link>
-                <Link to="/register"><button className="btn-primary">Cadastrar</button></Link>
+                <Link to="/registrar"><button className="btn-primary">Cadastrar</button></Link>
               </>
             )}
           </div>
