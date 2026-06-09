@@ -144,7 +144,7 @@ export default function Navbar() {
               )}
             </button>
 
-            <Link to={isAdmin ? "/admin/cursos" : "/"} className="logo mobile-logo" onClick={() => setMobileOpen(false)}>
+            <Link to={"/"} className="logo mobile-logo" onClick={() => setMobileOpen(false)}>
               <div className="logo-icon mobile-logo-icon">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                   <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
