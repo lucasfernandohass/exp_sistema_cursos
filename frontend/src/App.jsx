@@ -11,6 +11,8 @@ import CursoDetalhe from "./pages/Curso"
 import Dashboard from "./pages/Painel-aluno"
 import Course from "./pages/Curso"
 import AdminCourses from "./pages/AdminCourses"
+import SobreNos from "./pages/SobreNos"
+import Contato from "./pages/Contato"
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
       <Route path="/registrar"  element={<Register />} />
       <Route path="/cursos"    element={<CursosPage />} />
       <Route path="/curso/:id" element={<CursoDetalhe />} />
+      <Route path="/sobre" element={<SobreNos />} />
+      <Route path="/contato"   element={<Contato />} />
 
       {/* =========================
           ROTAS PROTEGIDAS (ALUNO)

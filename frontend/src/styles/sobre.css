@@ -1,0 +1,351 @@
+/* =========================
+   PÁGINA SOBRE NÓS
+========================= */
+
+.sobre-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.sobre-hero {
+  background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);
+  padding: 5rem 0 4rem;
+  text-align: center;
+}
+
+.dark .sobre-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+}
+
+.sobre-hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sobre-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(37,99,235,0.1);
+  color: var(--brand-blue);
+  border: 1px solid rgba(37,99,235,0.2);
+  border-radius: 999px;
+  padding: 4px 14px;
+}
+
+.dark .sobre-tag {
+  background: rgba(255,255,255,0.1);
+  color: #a5b4fc;
+  border-color: rgba(255,255,255,0.15);
+}
+
+.sobre-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--foreground);
+}
+
+.sobre-hero-destaque {
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sobre-hero-sub {
+  font-size: 1.1rem;
+  color: var(--muted-foreground);
+  max-width: 500px;
+}
+
+/* =========================
+   SEÇÃO GENÉRICA
+========================= */
+
+.sobre-section {
+  padding: 4rem 0;
+}
+
+.sobre-section-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--foreground);
+  margin-bottom: 1.25rem;
+}
+
+.sobre-section-title--center {
+  text-align: center;
+}
+
+/* =========================
+   MISSÃO
+========================= */
+
+.sobre-missao-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 3rem;
+  align-items: center;
+}
+
+.sobre-missao-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sobre-missao-texto p {
+  color: var(--muted-foreground);
+  line-height: 1.8;
+  font-size: 0.97rem;
+  text-align: justify;
+}
+
+.sobre-missao-texto strong {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.sobre-missao-card {
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  border-radius: 20px;
+  padding: 2rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sobre-missao-icon {
+  opacity: 0.8;
+}
+
+.sobre-missao-quote {
+  font-size: 1rem;
+  line-height: 1.7;
+  font-style: italic;
+  opacity: 0.95;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sobre-missao-autor {
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+/* =========================
+   PILARES
+========================= */
+
+.sobre-pilares-wrap {
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 4rem 0;
+}
+
+.sobre-pilares-sub {
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 1rem;
+  margin-top: -0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.sobre-pilares-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.sobre-pilar-card {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sobre-pilar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.07);
+}
+
+.sobre-pilar-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.sobre-pilar-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.sobre-pilar-card p {
+  font-size: 0.88rem;
+  color: var(--muted-foreground);
+  line-height: 1.65;
+  text-align: justify;
+}
+
+/* =========================
+   PARA QUEM É
+========================= */
+
+.sobre-perfis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.sobre-perfil-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.sobre-perfil-item:hover {
+  transform: translateY(-3px);
+}
+
+.sobre-perfil-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.sobre-perfil-item h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.sobre-perfil-item p {
+  font-size: 0.83rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* =========================
+   CTA FINAL
+========================= */
+
+.sobre-cta-wrap {
+  background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);
+  padding: 5rem 0;
+  text-align: center;
+}
+
+.dark .sobre-cta-wrap {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+}
+
+.sobre-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sobre-cta-inner h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--foreground);
+}
+
+.sobre-cta-inner p {
+  font-size: 1.05rem;
+  color: var(--muted-foreground);
+}
+
+.sobre-cta-btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sobre-cta-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: 0.2s;
+  display: inline-block;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1024px) {
+  .sobre-pilares-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sobre-perfis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sobre-hero-title {
+    font-size: 2.1rem;
+  }
+
+  .sobre-missao-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sobre-pilares-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sobre-perfis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sobre-cta-btns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sobre-cta-btn {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .sobre-perfis-grid {
+    grid-template-columns: 1fr;
+  }
+}

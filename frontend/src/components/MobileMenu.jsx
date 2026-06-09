@@ -61,8 +61,8 @@ export default function MobileMenu({ open, onClose }) {
 
         <div className="mobile-menu-links">
           <Link to="/cursos" onClick={onClose}>Cursos</Link>
-          <a href="#about" onClick={onClose}>Sobre nós</a>
-          <a href="#contact" onClick={onClose}>Entre em contato</a>
+          <Link to="/sobre" onClick={onClose}>Sobre nós</Link>
+          <Link to="/contato" onClick={onClose}>Entre em contato</Link>
         </div>
       </div>
 
