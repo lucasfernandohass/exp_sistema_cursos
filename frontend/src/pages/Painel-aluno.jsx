@@ -1,14 +1,17 @@
 import { useState, useEffect, useCallback } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 
 import Sidebar from "../components/Sidebar"
 import ConfirmModal from "../components/ConfirmModal"
+import Toast from "../components/Toast"
+import ThemeToggle from "../components/ThemeToggle"
 
 import { useAuth } from "../context/AuthContext"
 import { listarMatriculas, cancelarMatricula } from "../api"
 
 export default function Dashboard() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { user, token } = useAuth()
 
   const [matriculas, setMatriculas] = useState([])
@@ -21,6 +24,11 @@ export default function Dashboard() {
     nomeCurso: "",
   })
   const [canceling, setCanceling] = useState(false)
+
+  const [toast, setToast] = useState({ visible: false, message: "", type: "success" })
+  const [successBanner, setSuccessBanner] = useState(
+    location.state?.enrolled ? location.state.cursoNome : null
+  )
 
   /* =========================
      CARREGAR MATRÍCULAS
@@ -43,6 +51,12 @@ export default function Dashboard() {
     fetchMatriculas()
   }, [fetchMatriculas])
 
+  useEffect(() => {
+    if (!successBanner) return
+    const timer = setTimeout(() => setSuccessBanner(null), 5000)
+    return () => clearTimeout(timer)
+  }, [successBanner])
+
   /* =========================
      CANCELAR MATRÍCULA
   ========================= */
@@ -63,7 +77,7 @@ export default function Dashboard() {
       await cancelarMatricula(user.id, cursoId, token)
       setMatriculas((prev) => prev.filter((m) => m.cursoId !== cursoId))
     } catch (err) {
-      alert("Erro ao cancelar matrícula: " + err.message)
+      setToast({ visible: true, message: "Erro ao cancelar matrícula: " + err.message, type: "error" })
     } finally {
       setCanceling(false)
     }
@@ -91,6 +105,18 @@ export default function Dashboard() {
     if (h < 18) return "Boa tarde"
     return "Boa noite"
   }
+
+  function getInitials(name) {
+    if (!name) return "?"
+    return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
+  }
+
+  const stats = (() => {
+    const total = matriculas.length
+    const concluidos = matriculas.filter(m => progressPercent(m) === 100).length
+    const andamento = total - concluidos
+    return { total, andamento, concluidos }
+  })()
 
   /* =========================
      LOADING
@@ -162,6 +188,37 @@ export default function Dashboard() {
           </p>
         </div>
 
+        {/* BANNER DE SUCESSO (após matrícula) */}
+        {successBanner && (
+          <div className="dashboard-banner-success">
+            <span className="dashboard-banner-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <span>Matrícula em <strong>"{successBanner}"</strong> confirmada! Aproveite o curso.</span>
+            <button className="dashboard-banner-close" onClick={() => setSuccessBanner(null)}>✕</button>
+          </div>
+        )}
+
+        {/* STATS ROW */}
+        {matriculas.length > 0 && (
+          <div className="dashboard-stats">
+            <div className="dashboard-stat-card">
+              <span className="dashboard-stat-number">{stats.total}</span>
+              <span className="dashboard-stat-label">Cursos</span>
+            </div>
+            <div className="dashboard-stat-card">
+              <span className="dashboard-stat-number">{stats.andamento}</span>
+              <span className="dashboard-stat-label">Em andamento</span>
+            </div>
+            <div className="dashboard-stat-card">
+              <span className="dashboard-stat-number">{stats.concluidos}</span>
+              <span className="dashboard-stat-label">Concluídos</span>
+            </div>
+          </div>
+        )}
+
         {/* VAZIO */}
         {matriculas.length === 0 ? (
           <div className="dashboard-empty">
@@ -198,10 +255,7 @@ export default function Dashboard() {
                     />
                   ) : (
                     <div className="course-image-placeholder" style={{ height: 130, borderRadius: "12px 12px 0 0" }}>
-                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-                        <path d="M22 10L12 15L2 10L12 5L22 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M6 12V16C6 17.5 8 19 12 19C16 19 18 17.5 18 16V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <span className="course-initials">{getInitials(m.nomeCurso)}</span>
                     </div>
                   )}
 
@@ -209,7 +263,7 @@ export default function Dashboard() {
 
                     {/* NOME + PROFESSOR */}
                     <h3>{m.nomeCurso}</h3>
-                    <p className="course-meta">👨‍🏫 {m.nomeProfessor}</p>
+                    <p className="course-meta">{m.nomeProfessor}</p>
 
                     {/* PROGRESSO */}
                     <div className="enrolled-progress-header">
@@ -226,14 +280,14 @@ export default function Dashboard() {
                     {/* MÉDIA */}
                     {m.mediaFinal != null && (
                       <p className="enrolled-media">
-                        📊 Média: <strong>{m.mediaFinal.toFixed(1)}</strong>
+                        Média: <strong>{m.mediaFinal.toFixed(1)}</strong>
                       </p>
                     )}
 
                     {/* PAGAMENTO */}
                     <div className="enrolled-payment-row">
                       <span className={`payment-status payment-status--${m.statusPagamento?.toLowerCase()}`}>
-                        💳 {m.statusPagamento}
+                        {m.statusPagamento}
                       </span>
                       <span className="course-meta" style={{ fontSize: "0.78rem" }}>
                         {m.modalidadePagamento === "PARCELADO"
@@ -244,12 +298,12 @@ export default function Dashboard() {
 
                     {/* DATA */}
                     <p className="course-meta" style={{ fontSize: "0.78rem" }}>
-                      📅 Matriculado em {formatDate(m.dataMatricula)}
+                      Matriculado em {formatDate(m.dataMatricula)}
                     </p>
 
                     {/* CERTIFICADO */}
                     {m.certificadoDisponivel && (
-                      <p className="enrolled-certificate">🎓 Certificado disponível!</p>
+                      <p className="enrolled-certificate">Certificado disponível!</p>
                     )}
 
                   </div>
@@ -279,6 +333,8 @@ export default function Dashboard() {
 
       </main>
 
+      <ThemeToggle />
+
       {/* MODAL CANCELAMENTO */}
       <ConfirmModal
         visible={confirmModal.visible}
@@ -286,6 +342,14 @@ export default function Dashboard() {
         message={`Deseja cancelar sua matrícula em "${confirmModal.nomeCurso}"? Esta ação não pode ser desfeita.`}
         onConfirm={handleConfirmCancel}
         onCancel={() => setConfirmModal((prev) => ({ ...prev, visible: false }))}
+      />
+
+      {/* TOAST */}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        visible={toast.visible}
+        onClose={() => setToast((prev) => ({ ...prev, visible: false }))}
       />
     </div>
   )

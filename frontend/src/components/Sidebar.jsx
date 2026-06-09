@@ -40,6 +40,15 @@ export default function Sidebar() {
           <Link to="/painel-aluno" className={isActive("/painel-aluno") ? "active" : ""}>
             Meus Cursos
           </Link>
+          <span
+            className={
+              location.pathname.startsWith("/painel-aluno/financeiro")
+                ? "sidebar-link-indicator active"
+                : "sidebar-link-indicator"
+            }
+          >
+            Financeiro
+          </span>
         </nav>
 
         {/* BOTÃO SAIR */}

@@ -9,6 +9,7 @@ import Register from "./pages/Registrar"
 import CursosPage from "./pages/Cursos"
 import CursoDetalhe from "./pages/Curso"
 import Dashboard from "./pages/Painel-aluno"
+import Financeiro from "./pages/Financeiro"
 import Course from "./pages/Curso"
 import AdminCourses from "./pages/AdminCourses"
 import SobreNos from "./pages/SobreNos"
@@ -39,6 +40,15 @@ export default function App() {
         element={
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/painel-aluno/financeiro/:cursoId"
+        element={
+          <PrivateRoute>
+            <Financeiro />
           </PrivateRoute>
         }
       />

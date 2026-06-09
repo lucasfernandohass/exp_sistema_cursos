@@ -384,10 +384,13 @@
 
 .enrolled-remove-btn {
   flex: 0 0 auto;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   white-space: nowrap;
   border-color: #ef4444;
   color: #ef4444;
+  width: 40%;
 }
 
 .enrolled-remove-btn:hover {
@@ -404,6 +407,112 @@
   font-weight: 800;
   color: var(--foreground);
   margin-bottom: 6px;
+}
+
+/* =========================
+   BANNER DE SUCESSO
+========================= */
+
+.dashboard-banner-success {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  color: #16a34a;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+  animation: banner-fade-in 0.4s ease;
+}
+
+.dashboard-banner-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dashboard-banner-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #16a34a;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.6;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.dashboard-banner-close:hover {
+  opacity: 1;
+  background: rgba(34, 197, 94, 0.15);
+}
+
+@keyframes banner-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   STATS ROW
+========================= */
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.dashboard-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--brand-blue);
+  line-height: 1;
+}
+
+.dashboard-stat-label {
+  font-size: 0.82rem;
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+/* =========================
+   COURSE INITIALS
+========================= */
+
+.course-initials {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--brand-blue);
+  opacity: 0.5;
+  user-select: none;
 }
 
 /* =========================

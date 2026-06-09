@@ -139,10 +139,8 @@ export default function Curso() {
             </svg>
           </div>
         )}
-        {/* overlay escuro para legibilidade */}
         <div className="curso-detalhe-banner-overlay" />
 
-        {/* TÍTULO SOBRE O BANNER */}
         <div className="curso-detalhe-banner-content container">
           <span className="curso-detalhe-tag">Curso</span>
           <h1 className="curso-detalhe-nome">{curso.nome}</h1>
@@ -160,7 +158,6 @@ export default function Curso() {
         {/* COLUNA PRINCIPAL */}
         <div className="curso-detalhe-main">
 
-          {/* SOBRE O CURSO */}
           {curso.ementa && (
             <section className="curso-detalhe-section">
               <h2 className="curso-detalhe-section-title">Sobre o curso</h2>
@@ -168,7 +165,6 @@ export default function Curso() {
             </section>
           )}
 
-          {/* CONTEÚDO DO CURSO */}
           {curso.videoAulas?.length > 0 && (
             <section className="curso-detalhe-section">
               <h2 className="curso-detalhe-section-title">
@@ -207,7 +203,6 @@ export default function Curso() {
               {formatarPreco(curso.preco)}
             </div>
 
-            {/* STATS */}
             <ul className="curso-detalhe-stats">
               {curso.cargaHoraria > 0 && (
                 <li>
@@ -241,9 +236,9 @@ export default function Curso() {
             {isAuthenticated ? (
               <button
                 className="btn-primary curso-detalhe-cta"
-                onClick={() => navigate(`/painel-aluno`)}
+                onClick={() => navigate(`/painel-aluno/financeiro/${id}`)}
               >
-                Ir para Meus Cursos
+                Inscreva-se
               </button>
             ) : (
               <>

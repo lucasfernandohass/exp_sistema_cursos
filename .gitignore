@@ -57,6 +57,10 @@ frontend/.stylelintcache
 frontend/.env
 frontend/.env.*
 !frontend/.env.example
+opencode.json
+AGENTS.md
+skills-lock.json
+SKILL.md
 
 # ================================
 # AMBIENTE RAIZ

@@ -1,0 +1,288 @@
+/* =========================
+   MAIN — centraliza o card
+========================= */
+
+.financeiro-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.financeiro-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+/* =========================
+   BANNER (faixa fina no topo)
+========================= */
+
+.financeiro-card-banner {
+  height: 56px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.financeiro-card-banner-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 2px;
+  user-select: none;
+}
+
+/* =========================
+   BODY DO CARD
+========================= */
+
+.financeiro-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.financeiro-body-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.financeiro-body-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.financeiro-body-desc {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* =========================
+   HEADER (nome + preço)
+========================= */
+
+.financeiro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.financeiro-nome {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.financeiro-preco {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--brand-blue);
+  white-space: nowrap;
+}
+
+.financeiro-gratis {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 4px 12px;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+/* =========================
+   PAYMENT — sobreescrita compacta
+========================= */
+
+.financeiro-card-body .payment-options {
+  margin: 2px 0;
+}
+
+.financeiro-card-body .payment-option {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.financeiro-card-body .payment-parcelas {
+  margin-bottom: 0;
+}
+
+/* =========================
+   ERRO
+========================= */
+
+.financeiro-erro {
+  font-size: 0.82rem;
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 768px) {
+  .financeiro-card-body {
+    padding: 1rem;
+    gap: 10px;
+  }
+
+  .financeiro-card-banner {
+    height: 44px;
+  }
+
+  .financeiro-card-banner-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* =========================
+   CONFIRMAÇÃO — Opção A (Banner Hero)
+========================= */
+
+.financeiro-confirmation {
+  width: 100%;
+  max-width: 380px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  animation: confirmation-fade-in 0.4s ease;
+}
+
+@keyframes confirmation-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Banner hero do curso (180px) */
+.financeiro-confirmation-banner {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+}
+
+.financeiro-confirmation-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.financeiro-confirmation-banner-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Badge sobreposto no banner */
+.financeiro-confirmation-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  backdrop-filter: blur(4px);
+}
+
+.financeiro-confirmation-badge.success {
+  background: rgba(34, 197, 94, 0.9);
+  color: white;
+}
+
+/* Corpo da confirmação */
+.financeiro-confirmation-body {
+  padding: 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.financeiro-confirmation-body h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.financeiro-confirmation-body p {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.financeiro-confirmation-body .btn-primary {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Responsivo para confirmação */
+@media (max-width: 768px) {
+  .financeiro-confirmation-banner {
+    height: 140px;
+  }
+
+  .financeiro-confirmation-body {
+    padding: 1.25rem;
+    gap: 12px;
+  }
+
+  .financeiro-confirmation-body h2 {
+    font-size: 1.1rem;
+  }
+
+  .financeiro-confirmation-badge {
+    bottom: 12px;
+    left: 12px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}

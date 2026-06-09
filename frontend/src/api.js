@@ -97,12 +97,12 @@ export const detalharCurso = (id) =>
 
 /**
  * Matricular aluno em curso
- * POST /matriculas/{alunoId}
+ * POST /matriculas
  * Body: { cursoId, modalidadePagamento: "AVISTA"|"PARCELADO", numeroParcelas }
  * Retorna: MatriculaResponseDTO
  */
-export const matricular = (alunoId, dados, token) =>
-  apiFetch(`/matriculas/${alunoId}`, {
+export const matricular = (dados, token) =>
+  apiFetch("/matriculas", {
     method: "POST",
     token,
     body: JSON.stringify(dados),
