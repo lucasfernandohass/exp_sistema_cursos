@@ -1,6 +1,7 @@
 package com.aprenda.cursos_aprenda.controllers;
 
 import com.aprenda.cursos_aprenda.dtos.request.MatriculaRequestDTO;
+import com.aprenda.cursos_aprenda.dtos.request.PagamentoRequestDTO;
 import com.aprenda.cursos_aprenda.dtos.response.MatriculaResponseDTO;
 import com.aprenda.cursos_aprenda.services.MatriculaService;
 
@@ -40,6 +41,36 @@ public class MatriculaController {
             @PathVariable Integer cursoId,
             @RequestParam String status) {
         return ResponseEntity.ok(matriculaService.atualizarPagamento(alunoId, cursoId, status));
+    }
+
+    @PostMapping("/aluno/{alunoId}/curso/{cursoId}/cobranca")
+    public ResponseEntity<MatriculaResponseDTO> gerarCobranca(
+            @PathVariable Integer alunoId,
+            @PathVariable Integer cursoId,
+            @RequestParam(defaultValue = "LINK") String tipo) {
+        return ResponseEntity.ok(matriculaService.gerarCobranca(alunoId, cursoId, tipo));
+    }
+
+    @PostMapping("/curso/{cursoId}/cobranca")
+    public ResponseEntity<MatriculaResponseDTO> gerarCobrancaAlunoLogado(
+            @PathVariable Integer cursoId,
+            @RequestParam(defaultValue = "LINK") String tipo) {
+        return ResponseEntity.ok(matriculaService.gerarCobrancaAlunoLogado(cursoId, tipo));
+    }
+
+    @PostMapping("/aluno/{alunoId}/curso/{cursoId}/pagamento")
+    public ResponseEntity<MatriculaResponseDTO> registrarPagamento(
+            @PathVariable Integer alunoId,
+            @PathVariable Integer cursoId,
+            @Valid @RequestBody PagamentoRequestDTO dto) {
+        return ResponseEntity.ok(matriculaService.registrarPagamento(alunoId, cursoId, dto));
+    }
+
+    @PostMapping("/curso/{cursoId}/pagamento")
+    public ResponseEntity<MatriculaResponseDTO> registrarPagamentoAlunoLogado(
+            @PathVariable Integer cursoId,
+            @Valid @RequestBody PagamentoRequestDTO dto) {
+        return ResponseEntity.ok(matriculaService.registrarPagamentoAlunoLogado(cursoId, dto));
     }
  
     @DeleteMapping("/aluno/{alunoId}/curso/{cursoId}")

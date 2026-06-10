@@ -61,8 +61,25 @@ public class Matricula {
     @Column(name = "data_matricula", nullable = false)
     private LocalDateTime dataMatricula = LocalDateTime.now();
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_cobranca")
+    private TipoCobranca tipoCobranca;
+
+    @Column(name = "codigo_cobranca", length = 80)
+    private String codigoCobranca;
+
+    @Column(name = "link_pagamento", length = 255)
+    private String linkPagamento;
+
+    @Column(name = "data_cobranca")
+    private LocalDateTime dataCobranca;
+
+    @Column(name = "data_pagamento")
+    private LocalDateTime dataPagamento;
+
     public enum ModalidadePagamento { AVISTA, PARCELADO }
     public enum StatusPagamento     { PENDENTE, PAGO, CANCELADO }
+    public enum TipoCobranca        { BOLETO, LINK }
 
     @Embeddable
     @Getter

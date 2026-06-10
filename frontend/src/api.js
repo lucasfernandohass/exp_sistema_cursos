@@ -148,6 +148,32 @@ export const atualizarPagamento = (alunoId, cursoId, status, token) =>
     { method: "PATCH", token }
   )
 
+export const gerarCobranca = (alunoId, cursoId, tipo, token) =>
+  apiFetch(
+    `/matriculas/aluno/${alunoId}/curso/${cursoId}/cobranca?tipo=${encodeURIComponent(tipo)}`,
+    { method: "POST", token }
+  )
+
+export const registrarPagamento = (alunoId, cursoId, formaPagamento, token) =>
+  apiFetch(`/matriculas/aluno/${alunoId}/curso/${cursoId}/pagamento`, {
+    method: "POST",
+    token,
+    body: JSON.stringify({ formaPagamento }),
+  })
+
+export const gerarCobrancaCurso = (cursoId, tipo, token) =>
+  apiFetch(
+    `/matriculas/curso/${cursoId}/cobranca?tipo=${encodeURIComponent(tipo)}`,
+    { method: "POST", token }
+  )
+
+export const registrarPagamentoCurso = (cursoId, formaPagamento, token) =>
+  apiFetch(`/matriculas/curso/${cursoId}/pagamento`, {
+    method: "POST",
+    token,
+    body: JSON.stringify({ formaPagamento }),
+  })
+
 /* =========================
    PROGRESSO
 ========================= */

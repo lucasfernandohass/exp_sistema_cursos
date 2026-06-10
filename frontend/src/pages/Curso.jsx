@@ -4,18 +4,22 @@ import { useParams, useNavigate } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import ThemeToggle from "../components/ThemeToggle"
+import ConfirmModal from "../components/ConfirmModal"
 
-import { detalharCurso } from "../api"
+import { detalharCurso, matricular } from "../api"
 import { useAuth } from "../context/AuthContext"
 
 export default function Curso() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, token } = useAuth()
 
   const [curso, setCurso] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [enrolling, setEnrolling] = useState(false)
+  const [enrollMessage, setEnrollMessage] = useState(null)
 
   /* =========================
      CARREGAR CURSO
@@ -72,6 +76,38 @@ export default function Curso() {
     return `${h}h ${m}min`
   }
 
+  async function handleConfirmEnrollment() {
+    try {
+      setEnrolling(true)
+      setError(null)
+      setEnrollMessage(null)
+
+      const matricula = await matricular(
+        {
+          cursoId: Number(id),
+          modalidadePagamento: "AVISTA",
+          numeroParcelas: 1,
+        },
+        token
+      )
+
+      setShowConfirmModal(false)
+
+      if (matricula.statusPagamento === "PAGO") {
+        setEnrollMessage("Inscrição confirmada com sucesso. Curso gratuito liberado.")
+        window.setTimeout(() => navigate("/painel-aluno"), 900)
+        return
+      }
+
+      navigate(`/painel-aluno/financeiro/${id}`)
+    } catch (err) {
+      setError(err.message)
+      setShowConfirmModal(false)
+    } finally {
+      setEnrolling(false)
+    }
+  }
+
   /* =========================
      LOADING
   ========================= */
@@ -95,7 +131,7 @@ export default function Curso() {
      ERRO / NÃO ENCONTRADO
   ========================= */
 
-  if (error || !curso) {
+  if ((error && !curso) || !curso) {
     return (
       <div className="curso-detalhe-page">
         <Navbar />
@@ -234,12 +270,21 @@ export default function Curso() {
 
             {/* CTA */}
             {isAuthenticated ? (
-              <button
-                className="btn-primary curso-detalhe-cta"
-                onClick={() => navigate(`/painel-aluno/financeiro/${id}`)}
-              >
-                Inscreva-se
-              </button>
+              <>
+                <button
+                  className="btn-primary curso-detalhe-cta"
+                  onClick={() => setShowConfirmModal(true)}
+                  disabled={enrolling}
+                >
+                  {enrolling ? "Inscrevendo..." : "Inscreva-se"}
+                </button>
+                {enrollMessage && (
+                  <p className="curso-detalhe-feedback success">{enrollMessage}</p>
+                )}
+                {error && (
+                  <p className="curso-detalhe-feedback error">{error}</p>
+                )}
+              </>
             ) : (
               <>
                 <button
@@ -267,6 +312,13 @@ export default function Curso() {
 
       <Footer />
       <ThemeToggle />
+      <ConfirmModal
+        visible={showConfirmModal}
+        title="Confirmar inscrição"
+        message="Deseja realmente se inscrever neste curso?"
+        onConfirm={handleConfirmEnrollment}
+        onCancel={() => !enrolling && setShowConfirmModal(false)}
+      />
     </div>
   )
 }

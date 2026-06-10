@@ -40,6 +40,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
  
                 // ── Públicas ────────────────────────────────────────────
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/cursos").permitAll()
                 .requestMatchers(HttpMethod.GET, "/cursos/{id}").permitAll()
@@ -86,7 +87,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // Vite dev server
+        config.setAllowedOrigins(List.of(
+            "http://localhost:5173",
+            "http://127.0.0.1:5173"
+        )); // Vite dev server
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

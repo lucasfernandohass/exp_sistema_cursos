@@ -51,21 +51,24 @@ button {
 .confirm-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(17,24,39,0.55);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
   z-index: 1000;
 }
 
 .confirm-modal {
   background: var(--card);
-  padding: 1.25rem 1.5rem;
-  border-radius: 0.5rem;
-  width: 90%;
+  border: 1px solid var(--border);
+  padding: 1.35rem 1.5rem;
+  border-radius: 8px;
+  width: 100%;
   max-width: 420px;
   box-shadow: 0 10px 30px rgba(16,24,40,0.12);
   text-align: center;
+  animation: confirm-modal-in 0.18s ease;
 }
 
 .confirm-title {
@@ -94,4 +97,34 @@ button {
 
 .btn-secondary:hover {
   background: rgba(0,0,0,0.03);
+}
+
+.confirm-actions button {
+  min-width: 120px;
+}
+
+.confirm-actions button:focus-visible {
+  outline: 3px solid rgba(37,99,235,0.35);
+  outline-offset: 2px;
+}
+
+@keyframes confirm-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 420px) {
+  .confirm-actions {
+    flex-direction: column-reverse;
+  }
+
+  .confirm-actions button {
+    width: 100%;
+  }
 }

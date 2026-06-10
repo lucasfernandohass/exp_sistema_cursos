@@ -145,6 +145,101 @@
   line-height: 1.4;
 }
 
+.financeiro-sucesso {
+  font-size: 0.82rem;
+  color: #166534;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.financeiro-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.financeiro-summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.financeiro-summary > div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.financeiro-summary span {
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+}
+
+.financeiro-summary strong {
+  color: var(--foreground);
+  font-size: 0.86rem;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.financeiro-status {
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.financeiro-status.pendente {
+  color: #92400e;
+  background: rgba(245, 158, 11, 0.14);
+}
+
+.financeiro-status.pago {
+  color: #166534;
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.financeiro-charge-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.financeiro-charge-row select,
+.financeiro-card-body select {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  padding: 0.55rem 0.7rem;
+}
+
+.financeiro-cobranca {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.financeiro-cobranca span {
+  color: var(--muted-foreground);
+  font-size: 0.76rem;
+}
+
+.financeiro-cobranca strong {
+  color: var(--foreground);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 /* =========================
    RESPONSIVO
 ========================= */
@@ -161,6 +256,10 @@
 
   .financeiro-card-banner-text {
     font-size: 0.9rem;
+  }
+
+  .financeiro-charge-row {
+    grid-template-columns: 1fr;
   }
 }
 

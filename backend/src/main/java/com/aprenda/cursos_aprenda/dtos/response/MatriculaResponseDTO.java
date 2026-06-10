@@ -15,5 +15,10 @@ public record MatriculaResponseDTO(
     Integer numeroParcelas,
     String statusPagamento,
     LocalDateTime dataMatricula,
+    String tipoCobranca,
+    String codigoCobranca,
+    String linkPagamento,
+    LocalDateTime dataCobranca,
+    LocalDateTime dataPagamento,
     boolean certificadoDisponivel
 ) {}
