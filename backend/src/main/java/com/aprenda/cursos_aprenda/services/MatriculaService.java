@@ -175,6 +175,7 @@ public class MatriculaService {
             cursoId,
             matricula.getCurso().getNome(),
             matricula.getCurso().getProfessor() != null ? matricula.getCurso().getProfessor().getNome() : null,
+            matricula.getCurso().getUrlBanner(),
             totalAulas,
             aulasConcluidas,
             matricula.getMediaFinal(),

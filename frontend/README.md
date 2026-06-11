@@ -11,5 +11,8 @@ Utilize os seguintes comandos no terminal.
 ``npm install``
 (instalar dependencias)
 
+``npm install react-player``
+(Para as VideoAulas)
+
 ``npm run dev``
 (rodar localmente) 

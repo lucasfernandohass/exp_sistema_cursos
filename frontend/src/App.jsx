@@ -14,6 +14,8 @@ import Course from "./pages/Curso"
 import AdminCourses from "./pages/AdminCourses"
 import SobreNos from "./pages/SobreNos"
 import Contato from "./pages/Contato"
+import Aula from "./pages/Aula"
+import AdminAulas from "./pages/AdminAulas";
 
 export default function App() {
   return (
@@ -57,7 +59,7 @@ export default function App() {
         path="/aula/:id"
         element={
           <PrivateRoute>
-            <Course />
+            <Aula />
           </PrivateRoute>
         }
       />
@@ -71,6 +73,15 @@ export default function App() {
         element={
           <AdminRoute>
             <AdminCourses />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/cursos/:cursoId/aulas"
+        element={
+          <AdminRoute>
+            <AdminAulas />
           </AdminRoute>
         }
       />

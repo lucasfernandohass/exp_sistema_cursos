@@ -369,6 +369,13 @@ export default function AdminCourses() {
                         >
                           Excluir
                         </button>
+                        <button
+                          className="admin-btn-manage"
+                          onClick={() => navigate(`/admin/cursos/${course.id}/aulas`)}
+                          title="Gerenciar aulas"
+                        >
+                          Aulas/Atividades
+                        </button>
                       </div>
                     </td>
                   </tr>

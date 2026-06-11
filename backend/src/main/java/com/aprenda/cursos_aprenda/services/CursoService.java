@@ -18,6 +18,7 @@ import com.aprenda.cursos_aprenda.repositories.CursoRepository;
 import com.aprenda.cursos_aprenda.repositories.MatriculaRepository;
 import com.aprenda.cursos_aprenda.repositories.ProfessorRepository;
 import com.aprenda.cursos_aprenda.repositories.ProgressoAulaRepository;
+import com.aprenda.cursos_aprenda.repositories.VideoAulaRepository;  // ← ADICIONAR ESTE IMPORT
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class CursoService {
     private final AlunoRepository alunoRepository;
     private final ProfessorRepository professorRepository;
     private final MatriculaRepository matriculaRepository;
+    private final VideoAulaRepository videoAulaRepository;  // ← ADICIONAR ESTA LINHA
 
     @Transactional(readOnly = true)
     public List<CursoCardDTO> listarTodos() {
@@ -56,14 +59,40 @@ public class CursoService {
     @Transactional(readOnly = true)
     public CursoDetalheDTO buscarPorId(Integer id) {
         Curso curso = findCursoEntityById(id);
-        return toDetalheDTO(curso, buscarAlunoIdLogado());
+        
+        // Buscar aluno logado de forma mais robusta
+        Integer alunoId = buscarAlunoIdLogado();
+        
+        System.out.println("=== DEBUG CursoService.buscarPorId ===");
+        System.out.println("Curso ID: " + id);
+        System.out.println("Aluno ID logado: " + alunoId);
+        
+        List<VideoAulaResponseDTO> videoAulas = videoAulaRepository
+            .findByCursoIdOrderByIdAsc(id)
+            .stream()
+            .map(video -> {
+                System.out.println("VideoAula ID: " + video.getId() + " - Título: " + video.getTitulo());
+                boolean assistida = false;
+                if (alunoId != null) {
+                    assistida = progressoAulaRepository
+                        .findByAlunoIdAndVideoAulaId(alunoId, video.getId())
+                        .map(ProgressoAula::getAssistida)
+                        .orElse(false);
+                    System.out.println("  - Assistida para aluno " + alunoId + ": " + assistida);
+                }
+                return toVideoAulaResponseDTO(video, alunoId);
+            })
+            .toList();
+        
+        return toDetalheDTO(curso, videoAulas);
     }
 
     @Transactional
     public CursoDetalheDTO criar(CursoRequestDTO dto) {
         Curso curso = toEntity(dto);
         Curso salvo = cursoRepository.save(curso);
-        return toDetalheDTO(salvo, buscarAlunoIdLogado());
+        List<VideoAulaResponseDTO> videoAulas = List.of(); // Curso novo não tem aulas
+        return toDetalheDTO(salvo, videoAulas);
     }
 
     @Transactional
@@ -83,7 +112,15 @@ public class CursoService {
             curso.setProfessor(null);
         }
         Curso atualizado = cursoRepository.save(curso);
-        return toDetalheDTO(atualizado, buscarAlunoIdLogado());
+        
+        // Buscar videoAulas atualizadas
+        List<VideoAulaResponseDTO> videoAulas = videoAulaRepository
+            .findByCursoIdOrderByIdAsc(id)
+            .stream()
+            .map(video -> toVideoAulaResponseDTO(video, buscarAlunoIdLogado()))
+            .toList();
+        
+        return toDetalheDTO(atualizado, videoAulas);
     }
 
     @Transactional
@@ -96,48 +133,29 @@ public class CursoService {
        AVALIAÇÃO
     ========================= */
 
-    /**
-     * Registra a avaliação de um aluno para um curso e recalcula a média.
-     *
-     * Regras:
-     *  - O aluno deve estar matriculado no curso.
-     *  - O aluno só pode avaliar uma vez por curso.
-     *  - A nota deve estar entre 1 e 5.
-     *
-     * Cálculo incremental da média:
-     *   novaMedia = (notaAtual * numAvaliacoes + novaNota) / (numAvaliacoes + 1)
-     */
     @Transactional
     public AvaliacaoResponseDTO avaliar(Integer cursoId, AvaliacaoRequestDTO dto) {
         Aluno aluno = buscarAlunoLogado();
         Curso curso = findCursoEntityById(cursoId);
 
-        // valida nota entre 1 e 5
         if (dto.nota() < 1 || dto.nota() > 5) {
             throw new IllegalArgumentException("A nota deve estar entre 1 e 5.");
         }
 
-        // verifica se o aluno está matriculado
         boolean matriculado = matriculaRepository
             .existsByAlunoIdAndCursoId(aluno.getId(), cursoId);
 
         if (!matriculado) {
-            throw new IllegalStateException(
-                "Apenas alunos matriculados podem avaliar o curso."
-            );
+            throw new IllegalStateException("Apenas alunos matriculados podem avaliar o curso.");
         }
 
-        // verifica se o aluno já avaliou este curso
         boolean jaAvaliou = matriculaRepository
             .existsByAlunoIdAndCursoIdAndAvaliacaoNotNull(aluno.getId(), cursoId);
 
         if (jaAvaliou) {
-            throw new IllegalStateException(
-                "Você já avaliou este curso."
-            );
+            throw new IllegalStateException("Você já avaliou este curso.");
         }
 
-        // recalcula a média de forma incremental
         int numAtual = curso.getNumeroAvaliacoes() != null ? curso.getNumeroAvaliacoes() : 0;
         BigDecimal notaAtual = curso.getNotaAvaliacao() != null
             ? curso.getNotaAvaliacao()
@@ -151,7 +169,6 @@ public class CursoService {
         curso.setNotaAvaliacao(novaMedia);
         curso.setNumeroAvaliacoes(numAtual + 1);
 
-        // registra a nota na matrícula para controle de "já avaliou"
         Matricula matricula = matriculaRepository
             .findByAlunoIdAndCursoId(aluno.getId(), cursoId)
             .orElseThrow(() -> new EntityNotFoundException("Matrícula não encontrada."));
@@ -216,7 +233,8 @@ public class CursoService {
         );
     }
 
-    private CursoDetalheDTO toDetalheDTO(Curso curso, Integer alunoId) {
+    // MÉTODO CORRIGIDO: recebe a lista de videoAulas como parâmetro
+    private CursoDetalheDTO toDetalheDTO(Curso curso, List<VideoAulaResponseDTO> videoAulas) {
         return new CursoDetalheDTO(
             curso.getId(),
             curso.getNome(),
@@ -230,9 +248,7 @@ public class CursoService {
             curso.getNumeroAvaliacoes(),
             curso.getUrlBanner(),
             toProfessorDTO(curso.getProfessor()),
-            curso.getVideoAulas().stream()
-                .map(video -> toVideoAulaResponseDTO(video, alunoId))
-                .toList()
+            videoAulas  // ← USAR A LISTA RECEBIDA COMO PARÂMETRO
         );
     }
 
@@ -265,11 +281,37 @@ public class CursoService {
     }
 
     private Integer buscarAlunoIdLogado() {
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || auth.getName() == null) return null;
-        return alunoRepository.findByEmail(auth.getName())
-            .map(Aluno::getId)
-            .orElse(null);
+        try {
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth == null || auth.getName() == null) {
+                System.out.println("DEBUG: Auth is null or name is null");
+                return null;
+            }
+            
+            String email = auth.getName();
+            System.out.println("DEBUG: Email do token: '" + email + "'");
+            
+            // Buscar aluno pelo email (ignorando case)
+            Optional<Aluno> aluno = alunoRepository.findByEmailIgnoreCase(email.trim());
+            
+            if (aluno.isPresent()) {
+                System.out.println("DEBUG: Aluno encontrado: ID=" + aluno.get().getId() + ", Email=" + aluno.get().getEmail());
+                return aluno.get().getId();
+            } else {
+                System.out.println("DEBUG: Aluno NÃO encontrado para email: '" + email + "'");
+                
+                // Listar todos os emails de alunos para debug
+                List<Aluno> todosAlunos = alunoRepository.findAll();
+                System.out.println("DEBUG: Alunos cadastrados:");
+                for (Aluno a : todosAlunos) {
+                    System.out.println("  - ID: " + a.getId() + ", Email: '" + a.getEmail() + "'");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("DEBUG: Erro ao buscar aluno: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private Aluno buscarAlunoLogado() {

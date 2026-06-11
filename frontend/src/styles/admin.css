@@ -252,6 +252,120 @@
   background: rgba(239,68,68,0.18);
 }
 
+.admin-btn-manage {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.15s;
+}
+
+.admin-btn-manage:hover {
+  background: rgba(139, 92, 246, 0.18);
+}
+
+.admin-breadcrumb {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  margin-left: 16px;
+}
+
+.admin-breadcrumb-link {
+  color: var(--brand-blue);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.admin-breadcrumb-link:hover {
+  opacity: 0.8;
+}
+
+.admin-link {
+  color: var(--brand-blue);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.admin-link:hover {
+  text-decoration: underline;
+}
+
+.admin-td-number {
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+.admin-badge-duracao {
+  display: inline-block;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--brand-blue);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.admin-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  margin-left: 16px;
+  color: var(--muted-foreground);
+}
+
+.admin-breadcrumb-link {
+  color: var(--brand-blue);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admin-breadcrumb-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.admin-breadcrumb-separator {
+  color: var(--muted-foreground);
+}
+
+.admin-breadcrumb-current {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+
+/* Empty state */
+.admin-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.admin-empty svg {
+  color: var(--muted-foreground);
+}
+
+.admin-empty p {
+  color: var(--muted-foreground);
+  margin-top: 8px;
+}
+
 /* =========================
    ESTADO VAZIO
 ========================= */
@@ -506,4 +620,6 @@
   .admin-table td:nth-child(6) {
     display: none;
   }
+
+  
 }

@@ -312,17 +312,17 @@ export default function Dashboard() {
                   <div className="enrolled-actions">
                     <button
                       className="btn-primary"
-                      onClick={() => navigate(`/curso/${m.cursoId}`)}
+                      onClick={() => navigate(`/aula/${m.cursoId}`)}
                     >
                       Assistir aulas
                     </button>
-                    <button
+                    {/* <button
                       className="btn-outline enrolled-remove-btn"
                       onClick={() => handleCancelClick(m)}
                       disabled={canceling}
                     >
                       Cancelar
-                    </button>
+                    </button> */}
                   </div>
 
                 </div>

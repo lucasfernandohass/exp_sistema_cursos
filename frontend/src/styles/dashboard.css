@@ -1,11 +1,17 @@
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
+  align-items: stretch;
 }
 
 .dashboard-main {
   flex: 1;
   padding: 40px;
+  background: var(--background);
+}
+
+.dashboard-main > * {
+  max-width: 100%;
 }
 
 .dashboard-logo {
@@ -299,12 +305,12 @@
 }
 
 @media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column; /* ← ADICIONADO: empilha sidebar e conteúdo no mobile */
+  }
+  
   .dashboard-main {
     padding: 24px 16px;
-  }
-
-  .dashboard-content {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -548,4 +554,15 @@
 .dashboard-empty .btn-primary {
   margin-top: 8px;
   padding: 0.75rem 2rem;
+}
+
+.aula-page .dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  align-items: stretch;
+}
+
+.aula-page .dashboard-main {
+  flex: 1;
+  padding: 20px 32px;
 }

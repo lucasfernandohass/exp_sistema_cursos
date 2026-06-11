@@ -1,45 +1,27 @@
-/* =========================
-   SIDEBAR LAYOUT
-========================= */
-
 .sidebar {
   width: 260px;
-  min-height: 100vh;
-
   background: var(--card);
-
   border-right: 1px solid var(--border);
-
   padding: 30px 20px;
-
   display: flex;
   flex-direction: column;
-
   transition: 0.3s;
+  position: relative;
 }
 
-/* =========================
-   TOPO SIDEBAR
-========================= */
-
+/* TOPO SIDEBAR */
 .sidebar-top {
   display: flex;
   flex-direction: column;
 }
 
-/* =========================
-   LOGO
-========================= */
-
+/* LOGO */
 .sidebar-logo {
   display: flex;
   align-items: center;
   gap: 12px;
-
   margin-bottom: 40px;
-
   text-decoration: none;
-
   color: var(--brand-blue);
 }
 
@@ -48,10 +30,16 @@
   font-weight: 800;
 }
 
-/* =========================
-   LINKS
-========================= */
+/* SAUDAÇÃO */
+.sidebar-greeting {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  padding: 0 4px;
+  margin-top: -24px;
+  margin-bottom: 16px;
+}
 
+/* LINKS */
 .sidebar-links {
   display: flex;
   flex-direction: column;
@@ -62,32 +50,26 @@
   display: flex;
   align-items: center;
   gap: 12px;
-
   text-decoration: none;
-
   color: var(--foreground);
-
   padding: 14px 16px;
-
   border-radius: 14px;
-
   font-weight: 500;
-
   transition: 0.2s;
 }
 
-/* HOVER */
-
 .sidebar-links a:hover {
   background: rgba(37, 99, 235, 0.12);
-
   color: var(--brand-blue);
-
   transform: translateX(4px);
 }
 
-/* LINK INDICATOR (não clicável, ex: Financeiro) */
+.sidebar-links .active {
+  background: var(--brand-blue);
+  color: white;
+}
 
+/* INDICADOR (não clicável) */
 .sidebar-link-indicator {
   display: flex;
   align-items: center;
@@ -106,120 +88,7 @@
   color: white;
 }
 
-/* LINK ATIVO */
-
-.sidebar-links .active {
-  background: var(--brand-blue);
-
-  color: white;
-}
-
-/* =========================
-   FOOTER SIDEBAR
-========================= */
-
-.sidebar-bottom {
-  margin-top: 15px;
-}
-
-/* =========================
-   BOTÃO SAIR
-========================= */
-
-.sidebar-logout {
-  width: 100%;
-
-  border: none;
-
-  background: #ef4444;
-
-  color: white;
-
-  padding: 14px;
-
-  border-radius: 14px;
-
-  cursor: pointer;
-
-  font-size: 1rem;
-  font-weight: 600;
-
-  transition: 0.2s;
-}
-
-.sidebar-logout:hover {
-  background: #dc2626;
-}
-
-/* =========================
-   DARK MODE
-========================= */
-
-.dark .sidebar {
-  background: #111827;
-}
-
-/* =========================
-   RESPONSIVO
-========================= */
-
-@media (max-width: 768px) {
-
-  .sidebar {
-    width: 100%;
-    min-height: auto;
-
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .sidebar-links {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .sidebar-links a {
-    flex: 1;
-    justify-content: center;
-  }
-
-  .sidebar-bottom {
-    margin-top: 15px;
-  }
-}
-/* =========================
-   SAUDAÇÃO
-========================= */
-
-.sidebar-greeting {
-  font-size: 0.85rem;
-  color: var(--muted-foreground);
-  padding: 0 4px;
-  margin-top: -24px;
-  margin-bottom: 16px;
-}
-
-/* =========================
-   SOLID SIDEBAR + USER CARD
-========================= */
-
-.sidebar {
-  justify-content: space-between;
-  background: var(--sidebar-background);
-  background-color: var(--sidebar-background);
-}
-
-.dark .sidebar {
-  background: var(--sidebar-background);
-  background-color: var(--sidebar-background);
-  background-image: none;
-  box-shadow: 8px 0 28px rgba(0,0,0,0.22);
-}
-
-.sidebar-logo {
-  margin-bottom: 24px;
-}
-
+/* USER CARD */
 .sidebar-user-card {
   display: flex;
   align-items: center;
@@ -251,23 +120,123 @@
   gap: 3px;
 }
 
-.sidebar-user-info strong,
-.sidebar-user-info span {
+.sidebar-user-info strong {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.sidebar-user-info strong {
   color: var(--foreground);
   font-size: 0.9rem;
 }
 
 .sidebar-user-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--muted-foreground);
   font-size: 0.78rem;
 }
 
+/* BOTÃO SAIR */
 .sidebar-bottom {
-  margin-top: 24px;
+  margin-top: 30px;
+}
+
+.sidebar-logout {
+  width: 100%;
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.sidebar-logout:hover {
+  background: #dc2626;
+}
+
+/* DARK MODE */
+.dark .sidebar {
+  background: #111827;
+  background-color: var(--sidebar-background);
+  background-image: none;
+  box-shadow: 8px 0 28px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================
+   RESPONSIVO - CORRIGIDO
+========================= */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    padding: 20px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .sidebar-logo {
+    margin-bottom: 0;
+  }
+
+  .sidebar-logo h2 {
+    font-size: 1.4rem;
+  }
+
+  .sidebar-greeting {
+    display: none;
+  }
+
+  .sidebar-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    order: 3;
+    margin-top: 16px;
+  }
+
+  .sidebar-links a {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .sidebar-user-card {
+    margin-bottom: 0;
+    padding: 8px 12px;
+  }
+
+  .sidebar-bottom {
+    margin-top: 0;
+    width: auto;
+  }
+
+  .sidebar-logout {
+    padding: 10px 16px;
+    width: auto;
+  }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 480px) {
+  .sidebar-links {
+    flex-direction: column;
+  }
+  
+  .sidebar-links a {
+    justify-content: flex-start;
+  }
 }

@@ -20,6 +20,8 @@ import "./styles/footer.css"
 import "./styles/darkmode.css"
 import "./styles/responsive.css"
 import "./styles/admin.css"
+import "./styles/aula.css"
+import "./styles/toast.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

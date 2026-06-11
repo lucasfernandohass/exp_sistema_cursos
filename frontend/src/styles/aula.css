@@ -1,0 +1,818 @@
+/* =========================
+   LOADING SKELETON
+========================= */
+.aula-loading-skeleton {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.aula-skeleton-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.aula-skeleton-info {
+  height: 80px;
+  border-radius: 16px;
+}
+
+/* =========================
+   ERROR STATE
+========================= */
+.aula-error-container {
+  text-align: center;
+  padding: 60px 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.aula-error-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.aula-error-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  color: var(--foreground);
+}
+
+.aula-error-container p {
+  color: var(--muted-foreground);
+  margin-bottom: 24px;
+}
+
+/* =========================
+   HEADER
+========================= */
+.aula-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.aula-header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.aula-back-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.aula-back-btn:hover {
+  background: rgba(37, 99, 235, 0.1);
+  border-color: var(--brand-blue);
+  transform: translateX(-2px);
+}
+
+.aula-header-info h1 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+
+.aula-header-info .aula-aula-titulo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+/* PROGRESS CARD */
+.aula-progress-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 20px;
+  min-width: 240px;
+}
+
+.aula-progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.aula-progress-label {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.aula-progress-percent {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+}
+
+.aula-progress-bar {
+  height: 6px;
+  background: rgba(37, 99, 235, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.aula-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-blue), #9333ea);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.aula-progress-stats {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  text-align: right;
+}
+
+/* =========================
+   MAIN GRID
+========================= */
+.aula-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* =========================
+   VIDEO COLUMN
+========================= */
+.aula-video-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.aula-video-wrapper {
+  position: relative;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+/* Container do vídeo para ReactPlayer */
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.aula-video {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Placeholder quando vídeo indisponível */
+.aula-video-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.aula-video-placeholder svg {
+  width: 80px;
+  height: 80px;
+}
+
+.aula-video-placeholder small {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+/* Footer do vídeo */
+.aula-video-footer {
+  padding: 20px;
+}
+
+.aula-video-title-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.aula-video-title-section h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.aula-duracao-badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 20px;
+  color: var(--brand-blue);
+}
+
+.aula-video-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.aula-nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.aula-nav-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 8px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.aula-nav-btn:hover:not(:disabled) {
+  background: rgba(37, 99, 235, 0.1);
+  border-color: var(--brand-blue);
+}
+
+.aula-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Barra de progresso do vídeo */
+.video-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 20;
+}
+
+.video-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-blue), #9333ea);
+  transition: width 0.3s ease;
+}
+
+/* Overlays para bloquear elementos indesejados do YouTube */
+.video-overlay-bottom-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 60px;
+  background: transparent;
+  z-index: 10;
+  cursor: default;
+  pointer-events: auto;
+}
+
+.video-overlay-bottom-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 46%;
+  height: 60px;
+  background: #000;
+  z-index: 10;
+  cursor: default;
+  pointer-events: auto;
+}
+
+.video-overlay-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 80px;
+  background: transparent;
+  z-index: 10;
+  cursor: default;
+  pointer-events: auto;
+}
+
+.video-overlay-center-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 100px;
+  background: transparent;
+  z-index: 10;
+  cursor: default;
+  pointer-events: auto;
+}
+
+/* =========================
+   SIDEBAR COLUMN
+========================= */
+.aula-sidebar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* CARDS GERAIS */
+.aula-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.aula-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: rgba(37, 99, 235, 0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.aula-card-icon {
+  font-size: 1.2rem;
+}
+
+.aula-card-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.aula-card-body {
+  padding: 20px;
+}
+
+/* EMPTY STATE */
+.aula-empty-state {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--muted-foreground);
+}
+
+.aula-empty-state span {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.aula-empty-state p {
+  font-size: 0.85rem;
+}
+
+/* DÚVIDAS */
+.nova-duvida-form {
+  margin-bottom: 20px;
+}
+
+.nova-duvida-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+
+.nova-duvida-input:focus {
+  outline: none;
+  border-color: var(--brand-blue);
+}
+
+.nova-duvida-btn {
+  width: 100%;
+}
+
+.duvidas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.duvida-item {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.duvida-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.duvida-aluno {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.duvida-avatar {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--brand-blue), #9333ea);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+}
+
+.duvida-aluno strong {
+  font-size: 0.85rem;
+  color: var(--foreground);
+}
+
+.duvida-data {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+
+.duvida-pergunta {
+  font-size: 0.85rem;
+  color: var(--foreground);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.duvida-resposta {
+  background: rgba(37, 99, 235, 0.05);
+  border-left: 3px solid var(--brand-blue);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.duvida-resposta-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.duvida-resposta-avatar {
+  font-size: 0.9rem;
+}
+
+.duvida-resposta-header strong {
+  font-size: 0.8rem;
+  color: var(--brand-blue);
+}
+
+.duvida-resposta p {
+  font-size: 0.85rem;
+  color: var(--foreground);
+  line-height: 1.5;
+}
+
+/* =========================
+   LISTA DE AULAS
+========================= */
+.aula-conteudo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  margin-top: 8px;
+}
+
+.aulas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 8px;
+  padding: 20px;
+}
+
+.aula-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  font-family: inherit;
+}
+
+.aula-list-item:hover {
+  border-color: var(--brand-blue);
+  transform: translateX(4px);
+}
+
+.aula-list-item.active {
+  border-color: var(--brand-blue);
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.aula-list-item.completed {
+  opacity: 0.7;
+}
+
+.aula-list-number {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  flex-shrink: 0;
+}
+
+.aula-list-title {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--foreground);
+}
+
+.aula-list-duration {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  flex-shrink: 0;
+}
+
+/* =========================
+   STATUS DA LISTA DE AULAS
+========================= */
+.aula-list-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.aula-list-check {
+  color: #16a34a;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.aula-list-pending {
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
+
+.aula-duvidas-count {
+  background: var(--brand-blue);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: auto;
+}
+
+.duvidas-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+/* =========================
+   INDICADORES
+========================= */
+.aula-marcando-indicator {
+  font-size: 0.8rem;
+  color: var(--brand-blue);
+  animation: pulse 1s infinite;
+}
+
+.aula-completed-badge {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* =========================
+   BANNER DE NOTIFICAÇÃO
+========================= */
+.aula-banner {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  animation: slideInRight 0.3s ease;
+  max-width: 320px;
+  min-width: 240px;
+}
+
+.dark .aula-banner {
+  background: #1e293b;
+  color: white;
+}
+
+.aula-banner-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #22c55e;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.aula-banner-message {
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.dark .aula-banner-message {
+  color: white;
+}
+
+.aula-banner-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 4px;
+  color: var(--muted-foreground);
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.aula-banner-close:hover {
+  color: var(--foreground);
+}
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 1024px) {
+  .aula-content-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .aula-sidebar-col {
+    order: 2;
+  }
+  
+  .aula-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .aula-header-left {
+    justify-content: space-between;
+  }
+  
+  .aula-progress-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .aula-header-left {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .aula-video-actions {
+    justify-content: center;
+  }
+  
+  .aula-nav-buttons {
+    width: 100%;
+  }
+  
+  .aula-nav-btn {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .aulas-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .aula-banner {
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    max-width: calc(100% - 40px);
+  }
+}
+
+.aula-page .dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  align-items: stretch;
+}
+
+.aula-page .sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.aula-page .sidebar-top {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.aula-page .sidebar-links {
+  flex: 1;
+}
+
+.aula-page .dashboard-main {
+  flex: 1;
+  padding: 20px 32px;
+}
+
+@media (max-width: 768px) {
+  .aula-page .dashboard-layout {
+    flex-direction: column;
+  }
+  
+  .aula-page .dashboard-main {
+    padding: 16px;
+  }
+}

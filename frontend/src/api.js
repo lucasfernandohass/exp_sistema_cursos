@@ -10,22 +10,36 @@ const apiFetch = async (path, { token, ...options } = {}) => {
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, {
-    ...options,
-    headers,
-  })
+  try {
+    const res = await fetch(`${BASE_URL}${path}`, {
+      ...options,
+      headers,
+    })
 
-  if (!res.ok) {
-    // tenta parsear o JSON de erro da API, senão usa texto cru
-    const errorBody = await res.json().catch(() => null)
-    const message =
-      errorBody?.mensagem ||
-      errorBody?.message ||
-      `Erro ${res.status}`
-    throw new Error(message)
+    const contentType = res.headers.get("content-type")
+    
+    if (res.status === 204 || !contentType || !contentType.includes("application/json")) {
+      if (res.status === 204) return null
+      const text = await res.text()
+      if (!text || text.trim() === "") return null
+      throw new Error(text || `Erro ${res.status}`)
+    }
+    
+    const data = await res.json()
+
+    if (!res.ok) {
+      const message = data?.mensagem || data?.message || `Erro ${res.status}`
+      throw new Error(message)
+    }
+
+    return data
+    
+  } catch (error) {
+    if (error.name === "TypeError" && error.message.includes("fetch")) {
+      throw new Error("Não foi possível conectar ao servidor. Verifique se o backend está rodando.");
+    }
+    throw error;
   }
-
-  return res.status === 204 ? null : res.json()
 }
 
 export default apiFetch
@@ -34,73 +48,142 @@ export default apiFetch
    AUTH
 ========================= */
 
-/**
- * Login
- * POST /auth/login
- * Retorna: { token, tipo, id, nome, email }
- */
 export const login = (email, senha) =>
   apiFetch("/auth/login", {
     method: "POST",
     body: JSON.stringify({ email, senha }),
   })
 
+export const setupAdmin = (dados) =>
+  apiFetch("/auth/setup", {
+    method: "POST",
+    body: JSON.stringify(dados),
+  })
+
 /* =========================
    ALUNOS
 ========================= */
 
-/**
- * Cadastrar aluno (público)
- * POST /alunos
- */
 export const registerAluno = (dados) =>
   apiFetch("/alunos", {
     method: "POST",
     body: JSON.stringify(dados),
   })
 
+export const listarAlunos = (token) =>
+  apiFetch("/alunos", { token })
+
+export const detalharAluno = (id, token) =>
+  apiFetch(`/alunos/${id}`, { token })
+
+export const atualizarAluno = (id, dados, token) =>
+  apiFetch(`/alunos/${id}`, {
+    method: "PUT",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const deletarAluno = (id, token) =>
+  apiFetch(`/alunos/${id}`, { method: "DELETE", token })
+
+/* =========================
+   PROFESSORES
+========================= */
+
+export const listarProfessores = (token) =>
+  apiFetch("/professores", { token })
+
+export const detalharProfessor = (id, token) =>
+  apiFetch(`/professores/${id}`, { token })
+
+export const criarProfessor = (dados, token) =>
+  apiFetch("/professores", {
+    method: "POST",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const atualizarProfessor = (id, dados, token) =>
+  apiFetch(`/professores/${id}`, {
+    method: "PUT",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const deletarProfessor = (id, token) =>
+  apiFetch(`/professores/${id}`, { method: "DELETE", token })
+
 /* =========================
    CURSOS
 ========================= */
 
-/**
- * Listar todos os cursos (público)
- * GET /cursos
- * Retorna: CursoCardDTO[]
- * { id, nome, nomeProfessor, numeroAulas, cargaHoraria, preco, notaAvaliacao }
- */
 export const listarCursos = () =>
   apiFetch("/cursos")
 
-/**
- * Pesquisar cursos por termo (público)
- * GET /cursos/pesquisar?termo=
- * Retorna: CursoCardDTO[]
- */
 export const pesquisarCursos = (termo) =>
   apiFetch(`/cursos/pesquisar?termo=${encodeURIComponent(termo)}`)
 
-/**
- * Detalhar curso (público)
- * GET /cursos/{id}
- * Retorna: CursoDetalheDTO
- * { id, nome, ementa, cargaHoraria, numeroAulas, preco, notaAvaliacao,
- *   professor: { id, nome, email, formacao, telefone },
- *   videoAulas: [{ id, titulo, duracao, url, assistida }] }
- */
-export const detalharCurso = (id) =>
+export const detalharCursoPublico = (id) =>
   apiFetch(`/cursos/${id}`)
+
+export const detalharCurso = (id, token) =>
+  apiFetch(`/cursos/${id}`, { token })
+
+export const criarCurso = (dados, token) =>
+  apiFetch("/cursos", {
+    method: "POST",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const atualizarCurso = (id, dados, token) =>
+  apiFetch(`/cursos/${id}`, {
+    method: "PUT",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const deletarCurso = (id, token) =>
+  apiFetch(`/cursos/${id}`, { method: "DELETE", token })
+
+export const avaliarCurso = (id, nota, token) =>
+  apiFetch(`/cursos/${id}/avaliar`, {
+    method: "POST",
+    token,
+    body: JSON.stringify({ nota }),
+  })
+
+/* =========================
+   VIDEO AULAS
+========================= */
+
+export const listarAulasPorCurso = (cursoId, token) =>
+  apiFetch(`/video-aulas?cursoId=${cursoId}`, { token })
+
+export const detalharAula = (id, token) =>
+  apiFetch(`/video-aulas/${id}`, { token })
+
+export const criarAula = (dados, token) =>
+  apiFetch("/video-aulas", {
+    method: "POST",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const atualizarAula = (id, dados, token) =>
+  apiFetch(`/video-aulas/${id}`, {
+    method: "PUT",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const excluirAula = (id, token) =>
+  apiFetch(`/video-aulas/${id}`, { method: "DELETE", token })
 
 /* =========================
    MATRÍCULAS
 ========================= */
 
-/**
- * Matricular aluno em curso
- * POST /matriculas
- * Body: { cursoId, modalidadePagamento: "AVISTA"|"PARCELADO", numeroParcelas }
- * Retorna: MatriculaResponseDTO
- */
 export const matricular = (dados, token) =>
   apiFetch("/matriculas", {
     method: "POST",
@@ -108,40 +191,18 @@ export const matricular = (dados, token) =>
     body: JSON.stringify(dados),
   })
 
-/**
- * Listar matrículas do aluno
- * GET /matriculas/aluno/{alunoId}
- * Retorna: MatriculaResponseDTO[]
- * { cursoId, nomeCurso, nomeProfessor, totalAulas, aulasConcluidas,
- *   mediaFinal, modalidadePagamento, numeroParcelas,
- *   statusPagamento, dataMatricula, certificadoDisponivel }
- */
 export const listarMatriculas = (alunoId, token) =>
   apiFetch(`/matriculas/aluno/${alunoId}`, { token })
 
-/**
- * Detalhe de uma matrícula específica
- * GET /matriculas/aluno/{alunoId}/curso/{cursoId}
- * Retorna: MatriculaResponseDTO
- */
 export const detalharMatricula = (alunoId, cursoId, token) =>
   apiFetch(`/matriculas/aluno/${alunoId}/curso/${cursoId}`, { token })
 
-/**
- * Cancelar matrícula
- * DELETE /matriculas/aluno/{alunoId}/curso/{cursoId}
- */
 export const cancelarMatricula = (alunoId, cursoId, token) =>
   apiFetch(`/matriculas/aluno/${alunoId}/curso/${cursoId}`, {
     method: "DELETE",
     token,
   })
 
-/**
- * Atualizar status de pagamento
- * PATCH /matriculas/aluno/{alunoId}/curso/{cursoId}/pagamento?status=
- * status: "PENDENTE" | "PAGO" | "CANCELADO"
- */
 export const atualizarPagamento = (alunoId, cursoId, status, token) =>
   apiFetch(
     `/matriculas/aluno/${alunoId}/curso/${cursoId}/pagamento?status=${status}`,
@@ -178,23 +239,12 @@ export const registrarPagamentoCurso = (cursoId, formaPagamento, token) =>
    PROGRESSO
 ========================= */
 
-/**
- * Marcar aula como assistida
- * POST /progresso/aluno/{alunoId}/video-aula/{videoAulaId}
- * Retorna: ProgressoAulaResponseDTO
- * { alunoId, videoAulaId, assistida, dataConclusao }
- */
 export const marcarAulaAssistida = (alunoId, videoAulaId, token) =>
   apiFetch(`/progresso/aluno/${alunoId}/video-aula/${videoAulaId}`, {
     method: "POST",
     token,
   })
 
-/**
- * Verificar se curso foi concluído (todas as aulas assistidas)
- * GET /progresso/aluno/{alunoId}/curso/{cursoId}/completo
- * Retorna: boolean
- */
 export const cursoConcluido = (alunoId, cursoId, token) =>
   apiFetch(`/progresso/aluno/${alunoId}/curso/${cursoId}/completo`, { token })
 
@@ -202,12 +252,6 @@ export const cursoConcluido = (alunoId, cursoId, token) =>
    DÚVIDAS
 ========================= */
 
-/**
- * Enviar dúvida sobre uma aula
- * POST /duvidas/{alunoId}
- * Body: { pergunta, videoAulaId }
- * Retorna: DuvidaResponseDTO
- */
 export const enviarDuvida = (alunoId, dados, token) =>
   apiFetch(`/duvidas/${alunoId}`, {
     method: "POST",
@@ -215,37 +259,47 @@ export const enviarDuvida = (alunoId, dados, token) =>
     body: JSON.stringify(dados),
   })
 
-/**
- * Listar dúvidas de uma aula
- * GET /duvidas/video-aula/{videoAulaId}
- * Retorna: DuvidaResponseDTO[]
- */
 export const listarDuvidas = (videoAulaId, token) =>
   apiFetch(`/duvidas/video-aula/${videoAulaId}`, { token })
+
+export const responderDuvida = (duvidaId, resposta, token) =>
+  apiFetch(`/duvidas/${duvidaId}/responder`, {
+    method: "PATCH",
+    token,
+    body: JSON.stringify({ resposta }),
+  })
+
+export const listarDuvidasPendentes = (professorId, token) =>
+  apiFetch(`/duvidas/professor/${professorId}/pendentes`, { token })
 
 /* =========================
    ATIVIDADES
 ========================= */
 
-/**
- * Listar atividades de uma aula
- * GET /atividades/video-aula/{videoAulaId}
- * Retorna: AtividadeResponseDTO[]
- * { id, titulo, descricao, videoAulaId, respondida }
- */
 export const listarAtividades = (videoAulaId, token) =>
   apiFetch(`/atividades/video-aula/${videoAulaId}`, { token })
+
+export const criarAtividade = (dados, token) =>
+  apiFetch("/atividades", {
+    method: "POST",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const atualizarAtividade = (id, dados, token) =>
+  apiFetch(`/atividades/${id}`, {
+    method: "PUT",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+export const deletarAtividade = (id, token) =>
+  apiFetch(`/atividades/${id}`, { method: "DELETE", token })
 
 /* =========================
    RESPOSTAS DE ATIVIDADES
 ========================= */
 
-/**
- * Responder atividade
- * POST /respostas/{alunoId}
- * Body: { resposta, atividadeId }
- * Retorna: RespostaAtividadeResponseDTO
- */
 export const responderAtividade = (alunoId, dados, token) =>
   apiFetch(`/respostas/${alunoId}`, {
     method: "POST",
@@ -253,34 +307,48 @@ export const responderAtividade = (alunoId, dados, token) =>
     body: JSON.stringify(dados),
   })
 
+export const listarRespostasPorAtividade = (atividadeId, token) =>
+  apiFetch(`/respostas/atividade/${atividadeId}`, { token })
+
+export const corrigirResposta = (respostaId, nota, token) =>
+  apiFetch(`/respostas/${respostaId}/nota?nota=${nota}`, {
+    method: "PATCH",
+    token,
+  })
+
 /* =========================
    CERTIFICADOS
 ========================= */
 
-/**
- * Emitir certificado
- * POST /certificados/aluno/{alunoId}/curso/{cursoId}
- * Só funciona se todas as aulas foram assistidas e média >= 6.0
- * Retorna: CertificadoResponseDTO
- */
 export const emitirCertificado = (alunoId, cursoId, token) =>
   apiFetch(`/certificados/aluno/${alunoId}/curso/${cursoId}`, {
     method: "POST",
     token,
   })
 
-/**
- * Listar certificados do aluno
- * GET /certificados/aluno/{alunoId}
- * Retorna: CertificadoResponseDTO[]
- */
 export const listarCertificados = (alunoId, token) =>
   apiFetch(`/certificados/aluno/${alunoId}`, { token })
 
-/**
- * Validar certificado por código (público)
- * GET /certificados/validar/{codigo}
- * Retorna: CertificadoResponseDTO
- */
 export const validarCertificado = (codigo) =>
   apiFetch(`/certificados/validar/${codigo}`)
+
+/* =========================
+   ADMINISTRADORES
+========================= */
+
+export const criarAdministrador = (dados, token) =>
+  apiFetch("/administradores", {
+    method: "POST",
+    token,
+    body: JSON.stringify(dados),
+  })
+
+/* =========================
+   DASHBOARD / RELATÓRIOS
+========================= */
+
+export const getDashboardStats = (token) =>
+  apiFetch("/admin/dashboard", { token })
+
+export const getRelatorioMatriculas = (token, params) =>
+  apiFetch(`/relatorios/matriculas?${new URLSearchParams(params)}`, { token })

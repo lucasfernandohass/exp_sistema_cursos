@@ -8,6 +8,7 @@ public record MatriculaResponseDTO(
     Integer cursoId,
     String nomeCurso,
     String nomeProfessor,
+    String urlBanner,
     Integer totalAulas,
     Integer aulasConcluidas,
     BigDecimal mediaFinal,
