@@ -81,20 +81,24 @@ export default function AdminCourses() {
   }, [feedback.message])
 
   /* =========================
-     CARREGAR PROFESSORES
+     FUNÇÃO PARA CARREGAR PROFESSORES
   ========================= */
-  useEffect(() => {
-    async function loadProfessors() {
-      try {
-        const data = await apiFetch("/professores")
-        setProfessors(Array.isArray(data) ? data : [])
-      } catch (err) {
-        console.error("Erro ao carregar professores:", err)
-        setProfessors([])
-      }
+  const loadProfessors = useCallback(async () => {
+    try {
+      const data = await apiFetch("/professores", { token })
+      setProfessors(Array.isArray(data) ? data : [])
+    } catch (err) {
+      console.error("Erro ao carregar professores:", err)
+      setProfessors([])
     }
-    loadProfessors()
-  }, [])
+  }, [token])
+
+  // Carregar professores quando o componente monta
+  useEffect(() => {
+    if (token) {
+      loadProfessors()
+    }
+  }, [token, loadProfessors])
 
   /* =========================
      PESQUISA LOCAL
@@ -116,6 +120,9 @@ export default function AdminCourses() {
 
   function openEdit(course) {
     if (!course) return
+    
+    // Recarregar professores antes de abrir o modal
+    loadProfessors()
     
     setFormData({
       nome: course.nome ?? "",
@@ -306,6 +313,9 @@ export default function AdminCourses() {
 
         <div className="admin-toolbar">
           <div className="admin-toolbar-left">
+            <button className="btn-secondary" onClick={() => navigate("/admin")} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span>←</span> Voltar
+            </button>
             <h1 className="admin-title">Gerenciar Cursos</h1>
             <span className="admin-count">{courses.length} curso{courses.length !== 1 ? "s" : ""}</span>
           </div>
@@ -488,7 +498,7 @@ export default function AdminCourses() {
         </div>
       )}
 
-      {/* THEME TOGGLE - ADICIONADO AQUI */}
+      {/* THEME TOGGLE */}
       <ThemeToggle />
     </div>
   )

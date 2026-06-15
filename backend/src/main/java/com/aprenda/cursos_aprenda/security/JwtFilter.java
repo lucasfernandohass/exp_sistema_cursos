@@ -37,25 +37,15 @@ public class JwtFilter extends OncePerRequestFilter {
         }
  
         String header = request.getHeader("Authorization");
-        
-        System.out.println("=== JWT Filter Debug ===");
-        System.out.println("Request URI: " + requestURI);
-        System.out.println("Authorization header: " + (header != null ? "Present" : "NULL"));
  
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-            System.out.println("Token (primeiros 30 chars): " + token.substring(0, Math.min(token.length(), 30)) + "...");
  
             try {
                 if (jwtUtil.isValido(token)) {
                     String email = jwtUtil.extrairEmail(token);
                     String perfil = jwtUtil.extrairPerfil(token);
                     Integer id = jwtUtil.extrairId(token);
-                    
-                    System.out.println("✅ Token válido!");
-                    System.out.println("   Email: " + email);
-                    System.out.println("   Perfil: " + perfil);
-                    System.out.println("   ID: " + id);
  
                     var auth = new UsernamePasswordAuthenticationToken(
                         email,
@@ -64,16 +54,11 @@ public class JwtFilter extends OncePerRequestFilter {
                     );
  
                     SecurityContextHolder.getContext().setAuthentication(auth);
-                    System.out.println("✅ Authentication set in context");
-                } else {
-                    System.out.println("❌ Token inválido!");
                 }
             } catch (Exception e) {
-                System.out.println("❌ Erro ao processar token: " + e.getMessage());
-                e.printStackTrace();
+                // Log silencioso - apenas para debug em desenvolvimento
+                // System.out.println("Erro ao processar token: " + e.getMessage());
             }
-        } else {
-            System.out.println("⚠️ No Bearer token found in Authorization header");
         }
  
         chain.doFilter(request, response);

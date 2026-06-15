@@ -20,12 +20,14 @@ public class ProfessorService {
     private final ProfessorRepository professorRepository;
     private final PasswordEncoder passwordEncoder;
  
+    @Transactional(readOnly = true)
     public List<ProfessorResponseDTO> listarTodos() {
         return professorRepository.findAll().stream()
             .map(this::toDTO)
             .toList();
     }
  
+    @Transactional(readOnly = true)
     public ProfessorResponseDTO buscarPorId(Integer id) {
         return professorRepository.findById(id)
             .map(this::toDTO)
@@ -55,27 +57,26 @@ public class ProfessorService {
         Professor professor = professorRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Professor não encontrado: " + id));
  
-        if (!professor.getEmail().equals(dto.email()) && professorRepository.existsByEmail(dto.email())) {
-            throw new IllegalArgumentException("Email já cadastrado");
-        }
-        if (!professor.getCpf().equals(dto.cpf()) && professorRepository.existsByCpf(dto.cpf())) {
-            throw new IllegalArgumentException("CPF já cadastrado");
-        }
- 
         professor.setNome(dto.nome());
         professor.setEmail(dto.email());
         professor.setCpf(dto.cpf());
         professor.setTelefone(dto.telefone());
         professor.setFormacao(dto.formacao());
         professor.setDataNascimento(dto.dataNascimento());
-        professor.setSenhaHash(passwordEncoder.encode(dto.senha()));
+        
+        // Só atualiza a senha se for fornecida
+        if (dto.senha() != null && !dto.senha().isBlank()) {
+            professor.setSenhaHash(passwordEncoder.encode(dto.senha()));
+        }
  
         return toDTO(professorRepository.save(professor));
     }
  
     @Transactional
     public void deletar(Integer id) {
-        buscarPorId(id);
+        if (!professorRepository.existsById(id)) {
+            throw new EntityNotFoundException("Professor não encontrado: " + id);
+        }
         professorRepository.deleteById(id);
     }
  

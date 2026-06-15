@@ -38,7 +38,7 @@ export default function Login() {
 
       // redireciona conforme o tipo do usuário
       if (res.tipo === "ADMINISTRADOR") {
-        navigate("/admin/cursos")
+        navigate("/admin")
       } else {
         navigate("/")
       }

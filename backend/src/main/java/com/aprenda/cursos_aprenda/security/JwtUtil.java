@@ -1,3 +1,4 @@
+// JwtUtil.java - versão sem logs
 package com.aprenda.cursos_aprenda.security;
 
 import io.jsonwebtoken.*;
@@ -51,7 +52,6 @@ public class JwtUtil {
             parsear(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            System.out.println("Token inválido: " + e.getMessage());
             return false;
         }
     }

@@ -38,7 +38,7 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
             <hr className="user-divider" />
 
             {isAdmin ? (
-              <Link to="/admin/cursos" className="user-dropdown-item" onClick={onClose}>
+              <Link to="/admin" className="user-dropdown-item" onClick={onClose}>
                 Painel Admin
               </Link>
             ) : (

@@ -16,6 +16,8 @@ import SobreNos from "./pages/SobreNos"
 import Contato from "./pages/Contato"
 import Aula from "./pages/Aula"
 import AdminAulas from "./pages/AdminAulas";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminProfessores from "./pages/AdminProfessores";
 
 export default function App() {
   return (
@@ -85,6 +87,25 @@ export default function App() {
           </AdminRoute>
         }
       />
+
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/professores"
+        element={
+          <AdminRoute>
+            <AdminProfessores />
+          </AdminRoute>
+        }
+      />
+
 
     </Routes>
   )
