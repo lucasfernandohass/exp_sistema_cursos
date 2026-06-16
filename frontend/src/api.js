@@ -253,7 +253,7 @@ export const cursoConcluido = (alunoId, cursoId, token) =>
 ========================= */
 
 export const enviarDuvida = (alunoId, dados, token) =>
-  apiFetch(`/duvidas/${alunoId}`, {
+  apiFetch(`/duvidas/aluno/${alunoId}`, {
     method: "POST",
     token,
     body: JSON.stringify(dados),

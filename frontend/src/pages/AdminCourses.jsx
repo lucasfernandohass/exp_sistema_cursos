@@ -177,6 +177,10 @@ export default function AdminCourses() {
     return errs
   }
 
+  /* =========================
+     HANDLE SAVE - CORRIGIDO
+  ========================= */
+
   async function handleSave(e) {
     e.preventDefault()
     const errs = validate()
@@ -210,8 +214,22 @@ export default function AdminCourses() {
           token,
           body: JSON.stringify(payload),
         })
+        
         setCourses((prev) =>
-          prev.map((c) => (c.id === updated.id ? { ...c, ...updated } : c))
+          prev.map((c) => {
+            if (c.id !== formModal.course.id) return c
+            
+            const selectedProfessor = professors.find(p => p.id === Number(formData.professorId))
+
+            return {
+              ...c,
+              ...updated,
+
+              professor: selectedProfessor || c.professor,
+
+              nomeProfessor: selectedProfessor?.nome || c.nomeProfessor || null,
+            }
+          })
         )
         setFeedback({ type: "success", message: "Curso editado com sucesso!" })
       }
@@ -355,7 +373,9 @@ export default function AdminCourses() {
                 {filtered.map((course) => (
                   <tr key={course.id}>
                     <td className="admin-td-name">{course.nome}</td>
-                    <td>{course.nomeProfessor ?? <span className="admin-empty-cell">—</span>}</td>
+                    <td>
+                      {course.professor?.nome || course.nomeProfessor || <span className="admin-empty-cell">—</span>}
+                    </td>
                     <td>{course.numeroAulas ?? 0}</td>
                     <td>{course.cargaHoraria}h</td>
                     <td>{formatPrice(course.preco)}</td>

@@ -4,6 +4,7 @@ import com.aprenda.cursos_aprenda.dtos.request.DuvidaRequestDTO;
 import com.aprenda.cursos_aprenda.dtos.request.DuvidaRespostaRequestDTO;
 import com.aprenda.cursos_aprenda.dtos.response.DuvidaResponseDTO;
 import com.aprenda.cursos_aprenda.models.Aluno;
+import com.aprenda.cursos_aprenda.models.Curso;
 import com.aprenda.cursos_aprenda.models.Duvida;
 import com.aprenda.cursos_aprenda.models.Professor;
 import com.aprenda.cursos_aprenda.models.VideoAula;
@@ -11,7 +12,7 @@ import com.aprenda.cursos_aprenda.repositories.AlunoRepository;
 import com.aprenda.cursos_aprenda.repositories.DuvidaRepository;
 import com.aprenda.cursos_aprenda.repositories.ProfessorRepository;
 import com.aprenda.cursos_aprenda.repositories.VideoAulaRepository;
-
+import com.aprenda.cursos_aprenda.repositories.CursoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
  
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Collections;
  
 @Service
 @RequiredArgsConstructor
@@ -29,7 +32,7 @@ public class DuvidaService {
     private final AlunoRepository alunoRepository;
     private final ProfessorRepository professorRepository;
     private final VideoAulaRepository videoAulaRepository;
- 
+    private final CursoRepository cursoRepository;
     @Transactional(readOnly = true)
     public List<DuvidaResponseDTO> listarPorVideoAula(Integer videoAulaId) {
         return duvidaRepository.findByVideoAulaId(videoAulaId).stream()
@@ -39,16 +42,24 @@ public class DuvidaService {
  
     @Transactional(readOnly = true)
     public List<DuvidaResponseDTO> listarPendentes(Integer professorId) {
-        return duvidaRepository.findByProfessorIdAndRespostaIsNull(professorId).stream()
+        List<Curso> cursos = cursoRepository.findByProfessorId(professorId);
+        List<Integer> cursoIds = cursos.stream().map(Curso::getId).collect(Collectors.toList());
+        
+        if (cursoIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        List<Duvida> duvidasPendentes = duvidaRepository.findByVideoAulaCursoIdInAndRespostaIsNull(cursoIds);
+        
+        return duvidasPendentes.stream()
             .map(this::toDTO)
-            .toList();
+            .collect(Collectors.toList());
     }
  
     @Transactional
-    public DuvidaResponseDTO enviar(DuvidaRequestDTO dto) {
-        String email = getAuthenticatedEmail();
-        Aluno aluno = alunoRepository.findByEmail(email)
-            .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado para email: " + email));
+    public DuvidaResponseDTO enviar(Integer alunoId, DuvidaRequestDTO dto) {
+        Aluno aluno = alunoRepository.findById(alunoId)
+            .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado: " + alunoId));
  
         VideoAula videoAula = videoAulaRepository.findById(dto.videoAulaId())
             .orElseThrow(() -> new EntityNotFoundException("Video aula não encontrada: " + dto.videoAulaId()));
@@ -68,7 +79,8 @@ public class DuvidaService {
             .orElseThrow(() -> new EntityNotFoundException("Dúvida não encontrada: " + duvidaId));
  
         String email = getAuthenticatedEmail();
-        Professor professor = professorRepository.findByEmail(email).orElse(null);
+        Professor professor = professorRepository.findByEmail(email)
+            .orElseThrow(() -> new EntityNotFoundException("Professor não encontrado para email: " + email));
  
         duvida.setResposta(dto.resposta());
         duvida.setDataResposta(LocalDateTime.now());
@@ -89,13 +101,35 @@ public class DuvidaService {
         return new DuvidaResponseDTO(
             duvida.getId(),
             duvida.getPergunta(),
-            duvida.getResposta(),
+            duvida.getResposta() != null ? duvida.getResposta() : "",
             duvida.getDataEnvio(),
             duvida.getDataResposta(),
             duvida.getAluno() != null ? duvida.getAluno().getNome() : null,
             duvida.getProfessor() != null ? duvida.getProfessor().getNome() : null,
             duvida.getVideoAula() != null ? duvida.getVideoAula().getId() : null,
-            duvida.getVideoAula() != null ? duvida.getVideoAula().getTitulo() : null
+            duvida.getVideoAula() != null ? duvida.getVideoAula().getTitulo() : null,
+            duvida.getVideoAula() != null && duvida.getVideoAula().getCurso() != null 
+                ? duvida.getVideoAula().getCurso().getId() : null,
+            duvida.getVideoAula() != null && duvida.getVideoAula().getCurso() != null 
+                ? duvida.getVideoAula().getCurso().getNome() : null
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<DuvidaResponseDTO> listarTodas(Integer professorId) {
+        // Buscar cursos do professor
+        List<Curso> cursos = cursoRepository.findByProfessorId(professorId);
+        List<Integer> cursoIds = cursos.stream().map(Curso::getId).collect(Collectors.toList());
+        
+        if (cursoIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        // 🔥 Buscar TODAS as dúvidas (com ou sem resposta) dos cursos do professor
+        List<Duvida> todasDuvidas = duvidaRepository.findByVideoAulaCursoIdIn(cursoIds);
+        
+        return todasDuvidas.stream()
+            .map(this::toDTO)
+            .collect(Collectors.toList());
     }
 }

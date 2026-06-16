@@ -1,0 +1,578 @@
+/* =========================
+   MAIN LAYOUT
+========================= */
+.professor-page {
+  min-height: 100vh;
+  background: var(--background);
+  display: flex;
+  flex-direction: column;
+}
+
+.professor-main {
+  flex: 1;
+  padding: 40px 32px;
+}
+
+.professor-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================
+   HEADER BAR
+========================= */
+.professor-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.professor-header-left,
+.professor-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.professor-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--brand-blue);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.professor-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* =========================
+   HEADER
+========================= */
+.professor-header {
+  margin-bottom: 32px;
+}
+
+.professor-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--foreground);
+  margin-bottom: 8px;
+}
+
+.professor-header p {
+  color: var(--muted-foreground);
+  font-size: 1rem;
+}
+
+/* =========================
+   FILTROS
+========================= */
+.professor-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding: 16px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-group select {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.9rem;
+  min-width: 180px;
+}
+
+.filter-stats {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.stat-item {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.stat-item.pendente {
+  background: rgba(251, 191, 36, 0.15);
+  color: #d97706;
+}
+
+.stat-item.respondida {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+.professor-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.professor-empty h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 8px;
+}
+
+.professor-empty p {
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+}
+
+/* =========================
+   LISTA DE DÚVIDAS
+========================= */
+.duvidas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.duvida-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.duvida-card.pendente {
+  border-left: 4px solid #f59e0b;
+}
+
+.duvida-card.respondida {
+  border-left: 4px solid #22c55e;
+}
+
+.duvida-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.duvida-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.duvida-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.duvida-aluno {
+  font-weight: 700;
+  color: var(--foreground);
+  font-size: 1rem;
+}
+
+.duvida-curso {
+  font-size: 0.85rem;
+  color: var(--brand-blue);
+  font-weight: 500;
+}
+
+.duvida-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.duvida-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.duvida-status.pendente {
+  background: rgba(251, 191, 36, 0.15);
+  color: #d97706;
+}
+
+.duvida-status.respondida {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+
+.duvida-data {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.duvida-pergunta {
+  margin-bottom: 16px;
+}
+
+.duvida-pergunta p {
+  color: var(--foreground);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.duvida-resposta-box {
+  background: rgba(37, 99, 235, 0.05);
+  border-left: 3px solid var(--brand-blue);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.duvida-resposta-box strong {
+  font-size: 0.8rem;
+  color: var(--brand-blue);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.duvida-resposta-box p {
+  color: var(--foreground);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.resposta-data {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  display: block;
+  margin-top: 8px;
+}
+
+.duvida-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.duvida-detalhes-aula {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.duvida-curso-nome {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #9333ea; /* Roxo */
+}
+
+.duvida-aula-titulo {
+  font-size: 0.8rem;
+  color: #2563eb; /* Azul */
+  font-weight: 500;
+}
+
+.detalhe-curso-aula {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 0;
+}
+
+.detalhe-curso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.curso-nome-modal {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #9333ea; /* Roxo */
+}
+
+.detalhe-aula {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aula-titulo-modal {
+  font-size: 0.9rem;
+  color: #2563eb; /* Azul */
+  font-weight: 500;
+}
+
+.modal-body {
+  padding: 20px 24px;
+}
+
+.duvida-detalhe {
+  background: var(--background);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.duvida-detalhe .detalhe-aluno,
+.duvida-detalhe .detalhe-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.duvida-detalhe .detalhe-aluno:last-child,
+.duvida-detalhe .detalhe-item:last-child {
+  border-bottom: none;
+}
+
+.detalhe-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  min-width: 60px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detalhe-valor {
+  font-size: 0.95rem;
+  color: var(--foreground);
+}
+
+/* Curso no modal - em negrito */
+.curso-nome-modal {
+  font-weight: 700 !important;
+  color: #9333ea !important;
+  font-size: 0.95rem;
+}
+
+/* Aula no modal - em azul (não negrito) */
+.aula-titulo-modal {
+  font-weight: 500 !important;
+  color: #2563eb !important;
+  font-size: 0.95rem;
+}
+
+.detalhe-curso-aula {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.detalhe-curso-aula .detalhe-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  border-bottom: none;
+}
+
+.detalhe-pergunta {
+  padding-top: 8px;
+}
+
+.detalhe-pergunta .detalhe-label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.detalhe-pergunta p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--foreground);
+  line-height: 1.6;
+  background: rgba(37, 99, 235, 0.04);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--brand-blue);
+}
+
+/* Dark mode */
+.dark .duvida-detalhe {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dark .duvida-detalhe .detalhe-aluno,
+.dark .duvida-detalhe .detalhe-item,
+.dark .duvida-detalhe .detalhe-curso-aula {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .detalhe-pergunta p {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.dark .curso-nome-modal {
+  color: #a78bfa !important; /* Roxo mais claro no dark mode */
+}
+
+.dark .aula-titulo-modal {
+  color: #60a5fa !important; /* Azul mais claro no dark mode */
+}
+
+
+/* =========================
+   MODAL DE RESPOSTA
+========================= */
+.modal-body {
+  padding: 20px 24px;
+}
+
+.duvida-detalhe {
+  background: var(--background);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.duvida-detalhe > div {
+  margin-bottom: 8px;
+}
+
+.duvida-detalhe > div:last-child {
+  margin-bottom: 0;
+}
+
+.detalhe-aluno,
+.detalhe-aula {
+  font-size: 0.9rem;
+  color: var(--foreground);
+}
+
+.detalhe-aluno strong,
+.detalhe-aula strong {
+  color: var(--muted-foreground);
+  font-weight: 600;
+}
+
+.detalhe-pergunta strong {
+  color: var(--muted-foreground);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.detalhe-pergunta p {
+  color: var(--foreground);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.resposta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resposta-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.resposta-textarea:focus {
+  outline: none;
+  border-color: var(--brand-blue);
+}
+
+/* =========================
+   LOADING
+========================= */
+.professor-loading {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 768px) {
+  .professor-main {
+    padding: 20px 16px;
+  }
+
+  .professor-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .professor-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group select {
+    min-width: auto;
+  }
+
+  .filter-stats {
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .duvida-header {
+    flex-direction: column;
+  }
+
+  .duvida-meta {
+    flex-wrap: wrap;
+  }
+}

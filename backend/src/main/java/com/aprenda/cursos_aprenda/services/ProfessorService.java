@@ -86,7 +86,8 @@ public class ProfessorService {
             professor.getNome(),
             professor.getEmail(),
             professor.getFormacao(),
-            professor.getTelefone()
+            professor.getTelefone(),
+            professor.getCpf()
         );
     }
 }

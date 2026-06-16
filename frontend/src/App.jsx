@@ -18,6 +18,7 @@ import Aula from "./pages/Aula"
 import AdminAulas from "./pages/AdminAulas";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProfessores from "./pages/AdminProfessores";
+import ProfessorDashboard from "./pages/ProfessorDashboard";
 
 export default function App() {
   return (
@@ -103,6 +104,15 @@ export default function App() {
           <AdminRoute>
             <AdminProfessores />
           </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/professor/dashboard"
+        element={
+          <PrivateRoute>
+            <ProfessorDashboard />
+          </PrivateRoute>
         }
       />
 

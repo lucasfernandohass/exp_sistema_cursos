@@ -23,6 +23,7 @@ import "./styles/admin.css"
 import "./styles/aula.css"
 import "./styles/toast.css"
 import "./styles/admin-dashboard.css"
+import "./styles/professor.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

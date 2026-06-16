@@ -259,7 +259,8 @@ public class CursoService {
             professor.getNome(),
             professor.getEmail(),
             professor.getFormacao(),
-            professor.getTelefone()
+            professor.getTelefone(),
+            professor.getCpf()
         );
     }
 
@@ -299,13 +300,6 @@ public class CursoService {
                 return aluno.get().getId();
             } else {
                 System.out.println("DEBUG: Aluno NÃO encontrado para email: '" + email + "'");
-                
-                // Listar todos os emails de alunos para debug
-                List<Aluno> todosAlunos = alunoRepository.findAll();
-                System.out.println("DEBUG: Alunos cadastrados:");
-                for (Aluno a : todosAlunos) {
-                    System.out.println("  - ID: " + a.getId() + ", Email: '" + a.getEmail() + "'");
-                }
             }
         } catch (Exception e) {
             System.out.println("DEBUG: Erro ao buscar aluno: " + e.getMessage());

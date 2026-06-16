@@ -11,7 +11,7 @@ public record ProfessorRequestDTO(
     @NotBlank(message = "Email é obrigatório")
     String email,
  
-    @NotBlank(message = "Senha é obrigatória")
+    //@NotBlank(message = "Senha é obrigatória")
     @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
     String senha,
  

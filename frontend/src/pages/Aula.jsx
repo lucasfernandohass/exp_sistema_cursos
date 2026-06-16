@@ -526,8 +526,8 @@ export default function Aula() {
                         {duvida.resposta && (
                           <div className="duvida-resposta">
                             <div className="duvida-resposta-header">
-                              <span className="duvida-resposta-avatar">👨‍🏫</span>
-                              <strong>Professor {duvida.nomeProfessor}</strong>
+                              <span className="duvida-resposta-avatar"></span>
+                              <strong>Professor(a) {duvida.nomeProfessor}</strong>
                             </div>
                             <p>{duvida.resposta}</p>
                           </div>

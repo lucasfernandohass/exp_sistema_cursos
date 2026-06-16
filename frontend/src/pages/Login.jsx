@@ -39,7 +39,11 @@ export default function Login() {
       // redireciona conforme o tipo do usuário
       if (res.tipo === "ADMINISTRADOR") {
         navigate("/admin")
-      } else {
+      }
+      else if (res.tipo === "PROFESSOR") {
+        navigate("/professor/dashboard")
+      }
+      else {
         navigate("/")
       }
     } catch (err) {

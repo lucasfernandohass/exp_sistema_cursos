@@ -11,5 +11,7 @@ public record DuvidaResponseDTO(
     String nomeAluno,
     String nomeProfessor,   // null enquanto não respondida
     Integer videoAulaId,
-    String tituloVideoAula
+    String tituloVideoAula,
+    Integer cursoId,
+    String nomeCurso
 ) {}
