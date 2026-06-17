@@ -3,6 +3,7 @@ import { useState } from "react"
 
 import { useAuth } from "../context/AuthContext"
 import { login } from "../api"
+import ThemeToggle from "../components/ThemeToggle"
 
 export default function Login() {
   const navigate = useNavigate()
@@ -27,7 +28,6 @@ export default function Login() {
       setLoading(true)
       const res = await login(email.trim(), senha)
 
-      // salva no contexto global (e no localStorage via AuthContext)
       signIn({
         token: res.token,
         tipo: res.tipo,
@@ -36,14 +36,11 @@ export default function Login() {
         email: res.email,
       })
 
-      // redireciona conforme o tipo do usuário
       if (res.tipo === "ADMINISTRADOR") {
-        navigate("/admin")
-      }
-      else if (res.tipo === "PROFESSOR") {
+        navigate("/admin/cursos")
+      } else if (res.tipo === "PROFESSOR") {
         navigate("/professor/dashboard")
-      }
-      else {
+      } else {
         navigate("/")
       }
     } catch (err) {
@@ -84,6 +81,7 @@ export default function Login() {
               <path
                 d="M22 10V14"
                 stroke="currentColor"
+                strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -163,6 +161,9 @@ export default function Login() {
         </form>
 
       </div>
+
+      {/* THEME TOGGLE */}
+      <ThemeToggle />
     </div>
   )
 }

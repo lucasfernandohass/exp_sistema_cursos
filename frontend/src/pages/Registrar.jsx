@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { registerAluno } from "../api"
 import { useState } from "react"
+import ThemeToggle from "../components/ThemeToggle"
 
 export default function Register() {
 
@@ -401,6 +402,9 @@ export default function Register() {
         </form>
 
       </div>
+
+      {/* THEME TOGGLE */}
+      <ThemeToggle />
     </div>
   )
 }

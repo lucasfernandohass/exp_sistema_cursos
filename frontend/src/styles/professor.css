@@ -26,7 +26,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 60px;
+  height: 64px;
+  min-height: 64px;
+  max-height: 64px;
   background: var(--card);
   border-bottom: 1px solid var(--border);
   position: sticky;
@@ -34,11 +36,31 @@
   z-index: 100;
 }
 
+
 .professor-header-left,
 .professor-header-right {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
+}
+
+.professor-header-right .user-pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px 6px 9px;
+  cursor: pointer;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+  height: 38px;
 }
 
 .professor-logo {
@@ -48,6 +70,12 @@
   color: var(--brand-blue);
   font-size: 1.2rem;
   font-weight: 800;
+  white-space: nowrap;
+}
+
+.professor-header-right .user-menu {
+  display: flex;
+  align-items: center;
 }
 
 .professor-badge {
@@ -59,6 +87,7 @@
   border-radius: 999px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* =========================
@@ -546,33 +575,43 @@
    RESPONSIVO
 ========================= */
 @media (max-width: 768px) {
-  .professor-main {
-    padding: 20px 16px;
+  .professor-header-bar {
+    height: 60px;
+    min-height: 60px;
+    max-height: 60px;
+    padding: 0 1rem;
   }
 
-  .professor-header h1 {
-    font-size: 1.5rem;
+  .professor-logo {
+    font-size: 1rem;
   }
 
-  .professor-filters {
-    flex-direction: column;
-    align-items: stretch;
+  .professor-logo svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .professor-header-bar {
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    padding: 0 0.75rem;
   }
 
-  .filter-group select {
-    min-width: auto;
+  .professor-badge {
+    font-size: 0.55rem;
+    padding: 1px 6px;
   }
 
-  .filter-stats {
-    margin-left: 0;
-    justify-content: center;
+  .professor-header-right .user-pill-btn {
+    height: 32px;
+    padding: 4px 8px 4px 6px;
+    font-size: 0.75rem;
   }
 
-  .duvida-header {
-    flex-direction: column;
-  }
-
-  .duvida-meta {
-    flex-wrap: wrap;
+  .professor-header-right .user-pill-name {
+    max-width: 80px;
   }
 }
