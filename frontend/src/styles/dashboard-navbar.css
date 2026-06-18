@@ -1,0 +1,201 @@
+.dash-nav {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2.5rem !important;
+  height: 76px !important;
+  min-height: 76px !important;  /* igual à height para consistência */
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.dash-nav-container {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem !important;      /* espaço entre os blocos */
+}
+
+.dash-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem !important;      /* espaço entre ícone e texto */
+  color: var(--brand-blue);
+  font-size: 1.4rem !important; /* tamanho da logo */
+  font-weight: 800;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.dash-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem !important;      /* espaço entre links */
+}
+
+.dash-nav-links a,
+.dash-nav-indicator {
+  padding: 0.5rem 1.2rem !important; /* padding interno dos links */
+  border-radius: 0.5rem;
+  font-size: 0.95rem !important;     /* tamanho da fonte */
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.dash-nav-links a:hover {
+  color: var(--foreground);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.dash-nav-links a.active,
+.dash-nav-indicator.active {
+  color: var(--brand-blue);
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.dash-nav-indicator {
+  cursor: default;
+}
+
+.dash-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem !important;        /* espaço entre nome e botão */
+  flex-shrink: 0;
+}
+
+.dash-nav-user {
+  font-size: 0.95rem !important;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.dash-nav-logout {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+  padding: 0.4rem 1rem !important;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem !important;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.dash-nav-logout:hover {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* Dark mode */
+.dark .dash-nav {
+  background: #0f172a;
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .dash-nav-links a.active,
+.dark .dash-nav-indicator.active {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+/* Tablets e mobile grande */
+@media (max-width: 768px) {
+  .dash-nav {
+    height: auto !important;
+    min-height: 68px !important;
+    padding: 0.5rem 1.2rem !important;
+    flex-wrap: wrap;
+  }
+
+  .dash-nav-container {
+    flex-wrap: wrap;
+    gap: 0.75rem !important;
+  }
+
+  .dash-nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem !important;
+    order: 3;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding-top: 0.6rem;
+    margin-top: 0.3rem;
+  }
+
+  .dash-nav-links a,
+  .dash-nav-indicator {
+    font-size: 0.85rem !important;
+    padding: 0.3rem 0.8rem !important;
+  }
+
+  .dash-nav-right {
+    gap: 0.75rem !important;
+  }
+
+  .dash-nav-user {
+    font-size: 0.85rem !important;
+  }
+
+  .dash-nav-logout {
+    font-size: 0.8rem !important;
+    padding: 0.3rem 0.8rem !important;
+  }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px) {
+  .dash-nav {
+    padding: 0.4rem 0.8rem !important;
+    min-height: 60px !important;
+  }
+
+  .dash-nav-container {
+    gap: 0.5rem !important;
+  }
+
+  .dash-nav-logo {
+    font-size: 1.1rem !important;
+    gap: 0.4rem !important;
+  }
+
+  .dash-nav-links {
+    gap: 0.25rem !important;
+    padding-top: 0.4rem;
+    margin-top: 0.2rem;
+  }
+
+  .dash-nav-links a,
+  .dash-nav-indicator {
+    font-size: 0.75rem !important;
+    padding: 0.2rem 0.5rem !important;
+  }
+
+  .dash-nav-right {
+    gap: 0.5rem !important;
+  }
+
+  .dash-nav-user {
+    font-size: 0.75rem !important;
+  }
+
+  .dash-nav-logout {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.5rem !important;
+  }
+}

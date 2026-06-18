@@ -3,6 +3,9 @@ import Courses from "../components/Courses"
 import Footer from "../components/Footer"
 import ThemeToggle from "../components/ThemeToggle"
 
+import "../styles/courses.css";
+import "../styles/curso-detalhe.css";
+
 export default function Cursos() {
   return (
     <>

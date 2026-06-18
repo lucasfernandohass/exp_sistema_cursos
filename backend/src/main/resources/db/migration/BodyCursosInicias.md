@@ -1,4 +1,16 @@
 {
+  "nome": "Desenvolvimento Backend",
+  "descricao": "Aprenda programação backend do zero",
+  "ementa": "Módulo I: Fundamentos de Programação e Orientação a Objetos\nBases sólidas de lógica e paradigma orientado a objetos com Java.\nLógica de Programação: Algoritmos, variáveis, estruturas de controle, laços e funções.\nJava Essencial: Sintaxe, tipos de dados, coleções, exceções e entrada/saída.\nOrientação a Objetos: Classes, objetos, herança, polimorfismo, encapsulamento e interfaces.\nVersionamento: Controle de código com Git e GitHub em ambiente colaborativo.\n\nMódulo II: Desenvolvimento de APIs REST com Spring Boot\nConstrução de serviços web robustos e escaláveis com o ecossistema Spring.\nSpring Boot: Configuração, estrutura de projetos, injeção de dependências e beans.\nAPIs REST: Verbos HTTP, status codes, boas práticas de design de endpoints e versionamento.\nValidação e Tratamento de Erros: Bean Validation, handlers globais e respostas padronizadas.\nDocumentação: Geração automática de documentação com Swagger/OpenAPI.\n\nMódulo III: Banco de Dados e Persistência\nModelagem e acesso a dados relacionais integrados à aplicação Java.\nSQL Avançado: DDL, DML, joins, subqueries, índices e procedures.\nJPA e Hibernate: Mapeamento objeto-relacional, relacionamentos e ciclo de vida das entidades.\nFlyway: Controle de versão e migração de esquemas de banco de dados.\nMySQL na Prática: Configuração, otimização de queries e modelagem de dados.\n\nMódulo IV: Segurança, Testes e Deploy\nBoas práticas profissionais para entregar software seguro, testado e em produção.\nSpring Security e JWT: Autenticação stateless, autorização por perfis e proteção de endpoints.\nTestes Automatizados: Testes unitários com JUnit e Mockito, testes de integração.\nDeploy e Nuvem: Containerização com Docker e publicação em serviços de nuvem.\nProjeto Final: Desenvolvimento completo de uma API REST com autenticação, testes e documentação.",
+  "cargaHoraria": 75,
+  "numeroAulas": 45,
+  "preco": 0,
+  "media": 6.0,
+  "urlBanner": "https://images.unsplash.com/photo-1687603921109-46401b201195?q=80&w=1200",
+  "professorId": null
+}
+
+{
   "nome": "Desenvolvimento Web Full Stack",
   "descricao": "Aprenda a criar aplicações web completas do zero",
   "ementa": "Módulo I: Fundamentos da Internet e Front-End Básico\nNeste módulo, o aluno compreenderá como a internet funciona e aprenderá a estruturar e estilizar páginas web.\nIntrodução à Web: Arquitetura cliente-servidor, protocolos HTTP/HTTPS, navegadores e domínios.\nHTML5: Estruturação de conteúdo, semântica, formulários e acessibilidade.\nCSS3: Estilização, layout, modelo de caixas (Box Model), Flexbox e design responsivo.\nVersionamento: Controle de versão de código utilizando Git e GitHub.\n\nMódulo II: Lógica e Programação Front-End\nFoco na interatividade do lado do cliente e no processamento de dados dinâmicos.\nLógica de Programação: Algoritmos, variáveis, estruturas de controle e laços de repetição.\nJavaScript (JS): Manipulação da DOM, eventos, armazenamento local e integração assíncrona.\nAPIs e Requisições: Consumo de APIs públicas utilizando fetch() e entendimento do formato JSON.\nFrameworks Modernos: Introdução à componentização com React para otimizar o fluxo de trabalho.\n\nMódulo III: Desenvolvimento Back-End\nIntrodução à lógica de servidores, manipulação de dados e regras de negócio.\nAmbiente de Servidor: Utilização de Node.js e Express para construção de servidores.\nBanco de Dados: Modelagem e manipulação de dados utilizando SQL (MySQL/PostgreSQL).\nCRUD e Autenticação: Criação de operações de leitura/escrita, sessões de usuário e controle de acesso.\nCriação de Web APIs: Desenvolvimento e documentação de APIs para comunicação segura entre cliente e servidor.\n\nMódulo IV: Projetos e Ferramentas Modernas (Full Stack)\nFase prática voltada para a consolidação de portfólio e simulação de rotina corporativa.\nBoas Práticas: Testes unitários, segurança básica e otimização de performance.\nDeploy e Hospedagem: Preparação e publicação de aplicações web em nuvem.\nProjeto Final: Concepção, desenvolvimento e apresentação de um projeto completo integrando todas as tecnologias estudadas.",
@@ -55,17 +67,5 @@
   "preco": 0,
   "media": 6.0,
   "urlBanner": "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?q=80&w=1200",
-  "professorId": null
-}
-
-{
-  "nome": "Desenvolvimento Backend",
-  "descricao": "Aprenda programação backend do zero",
-  "ementa": "Módulo I: Fundamentos de Programação e Orientação a Objetos\nBases sólidas de lógica e paradigma orientado a objetos com Java.\nLógica de Programação: Algoritmos, variáveis, estruturas de controle, laços e funções.\nJava Essencial: Sintaxe, tipos de dados, coleções, exceções e entrada/saída.\nOrientação a Objetos: Classes, objetos, herança, polimorfismo, encapsulamento e interfaces.\nVersionamento: Controle de código com Git e GitHub em ambiente colaborativo.\n\nMódulo II: Desenvolvimento de APIs REST com Spring Boot\nConstrução de serviços web robustos e escaláveis com o ecossistema Spring.\nSpring Boot: Configuração, estrutura de projetos, injeção de dependências e beans.\nAPIs REST: Verbos HTTP, status codes, boas práticas de design de endpoints e versionamento.\nValidação e Tratamento de Erros: Bean Validation, handlers globais e respostas padronizadas.\nDocumentação: Geração automática de documentação com Swagger/OpenAPI.\n\nMódulo III: Banco de Dados e Persistência\nModelagem e acesso a dados relacionais integrados à aplicação Java.\nSQL Avançado: DDL, DML, joins, subqueries, índices e procedures.\nJPA e Hibernate: Mapeamento objeto-relacional, relacionamentos e ciclo de vida das entidades.\nFlyway: Controle de versão e migração de esquemas de banco de dados.\nMySQL na Prática: Configuração, otimização de queries e modelagem de dados.\n\nMódulo IV: Segurança, Testes e Deploy\nBoas práticas profissionais para entregar software seguro, testado e em produção.\nSpring Security e JWT: Autenticação stateless, autorização por perfis e proteção de endpoints.\nTestes Automatizados: Testes unitários com JUnit e Mockito, testes de integração.\nDeploy e Nuvem: Containerização com Docker e publicação em serviços de nuvem.\nProjeto Final: Desenvolvimento completo de uma API REST com autenticação, testes e documentação.",
-  "cargaHoraria": 75,
-  "numeroAulas": 45,
-  "preco": 0,
-  "media": 6.0,
-  "urlBanner": "https://images.unsplash.com/photo-1687603921109-46401b201195?q=80&w=1200",
   "professorId": null
 }

@@ -222,7 +222,6 @@ export default function Register() {
     try {
       setLoading(true)
       await registerAluno(payload)
-      alert('Conta criada com sucesso! R.A: ' + ra)
       navigate('/login')
     } catch (err) {
       alert('Falha ao criar conta: ' + err.message)

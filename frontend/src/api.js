@@ -36,7 +36,7 @@ const apiFetch = async (path, { token, ...options } = {}) => {
     
   } catch (error) {
     if (error.name === "TypeError" && error.message.includes("fetch")) {
-      throw new Error("Não foi possível conectar ao servidor. Verifique se o backend está rodando.");
+      throw new Error("Não foi possível conectar ao servidor.");
     }
     throw error;
   }
@@ -248,6 +248,18 @@ export const marcarAulaAssistida = (alunoId, videoAulaId, token) =>
 export const cursoConcluido = (alunoId, cursoId, token) =>
   apiFetch(`/progresso/aluno/${alunoId}/curso/${cursoId}/completo`, { token })
 
+export async function emitirCertificado(alunoId, cursoId, token) {
+  const response = await apiFetch(`/certificados/emitir?alunoId=${alunoId}&cursoId=${cursoId}`, {
+    method: 'POST',
+    token,
+  });
+  return response; // retorna o DTO com o código de validação
+}
+
+export function getCertificadoDownloadUrl(codigo) {
+  return `/api/certificados/download/${codigo}`;
+}
+
 /* =========================
    DÚVIDAS
 ========================= */
@@ -300,12 +312,12 @@ export const deletarAtividade = (id, token) =>
    RESPOSTAS DE ATIVIDADES
 ========================= */
 
-export const responderAtividade = (alunoId, dados, token) =>
-  apiFetch(`/respostas/${alunoId}`, {
+export const responderAtividade = (alunoId, atividadeId, respostas, token) =>
+  apiFetch(`/alunos/${alunoId}/atividades/${atividadeId}/responder`, {
     method: "POST",
     token,
-    body: JSON.stringify(dados),
-  })
+    body: JSON.stringify({ respostas }),
+  });
 
 export const listarRespostasPorAtividade = (atividadeId, token) =>
   apiFetch(`/respostas/atividade/${atividadeId}`, { token })
@@ -319,12 +331,6 @@ export const corrigirResposta = (respostaId, nota, token) =>
 /* =========================
    CERTIFICADOS
 ========================= */
-
-export const emitirCertificado = (alunoId, cursoId, token) =>
-  apiFetch(`/certificados/aluno/${alunoId}/curso/${cursoId}`, {
-    method: "POST",
-    token,
-  })
 
 export const listarCertificados = (alunoId, token) =>
   apiFetch(`/certificados/aluno/${alunoId}`, { token })

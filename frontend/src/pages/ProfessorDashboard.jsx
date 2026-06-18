@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import apiFetch from "../api";
@@ -12,7 +12,6 @@ export default function ProfessorDashboard() {
   const [duvidas, setDuvidas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cursos, setCursos] = useState([]);
   const [cursoSelecionado, setCursoSelecionado] = useState("todos");
   const [statusFiltro, setStatusFiltro] = useState("pendentes");
 
@@ -51,27 +50,26 @@ export default function ProfessorDashboard() {
     }
   }, [token, user]);
 
-  /* =========================
-     CARREGAR CURSOS DO PROFESSOR
-  ========================= */
-  const fetchCursos = useCallback(async () => {
-    if (!token || !user) return;
-
-    try {
-      const data = await apiFetch(`/cursos?professorId=${user.id}`, { token });
-      setCursos(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error("Erro ao carregar cursos:", err);
-      setCursos([]);
-    }
-  }, [token, user]);
-
   useEffect(() => {
     if (isProfessor) {
       fetchDuvidas();
-      fetchCursos();
     }
-  }, [isProfessor, fetchDuvidas, fetchCursos]);
+  }, [isProfessor, fetchDuvidas]);
+
+  /* =========================
+     EXTRAIR CURSOS DAS DÚVIDAS
+  ========================= */
+  const cursosDisponiveis = useMemo(() => {
+    const cursosMap = new Map();
+    duvidas.forEach((duvida) => {
+      const id = duvida.cursoId;
+      const nome = duvida.nomeCurso || `Curso ${id}`;
+      if (id && !cursosMap.has(id)) {
+        cursosMap.set(id, nome);
+      }
+    });
+    return Array.from(cursosMap.entries()).map(([id, nome]) => ({ id, nome }));
+  }, [duvidas]);
 
   /* =========================
      FILTROS
@@ -80,11 +78,7 @@ export default function ProfessorDashboard() {
     const temResposta = duvida.resposta && duvida.resposta.trim() !== "";
     
     if (cursoSelecionado !== "todos") {
-      const duvidaCursoId = duvida.cursoId || 
-                            duvida.videoAula?.curso?.id || 
-                            duvida.videoAula?.cursoId ||
-                            duvida.videoAulaId;
-      
+      const duvidaCursoId = duvida.cursoId;
       if (!duvidaCursoId || duvidaCursoId !== parseInt(cursoSelecionado)) {
         return false;
       }
@@ -217,7 +211,7 @@ export default function ProfessorDashboard() {
                 onChange={(e) => setCursoSelecionado(e.target.value)}
               >
                 <option value="todos">Todos os cursos</option>
-                {cursos.map((curso) => (
+                {cursosDisponiveis.map((curso) => (
                   <option key={curso.id} value={curso.id}>
                     {curso.nome}
                   </option>

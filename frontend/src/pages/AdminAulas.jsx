@@ -1,4 +1,3 @@
-// src/pages/AdminAulas.jsx
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -14,7 +13,7 @@ import Toast from "../components/Toast";
 export default function AdminAulas() {
   const { cursoId } = useParams();
   const navigate = useNavigate();
-  const { token, isAdmin } = useAuth();
+  const { user, token, isAdmin } = useAuth();
 
   const [curso, setCurso] = useState(null);
   const [aulas, setAulas] = useState([]);
@@ -217,7 +216,7 @@ export default function AdminAulas() {
   if (loading) {
     return (
       <div className="admin-page">
-        <AdminHeader cursoNome={curso?.nome} />
+        <AdminHeader cursoNome={curso?.nome} user={user} />
         <main className="admin-main">
           <div className="admin-toolbar">
             <div className="skeleton" style={{ height: 40, width: 300, borderRadius: 8 }} />
@@ -234,7 +233,7 @@ export default function AdminAulas() {
   if (error && !curso) {
     return (
       <div className="admin-page">
-        <AdminHeader />
+        <AdminHeader user={user} />
         <main className="admin-main">
           <div className="courses-error">
             <p>⚠️ {error}</p>
@@ -252,7 +251,7 @@ export default function AdminAulas() {
   ========================= */
   return (
     <div className="admin-page">
-      <AdminHeader cursoNome={curso?.nome} cursoId={cursoId} />
+      <AdminHeader cursoNome={curso?.nome} cursoId={cursoId} user={user} />
       
       <main className="admin-main">
         
@@ -480,7 +479,7 @@ export default function AdminAulas() {
 /* =========================
    HEADER ADMIN (versão para página de aulas)
 ========================= */
-function AdminHeader({ cursoNome, cursoId }) {
+function AdminHeader({ cursoNome, cursoId, user }) {
   const navigate = useNavigate();
   const { signOut } = useAuth();
   const [showConfirm, setShowConfirm] = useState(false);
@@ -521,7 +520,7 @@ function AdminHeader({ cursoNome, cursoId }) {
               <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
               <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="1.8" />
             </svg>
-            <span className="user-pill-name">Admin</span>
+            <span className="user-pill-name">{user?.nome?.split(" ")[0] || "Admin"}</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" className={`user-pill-chevron${menuOpen ? " open" : ""}`}>
               <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" />
             </svg>
@@ -531,6 +530,9 @@ function AdminHeader({ cursoNome, cursoId }) {
             <>
               <div className="user-backdrop" onClick={() => setMenuOpen(false)} />
               <div className="user-dropdown">
+                <div className="user-dropdown-name">{user?.nome}</div>
+                <div className="user-dropdown-email">{user?.email}</div>
+                <hr className="user-divider" />
                 <button
                   className="user-dropdown-item"
                   onClick={() => {
@@ -538,14 +540,14 @@ function AdminHeader({ cursoNome, cursoId }) {
                     navigate("/admin/cursos");
                   }}
                 >
-                  📚 Gerenciar Cursos
+                  Gerenciar Cursos
                 </button>
                 <hr className="user-divider" />
                 <button
                   className="user-dropdown-item user-dropdown-logout"
                   onClick={() => { setMenuOpen(false); setShowConfirm(true); }}
                 >
-                  🚪 Sair da conta
+                  Sair da conta
                 </button>
               </div>
             </>

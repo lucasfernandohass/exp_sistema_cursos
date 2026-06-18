@@ -19,6 +19,11 @@ import AdminAulas from "./pages/AdminAulas";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProfessores from "./pages/AdminProfessores";
 import ProfessorDashboard from "./pages/ProfessorDashboard";
+import MinhasInformacoes from "./pages/MinhasInformacoes"
+import AdminAtividades from "./pages/AdminAtividades";
+import AlunoAtividades from "./pages/AlunoAtividades";
+import Certificados from "./pages/Certificados";
+import ValidarCertificado from "./pages/ValidarCertificado";
 
 export default function App() {
   return (
@@ -35,6 +40,7 @@ export default function App() {
       <Route path="/curso/:id" element={<CursoDetalhe />} />
       <Route path="/sobre" element={<SobreNos />} />
       <Route path="/contato"   element={<Contato />} />
+      <Route path="/validar-certificado" element={<ValidarCertificado />} />
 
       {/* =========================
           ROTAS PROTEGIDAS (ALUNO)
@@ -45,6 +51,15 @@ export default function App() {
         element={
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/painel-aluno/minhas-informacoes"
+        element={
+          <PrivateRoute>
+            <MinhasInformacoes />
           </PrivateRoute>
         }
       />
@@ -66,6 +81,25 @@ export default function App() {
           </PrivateRoute>
         }
       />
+
+      <Route
+        path="/painel-aluno/atividades/:cursoId"
+        element={
+          <PrivateRoute>
+            <AlunoAtividades />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/painel-aluno/certificados"
+        element={
+          <PrivateRoute>
+            <Certificados />
+          </PrivateRoute>
+        }
+      />
+
 
       {/* =========================
           ROTAS ADMINISTRADOR
@@ -108,6 +142,19 @@ export default function App() {
       />
 
       <Route
+        path="/admin/cursos/:cursoId/atividades"
+        element={
+          <AdminRoute>
+            <AdminAtividades />
+          </AdminRoute>
+        }
+      />
+
+      {/* =========================
+          ROTAS PROFESSOR
+      ========================= */}
+
+      <Route
         path="/professor/dashboard"
         element={
           <PrivateRoute>
@@ -115,7 +162,6 @@ export default function App() {
           </PrivateRoute>
         }
       />
-
 
     </Routes>
   )

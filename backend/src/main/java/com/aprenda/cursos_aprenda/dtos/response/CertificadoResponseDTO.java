@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
  
 public record CertificadoResponseDTO(
     Integer id,
+    Integer cursoId,
     String nomeAluno,
     String nomeCurso,
     String nomeProfessor,

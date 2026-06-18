@@ -9,9 +9,11 @@ import {
   listarDuvidas,
   enviarDuvida,
 } from "../api";
-import Sidebar from "../components/Sidebar";
 import ThemeToggle from "../components/ThemeToggle";
+import DashboardNavbar from "../components/DashboardNavbar";
+
 import "../styles/aula.css";
+import "../styles/course-page.css";
 
 export default function Aula() {
   const { id } = useParams();
@@ -277,7 +279,7 @@ export default function Aula() {
   if (loading) {
     return (
       <div className="dashboard-layout">
-        <Sidebar />
+        <DashboardNavbar />
         <main className="dashboard-main aula-loading">
           <div className="aula-loading-skeleton">
             <div className="skeleton aula-skeleton-video" />
@@ -295,7 +297,7 @@ export default function Aula() {
   if (error || !curso) {
     return (
       <div className="dashboard-layout">
-        <Sidebar />
+        <DashboardNavbar />
         <main className="dashboard-main">
           <div className="aula-error-container">
             <div className="aula-error-icon">⚠️</div>
@@ -314,7 +316,7 @@ export default function Aula() {
   if (!aulaAtual) {
     return (
       <div className="dashboard-layout">
-        <Sidebar />
+        <DashboardNavbar />
         <main className="dashboard-main">
           <div className="aula-error-container">
             <div className="aula-error-icon">📹</div>
@@ -335,7 +337,7 @@ export default function Aula() {
   ========================= */
   return (
     <div className="dashboard-layout aula-page">
-      <Sidebar />
+      <DashboardNavbar />
       
       <main className="dashboard-main aula-main">
         

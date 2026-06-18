@@ -391,7 +391,8 @@ export default function AdminCourses() {
                       <div className="admin-actions">
                         <button className="admin-btn-edit" onClick={() => openEdit(course)} title="Editar">Editar</button>
                         <button className="admin-btn-delete" onClick={() => openDelete(course)} title="Excluir">Excluir</button>
-                        <button className="admin-btn-manage" onClick={() => navigate(`/admin/cursos/${course.id}/aulas`)} title="Gerenciar aulas">Aulas/Atividades</button>
+                        <button className="admin-btn-manage" onClick={() => navigate(`/admin/cursos/${course.id}/aulas`)} title="Gerenciar aulas">Aulas</button>
+                        <button className="admin-btn-activities" onClick={() => navigate(`/admin/cursos/${course.id}/atividades`)} title="Gerenciar atividades">Atividades</button>
                       </div>
                     </td>
                   </tr>

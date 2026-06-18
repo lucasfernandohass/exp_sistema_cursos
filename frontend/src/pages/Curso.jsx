@@ -9,10 +9,13 @@ import ConfirmModal from "../components/ConfirmModal"
 import { detalharCurso, matricular } from "../api"
 import { useAuth } from "../context/AuthContext"
 
+import "../styles/courses.css";
+import "../styles/curso-detalhe.css";
+
 export default function Curso() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { isAuthenticated, token } = useAuth()
+  const { user, isAuthenticated, isAluno, isProfessor, isAdmin, token } = useAuth()
 
   const [curso, setCurso] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -76,6 +79,32 @@ export default function Curso() {
     return `${h}h ${m}min`
   }
 
+  /* =========================
+     VERIFICAR SE PODE MATRICULAR
+  ========================= */
+  function podeMatricular() {
+    if (!isAuthenticated) return false
+    return isAluno
+  }
+
+  function getBotaoTexto() {
+    if (!isAuthenticated) return "Matricular-se"
+    if (isAdmin) return "Administradores não podem se matricular"
+    if (isProfessor) return "Professores não podem se matricular"
+    if (isAluno) return "Inscreva-se"
+    return "Matricular-se"
+  }
+
+  function getBotaoAcao() {
+    if (!isAuthenticated) return () => navigate("/registrar")
+    if (isAdmin || isProfessor) return null // não faz nada
+    if (isAluno) return () => setShowConfirmModal(true)
+    return () => navigate("/registrar")
+  }
+
+  /* =========================
+     CONFIRMAR MATRÍCULA
+  ========================= */
   async function handleConfirmEnrollment() {
     try {
       setEnrolling(true)
@@ -189,9 +218,9 @@ export default function Curso() {
       {/* =========================
           CONTEÚDO PRINCIPAL
       ========================= */}
+      <br />
       <div className="container curso-detalhe-body">
 
-        {/* COLUNA PRINCIPAL */}
         <div className="curso-detalhe-main">
 
           {curso.ementa && (
@@ -268,8 +297,23 @@ export default function Curso() {
               </li>
             </ul>
 
-            {/* CTA */}
-            {isAuthenticated ? (
+            {/* CTA - VERIFICA SE PODE MATRICULAR */}
+            {isAuthenticated && !isAluno ? (
+              // Admin ou Professor - mostra mensagem de bloqueio
+              <div className="curso-detalhe-bloqueado">
+                <button
+                  className="btn-secondary curso-detalhe-cta"
+                  disabled={true}
+                  style={{ opacity: 0.6, cursor: "not-allowed" }}
+                >
+                  {isAdmin ? "Administradores não podem se matricular" : "Professores não podem se matricular"}
+                </button>
+                <p className="curso-detalhe-login-hint">
+                  {isAdmin ? "Acesse o painel administrativo para gerenciar cursos." : "Acesse seu painel de professor para gerenciar seus cursos."}
+                </p>
+              </div>
+            ) : isAuthenticated && isAluno ? (
+              // Aluno - mostra botão de matrícula
               <>
                 <button
                   className="btn-primary curso-detalhe-cta"
@@ -286,6 +330,7 @@ export default function Curso() {
                 )}
               </>
             ) : (
+              // Não autenticado - redireciona para registro
               <>
                 <button
                   className="btn-primary curso-detalhe-cta"
@@ -309,7 +354,7 @@ export default function Curso() {
         </aside>
 
       </div>
-
+      <br />
       <Footer />
       <ThemeToggle />
       <ConfirmModal

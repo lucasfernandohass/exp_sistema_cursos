@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext"
    PILL DE USUÁRIO
 ========================= */
 
-function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
+function UserPill({ user, isAdmin, isProfessor, menuOpen, onToggle, onClose, onLogout }) {
   return (
     <div className="user-menu">
 
@@ -23,6 +23,7 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
           {user.nome?.split(" ")[0] || "Perfil"}
         </span>
         {isAdmin && <span className="user-pill-admin-badge">Admin</span>}
+        {isProfessor && <span className="user-pill-professor-badge">Professor</span>}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
           className={`user-pill-chevron${menuOpen ? " open" : ""}`}>
           <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -38,15 +39,17 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
             <hr className="user-divider" />
 
             {isAdmin ? (
-              <Link to="/admin" className="user-dropdown-item" onClick={onClose}>
+              <Link to="/admin/cursos" className="user-dropdown-item" onClick={onClose}>
                 Painel Admin
               </Link>
+            ) : isProfessor ? (
+              <Link to="/professor/dashboard" className="user-dropdown-item" onClick={onClose}>
+                Painel Professor
+              </Link>
             ) : (
-              <>
-                <Link to="/painel-aluno" className="user-dropdown-item" onClick={onClose}>
-                  Meus Cursos
-                </Link>
-              </>
+              <Link to="/painel-aluno" className="user-dropdown-item" onClick={onClose}>
+                Meus Cursos
+              </Link>
             )}
 
             <hr className="user-divider" />
@@ -65,7 +68,7 @@ function UserPill({ user, isAdmin, menuOpen, onToggle, onClose, onLogout }) {
 ========================= */
 
 export default function Navbar() {
-  const { user, isAdmin, signOut } = useAuth()
+  const { user, isAdmin, isProfessor, signOut } = useAuth()
 
   const [showConfirm, setShowConfirm] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -74,6 +77,7 @@ export default function Navbar() {
   const pillProps = {
     user,
     isAdmin,
+    isProfessor,
     menuOpen: userMenuOpen,
     onToggle: () => setUserMenuOpen((v) => !v),
     onClose:  () => setUserMenuOpen(false),
@@ -104,6 +108,7 @@ export default function Navbar() {
               <Link to="/cursos">Cursos</Link>
               <Link to="/sobre">Sobre nós</Link>
               <Link to="/contato">Entre em contato</Link>
+              <Link to="/validar-certificado">Validar Certificado</Link>
             </nav>
           </div>
 
@@ -164,7 +169,7 @@ export default function Navbar() {
                 <Link to="/login" onClick={() => setMobileOpen(false)}>
                   <button className="mobile-login-btn">Login</button>
                 </Link>
-                <Link to="/register" onClick={() => setMobileOpen(false)}>
+                <Link to="/registrar" onClick={() => setMobileOpen(false)}>
                   <button className="mobile-register-btn">Cadastrar</button>
                 </Link>
               </>

@@ -2,6 +2,8 @@ import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import ThemeToggle from "../components/ThemeToggle"
 
+import "../styles/contato.css";
+
 export default function Contato() {
   return (
     <div className="contato-page">
@@ -131,7 +133,7 @@ export default function Contato() {
           </aside>
         </div>
       </section>
-
+      <br />
       <Footer />
       <ThemeToggle />
     </div>

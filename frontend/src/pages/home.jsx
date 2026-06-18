@@ -5,6 +5,9 @@ import Banner from "../components/Banner"
 import Footer from "../components/Footer"
 import ThemeToggle from "../components/ThemeToggle"
 
+import "../styles/hero.css";
+import "../styles/courses.css";
+
 export default function Home() {
   return (
     <>

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record AlunoResponseDTO(
     Integer id,
     String nome,
+    String cpf,
     String email,
     String ra,
     String telefone,

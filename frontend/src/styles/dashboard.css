@@ -1,17 +1,42 @@
 .dashboard-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  align-items: stretch;
+  background: var(--background);
 }
 
 .dashboard-main {
   flex: 1;
   padding: 40px;
   background: var(--background);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .dashboard-main > * {
   max-width: 100%;
+}
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.dashboard-greeting {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--foreground);
+  margin-bottom: 6px;
+}
+
+.dashboard-subtitle {
+  color: var(--muted-foreground);
+  font-size: 1rem;
+  margin-bottom: 0;
 }
 
 .dashboard-logo {
@@ -24,14 +49,73 @@
   font-size: 2.5rem;
 }
 
-.dashboard-subtitle {
-  text-align: center;
-  color: var(--muted-foreground);
-  margin-bottom: 40px;
+.btn-certificado {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.btn-certificado:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-certificado:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* =========================
-   GRID
+   STATS ROW
+========================= */
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.dashboard-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--brand-blue);
+  line-height: 1;
+}
+
+.dashboard-stat-label {
+  font-size: 0.82rem;
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+/* =========================
+   GRID DE CURSOS
 ========================= */
 
 .dashboard-content {
@@ -41,7 +125,7 @@
 }
 
 /* =========================
-   CARD
+   CARD DE CURSO
 ========================= */
 
 .card {
@@ -51,13 +135,12 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 0;
   transition: 0.2s;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .card-content {
@@ -78,24 +161,37 @@
   margin-top: 12px;
 }
 
-.card-actions .btn-primary,
-.card-actions .btn-outline {
-  width: 100%;
-}
-
 /* =========================
-   IMAGEM
+   IMAGEM DO CURSO
 ========================= */
 
 .course-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 12px 12px 0 0;
+}
+
+.course-image-placeholder {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(147, 51, 234, 0.1));
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.course-initials {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--brand-blue);
+  opacity: 0.5;
+  user-select: none;
 }
 
 /* =========================
-   META / PREÇO
+   META DO CURSO
 ========================= */
 
 .course-meta {
@@ -111,7 +207,47 @@
 }
 
 /* =========================
-   STATUS MATRÍCULA
+   PROGRESSO
+========================= */
+
+.enrolled-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.enrolled-progress-pct {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+}
+
+.dashboard-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 4px 0 2px;
+}
+
+.dark .dashboard-progress-bar {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dashboard-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #9333ea);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.dashboard-progress-fill.atividades {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+}
+
+/* =========================
+   STATUS
 ========================= */
 
 .enroll-status {
@@ -128,10 +264,6 @@
   color: var(--muted-foreground);
 }
 
-/* =========================
-   STATUS PAGAMENTO
-========================= */
-
 .payment-status {
   font-size: 0.8rem;
   font-weight: 600;
@@ -142,180 +274,168 @@
 }
 
 .payment-status--pendente {
-  background: rgba(251,191,36,0.15);
+  background: rgba(251, 191, 36, 0.15);
   color: #d97706;
 }
 
 .payment-status--pago {
-  background: rgba(34,197,94,0.15);
+  background: rgba(34, 197, 94, 0.15);
   color: #16a34a;
 }
 
 .payment-status--cancelado {
-  background: rgba(239,68,68,0.15);
+  background: rgba(239, 68, 68, 0.15);
   color: #dc2626;
 }
 
-/* =========================
-   BARRA DE PROGRESSO
-========================= */
-
-.dashboard-progress-bar {
-  width: 100%;
-  height: 8px;
-  background: rgba(0,0,0,0.08);
-  border-radius: 999px;
-  overflow: hidden;
-  margin: 4px 0 2px;
-}
-
-.dark .dashboard-progress-bar {
-  background: rgba(255,255,255,0.08);
-}
-
-.dashboard-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #2563eb, #9333ea);
-  border-radius: 999px;
-  transition: width 0.4s ease;
-}
-
-/* =========================
-   SKELETON
-========================= */
-
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(0,0,0,0.06) 25%,
-    rgba(0,0,0,0.12) 50%,
-    rgba(0,0,0,0.06) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-  border-radius: 0.5rem;
-}
-
-.dark .skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0.04) 25%,
-    rgba(255,255,255,0.08) 50%,
-    rgba(255,255,255,0.04) 75%
-  );
-  background-size: 200% 100%;
-}
-
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-.skeleton-image  { border-radius: 12px; }
-.skeleton-title  { height: 16px; width: 70%; margin: 8px 0; }
-.skeleton-text   { height: 14px; width: 90%; }
-.skeleton-btn    { height: 40px; margin-top: 16px; }
-
-/* =========================
-   ERRO
-========================= */
-
-.courses-error {
-  text-align: center;
-  padding: 3rem 1rem;
+.enrolled-media {
+  font-size: 0.85rem;
   color: var(--muted-foreground);
 }
 
-.courses-error p {
-  margin-bottom: 1rem;
-  font-size: 1.05rem;
+.enrolled-media strong {
+  color: var(--foreground);
 }
 
-/* =========================
-   MODAL PAGAMENTO
-========================= */
-
-.payment-modal {
-  max-width: 380px;
-  width: 90%;
-}
-
-.payment-options {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin: 16px 0;
-}
-
-.payment-option {
+.enrolled-payment-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border: 2px solid var(--border);
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: 0.2s;
-  color: var(--foreground);
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.payment-option input[type="radio"] {
-  accent-color: var(--brand-blue);
-}
-
-.payment-option.selected {
-  border-color: var(--brand-blue);
-  background: rgba(37,99,235,0.07);
-  color: var(--brand-blue);
-}
-
-.payment-parcelas {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-
-.payment-parcelas label {
-  font-size: 0.9rem;
-  color: var(--muted-foreground);
-}
-
-.payment-parcelas select {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--background);
-  color: var(--foreground);
-  font-size: 1rem;
-  font-family: inherit;
-  cursor: pointer;
+.enrolled-certificate {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-block;
 }
 
 /* =========================
-   RESPONSIVO
+   BOTÕES DO PAINEL
 ========================= */
 
-@media (max-width: 1024px) {
-  .dashboard-content {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.enrolled-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
 }
 
-@media (max-width: 768px) {
-  .dashboard-layout {
-    flex-direction: column; /* ← ADICIONADO: empilha sidebar e conteúdo no mobile */
-  }
-  
-  .dashboard-main {
-    padding: 24px 16px;
-  }
+.enrolled-actions .btn-primary,
+.enrolled-actions .btn-atividades {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 44px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  flex: 1;
+}
+
+.enrolled-actions .btn-primary {
+  background: var(--brand-blue);
+  color: white;
+  border-color: var(--brand-blue);
+}
+
+.enrolled-actions .btn-primary:hover {
+  background: var(--brand-blue-dark);
+  border-color: var(--brand-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.enrolled-actions .btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.enrolled-actions .btn-atividades {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #7c3aed;
+}
+
+.enrolled-actions .btn-atividades:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: #7c3aed;
+  color: #6d28d9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.enrolled-actions .btn-atividades:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.enrolled-actions .btn-atividades .icon {
+  font-size: 1rem;
+}
+
+.enrolled-remove-btn {
+  flex: 0 0 auto;
+  padding: 0.7rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  background: transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+}
+
+.enrolled-remove-btn:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Dark mode para botões */
+.dark .enrolled-actions .btn-primary {
+  background: var(--brand-blue);
+  color: white;
+}
+
+.dark .enrolled-actions .btn-primary:hover {
+  background: var(--brand-blue-dark);
+}
+
+.dark .enrolled-actions .btn-atividades {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #a78bfa;
+}
+
+.dark .enrolled-actions .btn-atividades:hover {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: #8b5cf6;
+  color: #c4b5fd;
 }
 
 /* =========================
-   ENROLLED COURSES
+   ESTADOS VAZIOS
 ========================= */
 
 .enrolled-empty {
@@ -340,79 +460,35 @@
   font-size: 1rem;
 }
 
-.enrolled-progress-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.enrolled-progress-pct {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--brand-blue);
-}
-
-.enrolled-media {
-  font-size: 0.85rem;
+.dashboard-empty {
+  text-align: center;
+  padding: 5rem 1rem;
   color: var(--muted-foreground);
-}
-
-.enrolled-media strong {
-  color: var(--foreground);
-}
-
-.enrolled-payment-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.enrolled-certificate {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #16a34a;
-  background: rgba(34,197,94,0.1);
-  padding: 4px 10px;
-  border-radius: 999px;
-  display: inline-block;
+.dashboard-empty-icon {
+  color: var(--brand-blue);
+  opacity: 0.35;
+  margin-bottom: 8px;
 }
 
-.enrolled-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.enrolled-actions .btn-primary {
-  flex: 1;
-}
-
-.enrolled-remove-btn {
-  flex: 0 0 auto;
-  padding: 0.8rem 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
-  border-color: #ef4444;
-  color: #ef4444;
-  width: 40%;
-}
-
-.enrolled-remove-btn:hover {
-  background: #ef4444;
-  color: white;
-}
-
-/* =========================
-   DASHBOARD GREETING
-========================= */
-
-.dashboard-greeting {
-  font-size: 1.8rem;
-  font-weight: 800;
+.dashboard-empty h2 {
+  font-size: 1.4rem;
   color: var(--foreground);
-  margin-bottom: 6px;
+}
+
+.dashboard-empty p {
+  font-size: 1rem;
+  max-width: 360px;
+}
+
+.dashboard-empty .btn-primary {
+  margin-top: 8px;
+  padding: 0.75rem 2rem;
 }
 
 /* =========================
@@ -469,100 +545,237 @@
 }
 
 /* =========================
-   STATS ROW
+   SKELETON LOADING
 ========================= */
 
-.dashboard-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 32px;
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.12) 50%,
+    rgba(0, 0, 0, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 0.5rem;
 }
 
-.dashboard-stat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  transition: transform 0.2s, box-shadow 0.2s;
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
 }
 
-.dashboard-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-.dashboard-stat-number {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--brand-blue);
-  line-height: 1;
+.skeleton-image {
+  border-radius: 12px;
 }
 
-.dashboard-stat-label {
-  font-size: 0.82rem;
-  color: var(--muted-foreground);
-  font-weight: 500;
+.skeleton-title {
+  height: 16px;
+  width: 70%;
+  margin: 8px 0;
+}
+
+.skeleton-text {
+  height: 14px;
+  width: 90%;
+}
+
+.skeleton-btn {
+  height: 40px;
+  margin-top: 16px;
 }
 
 /* =========================
-   COURSE INITIALS
+   ERRO
 ========================= */
 
-.course-initials {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--brand-blue);
-  opacity: 0.5;
-  user-select: none;
-}
-
-/* =========================
-   DASHBOARD VAZIO
-========================= */
-
-.dashboard-empty {
+.courses-error {
   text-align: center;
-  padding: 5rem 1rem;
+  padding: 3rem 1rem;
   color: var(--muted-foreground);
+}
+
+.courses-error p {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+/* =========================
+   MODAL DE PAGAMENTO
+========================= */
+
+.payment-modal {
+  max-width: 380px;
+  width: 90%;
+}
+
+.payment-options {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 12px;
+  justify-content: center;
+  margin: 16px 0;
 }
 
-.dashboard-empty-icon {
-  color: var(--brand-blue);
-  opacity: 0.35;
-  margin-bottom: 8px;
-}
-
-.dashboard-empty h2 {
-  font-size: 1.4rem;
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: 0.2s;
   color: var(--foreground);
 }
 
-.dashboard-empty p {
-  font-size: 1rem;
-  max-width: 360px;
+.payment-option input[type="radio"] {
+  accent-color: var(--brand-blue);
 }
 
-.dashboard-empty .btn-primary {
-  margin-top: 8px;
-  padding: 0.75rem 2rem;
+.payment-option.selected {
+  border-color: var(--brand-blue);
+  background: rgba(37, 99, 235, 0.07);
+  color: var(--brand-blue);
 }
 
-.aula-page .dashboard-layout {
+.payment-parcelas {
   display: flex;
-  min-height: 100vh;
-  align-items: stretch;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
 }
 
-.aula-page .dashboard-main {
-  flex: 1;
-  padding: 20px 32px;
+.payment-parcelas label {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+}
+
+.payment-parcelas select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1024px) {
+  .dashboard-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: 24px 16px;
+  }
+
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .enrolled-actions {
+    flex-direction: column;
+  }
+
+  .enrolled-actions .btn-primary,
+  .enrolled-actions .btn-atividades {
+    flex: 1;
+    width: 100%;
+  }
+
+  .enrolled-remove-btn {
+    width: 100%;
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   BOTÃO SECUNDÁRIO (global)
+========================= */
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+}
+
+.btn-secondary:hover {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary:active {
+  transform: scale(0.97);
+}
+
+.dark .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--foreground);
+}
+
+.dark .btn-secondary:hover {
+  background: rgba(37, 99, 235, 0.15);
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+}
+
+.btn-secondary.btn-small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  min-height: 32px;
+}
+
+.btn-secondary.btn-large {
+  padding: 0.9rem 1.8rem;
+  font-size: 1rem;
+  min-height: 52px;
 }

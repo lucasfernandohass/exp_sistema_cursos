@@ -2,6 +2,8 @@ import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import ThemeToggle from "../components/ThemeToggle"
 
+import "../styles/sobre.css";
+
 export default function SobreNos() {
   return (
     <div className="sobre-page">
@@ -171,7 +173,7 @@ export default function SobreNos() {
           </div>
         </div>
       </section>
-
+      <br />
       {/* CTA */}
       <section className="sobre-cta-wrap">
         <div className="container sobre-cta-inner">

@@ -476,6 +476,18 @@
   flex-shrink: 0;
 }
 
+.user-pill-professor-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  padding: 1px 7px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
 /* =========================
    MOBILE SIDEBAR CONTENT
 ========================= */

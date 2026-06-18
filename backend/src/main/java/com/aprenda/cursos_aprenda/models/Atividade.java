@@ -40,9 +40,9 @@ public class Atividade {
     private String descricao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "video_aula_id", nullable = false)
-    private VideoAula videoAula;
+    @JoinColumn(name = "curso_id", nullable = false)
+    private Curso curso;
 
     @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RespostaAtividade> respostas = new ArrayList<>();
+    private List<Questao> questoes = new ArrayList<>();
 }

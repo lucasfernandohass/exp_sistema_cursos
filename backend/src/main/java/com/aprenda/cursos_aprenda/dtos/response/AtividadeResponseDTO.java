@@ -1,10 +1,12 @@
 package com.aprenda.cursos_aprenda.dtos.response;
 
+import java.util.List;
+
 public record AtividadeResponseDTO(
     Integer id,
     String titulo,
     String descricao,
-    Integer videoAulaId,
-    boolean respondida   // preenchido com base nas respostas do aluno logado
+    Integer cursoId,
+    String nomeCurso,
+    List<QuestaoResponseDTO> questoes
 ) {}
- 

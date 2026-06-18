@@ -37,7 +37,7 @@ export default function Login() {
       })
 
       if (res.tipo === "ADMINISTRADOR") {
-        navigate("/admin/cursos")
+        navigate("/admin")
       } else if (res.tipo === "PROFESSOR") {
         navigate("/professor/dashboard")
       } else {

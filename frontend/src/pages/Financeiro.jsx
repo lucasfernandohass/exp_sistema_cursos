@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-import Sidebar from "../components/Sidebar"
+import DashboardNavbar from "../components/DashboardNavbar"
 import ThemeToggle from "../components/ThemeToggle"
 
 import {
@@ -316,7 +316,7 @@ export default function Financeiro() {
 
   return (
     <div className="dashboard-layout">
-      <Sidebar />
+      <DashboardNavbar />
 
       <main className="dashboard-main financeiro-main">
         <div className="financeiro-card">

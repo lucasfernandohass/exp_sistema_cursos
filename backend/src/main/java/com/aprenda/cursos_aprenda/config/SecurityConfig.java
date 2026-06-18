@@ -1,7 +1,6 @@
 package com.aprenda.cursos_aprenda.config;
 
 import com.aprenda.cursos_aprenda.security.JwtFilter;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,17 +19,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
- 
+
 import java.util.List;
- 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
- 
+
     private final JwtFilter jwtFilter;
- 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -40,7 +39,7 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
- 
+
                 // ── Públicas ────────────────────────────────────────────
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/auth/**").permitAll()
@@ -48,7 +47,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/cursos/{id}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/cursos/pesquisar").permitAll()
                 .requestMatchers(HttpMethod.POST, "/alunos").permitAll()
- 
+
+                // ── VALIDAÇÃO PÚBLICA DE CERTIFICADO (qualquer pessoa pode consultar)
+                .requestMatchers(HttpMethod.GET, "/certificados/validar/**").permitAll()
+
                 // ── Apenas ADMINISTRADOR ────────────────────────────────
                 .requestMatchers(HttpMethod.POST,   "/cursos").hasRole("ADMINISTRADOR")
                 .requestMatchers(HttpMethod.PUT,    "/cursos/**").hasRole("ADMINISTRADOR")
@@ -61,55 +63,58 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/atividades/**").hasRole("ADMINISTRADOR")
                 .requestMatchers("/professores/**").hasRole("ADMINISTRADOR")
                 .requestMatchers("/administradores/**").hasRole("ADMINISTRADOR")
- 
+
                 // ── Apenas PROFESSOR ────────────────────────────────────
                 .requestMatchers("/duvidas/professor/**").hasRole("PROFESSOR")
                 .requestMatchers(HttpMethod.PATCH, "/duvidas/*/responder").hasRole("PROFESSOR")
                 .requestMatchers(HttpMethod.PATCH, "/respostas/*/nota").hasRole("PROFESSOR")
- 
+
                 // ── Apenas ALUNO ────────────────────────────────────────
                 .requestMatchers("/matriculas/**").hasRole("ALUNO")
                 .requestMatchers("/progresso/**").hasRole("ALUNO")
-                .requestMatchers("/certificados/aluno/**").hasRole("ALUNO")
                 .requestMatchers(HttpMethod.POST, "/duvidas").hasRole("ALUNO")
                 .requestMatchers(HttpMethod.POST, "/respostas").hasRole("ALUNO")
- 
+
+                // ── CERTIFICADOS - ALUNO (listagem e emissão)
+                .requestMatchers(HttpMethod.GET, "/certificados/aluno/**").hasRole("ALUNO")
+                .requestMatchers(HttpMethod.POST, "/certificados/emitir").hasRole("ALUNO")
+
+                .requestMatchers(HttpMethod.GET, "/certificados/download/**").hasRole("ALUNO")
+
                 // ── ALUNO e PROFESSOR ───────────────────────────────────
                 .requestMatchers(HttpMethod.GET, "/duvidas/**").hasAnyRole("ALUNO", "PROFESSOR")
-                .requestMatchers(HttpMethod.GET, "/certificados/validar/**").hasAnyRole("ALUNO", "ADMINISTRADOR")
- 
+
                 // ── Qualquer autenticado ────────────────────────────────
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
- 
+
         return http.build();
     }
- 
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
             "http://localhost:5173",
             "http://127.0.0.1:5173"
-        )); // Vite dev server
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
- 
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
- 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
- 
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 }
- 
