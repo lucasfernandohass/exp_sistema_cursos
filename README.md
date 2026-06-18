@@ -1,6 +1,6 @@
 # Aprenda+ — Plataforma de Cursos EAD
 
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Status](https://img.shields.io/badge/status-finalizado-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Web%20%7C%20Mobile-lightgrey)
 
 ---
