@@ -15,7 +15,7 @@ export default function Home() {
 
       <Hero />
 
-      <Courses />
+      <Courses limite={6}/>
 
       <Banner />
 
