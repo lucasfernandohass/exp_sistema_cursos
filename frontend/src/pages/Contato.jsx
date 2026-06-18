@@ -29,6 +29,7 @@ export default function Contato() {
 
           {/* COLUNA ESQUERDA — texto + blockquote */}
           <div className="contato-texto">
+            <br />
             <h2 className="sobre-section-title">Como podemos ajudar?</h2>
 
             <p>
@@ -86,7 +87,7 @@ export default function Contato() {
 
           {/* COLUNA DIREITA — card informativo */}
           <aside className="contato-aside">
-
+            <br />
             <div className="contato-aside-card">
               <h3>Antes de entrar em contato</h3>
               <p>

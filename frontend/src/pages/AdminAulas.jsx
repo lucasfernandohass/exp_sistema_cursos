@@ -359,7 +359,7 @@ export default function AdminAulas() {
         <div className="modal-overlay" onClick={closeForm}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>{formModal.mode === "create" ? "➕ Nova Aula" : "✏️ Editar Aula"}</h2>
+              <h2>{formModal.mode === "create" ? "Nova Aula" : "Editar Aula"}</h2>
               <button className="modal-close" onClick={closeForm} aria-label="Fechar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -437,7 +437,7 @@ export default function AdminAulas() {
         <div className="modal-overlay" onClick={closeDelete}>
           <div className="modal-box modal-box--sm" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>🗑️ Excluir Aula</h2>
+              <h2>Excluir Aula</h2>
               <button className="modal-close" onClick={closeDelete} aria-label="Fechar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>

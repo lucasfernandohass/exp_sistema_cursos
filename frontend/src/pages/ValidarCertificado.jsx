@@ -76,7 +76,7 @@ export default function ValidarCertificado() {
           {resultado && (
             <div className="validar-resultado">
               <div className="validar-resultado-header">
-                <span className="icone">✅</span>
+                <span className="icone"></span>
                 <h2>Certificado Válido</h2>
               </div>
 

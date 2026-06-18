@@ -27,6 +27,7 @@ export default function SobreNos() {
       <section className="sobre-section container">
         <div className="sobre-missao-grid">
           <div className="sobre-missao-texto">
+            <br />
             <h2 className="sobre-section-title">O que é o Aprenda+?</h2>
             <p>
               A <strong>Aprenda+</strong> é uma plataforma de cursos online desenvolvida para
